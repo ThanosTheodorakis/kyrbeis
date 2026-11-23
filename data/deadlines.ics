@@ -63,6 +63,19 @@ DESCRIPTION:minscfa https://minscfa.gov.gr/domna-michailidou-o-prosopikos-v
  napiria/
 END:VEVENT
 BEGIN:VEVENT
+UID:a72404d8a18b268c673c704d0bf2c73bc9ca0557@kyrbeis
+DTSTAMP:20261123T234518Z
+DTSTART;VALUE=DATE:20261119
+DTEND;VALUE=DATE:20261120
+SUMMARY:Δελτίο Τύπου 16/11/2026 Έως 19 Νοεμβρίου η 
+ προθεσμία υποβολής της ΕΑΕ 2026 για την χο
+ ρήγηση προκαταβολής Παρεμβάσεων Αγροτι
+ κής Ανάπτυξης
+URL:https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-16112026
+DESCRIPTION:aade https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy
+ -16112026
+END:VEVENT
+BEGIN:VEVENT
 UID:429a5f15ef919fdaec924bc08938ded5de99caac@kyrbeis
 DTSTAMP:20261123T233009Z
 DTSTART;VALUE=DATE:20261123
@@ -80,6 +93,19 @@ DESCRIPTION:opeka https://opeka.gov.gr/paratasi-eos-kai-23-noemvrioy-ton-ai
  tes-oyses-mathites-tries-stis-panelladikes-exetaseis-2026/
 END:VEVENT
 BEGIN:VEVENT
+UID:47f4edc99767223fb2f8248e3e3b74ba0b321fc5@kyrbeis
+DTSTAMP:20261123T234518Z
+DTSTART;VALUE=DATE:20261119
+DTEND;VALUE=DATE:20261120
+SUMMARY:Δελτίο Τύπου 15/11/2026 ΑΑΔΕ: Έως 30 Νοεμβρ
+ ίου η προθεσμία υποβολής της ΕΑΕ 2026\, έως 
+ 19 Νοεμβρίου για την προκαταβολή\, με δυνα
+ τότητα αίτησης απλουστευμένης υποβολής
+URL:https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-15112026
+DESCRIPTION:aade https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy
+ -15112026
+END:VEVENT
+BEGIN:VEVENT
 UID:e7251a39219ad530b8acbc5d781b5d7110cc15ee@kyrbeis
 DTSTAMP:20261123T233009Z
 DTSTART;VALUE=DATE:20261120
@@ -90,6 +116,19 @@ URL:https://ypergasias.gov.gr/o-chartis-ton-pliromon-apo-e-efka-dypa-gia-ti
  n-periodo-16-eos-20-noemvriou/
 DESCRIPTION:ypergasias https://ypergasias.gov.gr/o-chartis-ton-pliromon-apo
  -e-efka-dypa-gia-tin-periodo-16-eos-20-noemvriou/
+END:VEVENT
+BEGIN:VEVENT
+UID:697ee6fe5fb65ee7e9e38f3757ea58769e2b8115@kyrbeis
+DTSTAMP:20261123T234518Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:Δελτίο Τύπου 09/11/2026 Έως 13 Νοεμβρίου η 
+ ετήσια απογραφή αιγοπροβάτων για την πρ
+ οκαταβολή της Π3-70-1.5
+URL:https://www.aade.gr/deltia-typoy-anakoinoseis/agrotikes-enishyseis/delt
+ io-typoy-09112026
+DESCRIPTION:aade https://www.aade.gr/deltia-typoy-anakoinoseis/agrotikes-en
+ ishyseis/deltio-typoy-09112026
 END:VEVENT
 BEGIN:VEVENT
 UID:d89785816ad13fe46b593ce0580f86ada3fc4022@kyrbeis
@@ -120,5 +159,42 @@ URL:https://ypergasias.gov.gr/o-chartis-ton-pliromon-apo-e-efka-dypa-gia-ti
  n-periodo-9-noemvriou-eos-13-noemvriou/
 DESCRIPTION:ypergasias https://ypergasias.gov.gr/o-chartis-ton-pliromon-apo
  -e-efka-dypa-gia-tin-periodo-9-noemvriou-eos-13-noemvriou/
+END:VEVENT
+BEGIN:VEVENT
+UID:194b8a56cce3ca6474ec837e679e8af5ff87a76b@kyrbeis
+DTSTAMP:20261123T234518Z
+DTSTART;VALUE=DATE:20270219
+DTEND;VALUE=DATE:20270220
+SUMMARY:Δελτίο Τύπου 03/11/2026 ΥΠΑΑΤ– ΑΑΔΕ: Μέχρ
+ ι τις 19 Φεβρουαρίου 2027 οι βώλοι για τις ε
+ κτροφές άνω των 900 αιγοπροβάτων για την Ε
+ ΑΕ 2026
+URL:https://www.aade.gr/deltia-typoy-anakoinoseis/agrotikes-enishyseis/delt
+ io-typoy-03112026
+DESCRIPTION:aade https://www.aade.gr/deltia-typoy-anakoinoseis/agrotikes-en
+ ishyseis/deltio-typoy-03112026
+END:VEVENT
+BEGIN:VEVENT
+UID:852b324eafe33869a58b84e805b043a56024566e@kyrbeis
+DTSTAMP:20261123T234518Z
+DTSTART;VALUE=DATE:20261231
+DTEND;VALUE=DATE:20270101
+SUMMARY:Δελτίο Τύπου 30/10/2026 Μετάθεση προθεσμ
+ ιών επικαιροποίησης των νέων Ευρωπαϊκών
+  ΚΑΔ\, έως 31/12
+URL:https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-30102026-1
+DESCRIPTION:aade https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy
+ -30102026-1
+END:VEVENT
+BEGIN:VEVENT
+UID:2bbb7c66d9230cb530b9f0748bcb067aa5ae67d1@kyrbeis
+DTSTAMP:20261123T234518Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:Δελτίο Τύπου 26/10/2026 Έως 13/11 η υποβολή 
+ Δηλώσεων Βραχυχρόνιας Διαμονής
+URL:https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-26102026
+DESCRIPTION:aade https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy
+ -26102026
 END:VEVENT
 END:VCALENDAR

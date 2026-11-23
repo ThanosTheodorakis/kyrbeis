@@ -1,13 +1,13 @@
 {
- "updated": "2026-11-24T01:30:09+02:00",
+ "updated": "2026-11-24T01:45:18+02:00",
  "sources": [
   {
    "name": "aade",
    "label": "ΑΑΔΕ – Δελτία Τύπου & Ανακοινώσεις",
    "url": "https://www.aade.gr/deltia-typoy-anakoinoseis",
-   "ok": false,
-   "found": 0,
-   "error": "https://www.aade.gr/deltia-typoy-anakoinoseis: 403 Client Error: Forbidden for url: https://www.aade.gr/deltia-typoy-anakoinoseis; https://www.aade.gr/deltia-typoy-anakoinoseis?page=1: 403 Client Erro"
+   "ok": true,
+   "found": 30,
+   "kept": 29
   },
   {
    "name": "minfin",
@@ -37,17 +37,17 @@
    "name": "dypa",
    "label": "ΔΥΠΑ – προγράμματα απασχόλησης & επιδόματα",
    "url": "https://www.dypa.gov.gr/feed",
-   "ok": false,
-   "found": 0,
-   "error": "https://www.dypa.gov.gr/feed: https://www.dypa.gov.gr/feed: HTTPSConnectionPool(host='www.dypa.gov.gr', port=443): Max retries exceeded with url: /feed (Caused by ConnectTimeoutError(<HTTPSConnection("
+   "ok": true,
+   "found": 20,
+   "kept": 9
   },
   {
    "name": "primeminister",
    "label": "Πρωθυπουργός – ανακοινώσεις",
    "url": "https://www.primeminister.gr/",
-   "ok": false,
-   "found": 0,
-   "error": "https://www.primeminister.gr/: 403 Client Error: Forbidden for url: https://www.primeminister.gr/"
+   "ok": true,
+   "found": 10,
+   "kept": 6
   },
   {
    "name": "opeka",
@@ -69,9 +69,9 @@
    "name": "ypen",
    "label": "Υπουργείο Περιβάλλοντος και Ενέργειας",
    "url": "https://ypen.gov.gr/feed/",
-   "ok": false,
-   "found": 0,
-   "error": "https://ypen.gov.gr/feed/: 403 Client Error: Forbidden for url: https://ypen.gov.gr/feed/"
+   "ok": true,
+   "found": 10,
+   "kept": 2
   },
   {
    "name": "hdb",
@@ -123,16 +123,16 @@
   }
  ],
  "counts": {
-  "tax_deadline": 11,
-  "subsidy": 24,
-  "program": 28
+  "tax_deadline": 22,
+  "subsidy": 31,
+  "program": 47
  },
  "audience_counts": {
-  "households": 15,
-  "businesses": 9,
-  "farmers": 1,
+  "households": 18,
+  "businesses": 15,
+  "farmers": 8,
   "pensioners": 2,
-  "workers": 3
+  "workers": 4
  },
- "total": 39
+ "total": 85
 }
