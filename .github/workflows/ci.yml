@@ -1,0 +1,58 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["data/**"]
+  pull_request:
+
+jobs:
+  test:
+    # the collector runs on whatever computer you have, so test on all three systems
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.13"]
+        include:
+          - os: ubuntu-latest
+            python-version: "3.11"
+          - os: ubuntu-latest
+            python-version: "3.12"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - run: pip install -e ".[dev]"
+      - run: pytest -q
+      - run: kyrbeis-update --help
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/ruff-action@v3
+        with:
+          args: check scraper tests scripts
+
+  docker:
+    # the collector ships as a Docker image: make sure it builds and works
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t kyrbeis .
+      - name: Starts and explains missing settings (exit code 2)
+        run: |
+          set +e
+          docker run --rm kyrbeis once
+          test $? -eq 2
+      - name: Has git
+        run: docker run --rm --entrypoint git kyrbeis --version
+      - name: Token helper answers from GITHUB_TOKEN
+        run: test "$(docker run --rm -e GITHUB_TOKEN=abc --entrypoint /usr/local/bin/git-askpass kyrbeis Password)" = "abc"
+      - name: Compose file is valid
+        run: cp .env.example .env && docker compose config --quiet

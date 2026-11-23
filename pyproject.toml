@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=77"]  # SPDX license field
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kyrbeis"
+version = "1.0.0"
+description = "Greek public announcements, deadlines and subsidies, collected daily in one place"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.31",
+    "beautifulsoup4>=4.12",
+    "lxml>=5.0",
+    "tzdata>=2024.1",  # time zone data for systems without a built-in database
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[project.scripts]
+kyrbeis-scrape = "scraper.gov_scraper:main"
+kyrbeis-update = "scraper.update:main"
+
+[tool.setuptools]
+packages = ["scraper"]
+
+[tool.setuptools.package-data]
+scraper = ["sources.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]  # so plain `pytest` can import the scraper package
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+preview = true
+explicit-preview-rules = true   # only the preview rules named below
+# PLW1514: always pass encoding= when opening files, or Windows reads Greek text wrongly
+select = ["E", "F", "W", "I", "B", "UP", "DTZ", "S", "SIM", "PLW1514"]
+ignore = ["S101", "S314", "E741"]   # asserts in tests; lxml is used with a hardened parser
+
+[tool.ruff.lint.per-file-ignores]
+"scraper/update.py" = ["S603", "S607"]   # runs git, by design
+"tests/test_update.py" = ["S603", "S607"]
+"tests/test_runner.py" = ["S603", "S607", "S105"]

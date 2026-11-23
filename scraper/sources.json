@@ -1,0 +1,119 @@
+{
+  "_help": "type: rss | html | rss_or_html | diavgeia. For html you can add item_selector/title_selector/date_selector/link_selector (CSS); without them a headline-link heuristic is used. keep_all=true keeps items even when no keyword matches. require_date=true drops items without a date (menu links). expect_items=false means 0 results is normal, not a failure. enabled=false + note shows the source as unavailable.",
+  "sources": [
+    {
+      "name": "aade",
+      "label": "ΑΑΔΕ – Δελτία Τύπου & Ανακοινώσεις",
+      "type": "html",
+      "url": "https://www.aade.gr/deltia-typoy-anakoinoseis",
+      "extra_pages": [
+        "https://www.aade.gr/deltia-typoy-anakoinoseis?page=1"
+      ],
+      "keep_all": true
+    },
+    {
+      "name": "espa_calls",
+      "label": "ΕΣΠΑ – Προσκλήσεις για ιδιώτες/επιχειρήσεις",
+      "type": "html",
+      "url": "https://www.espa.gr/el/Pages/ProclamationsFS.aspx",
+      "keep_all": true,
+      "enabled": false,
+      "note": "Unavailable: the server resets connections from the scraper. espa.gr lists RSS feeds only for its 2014-2020 site; if you find a working feed for current calls, set type 'rss' and enabled true."
+    },
+    {
+      "name": "espa_news",
+      "label": "ΕΣΠΑ – Νέα",
+      "type": "html",
+      "url": "https://www.espa.gr/el/Pages/NewsFS.aspx",
+      "enabled": false,
+      "note": "Unavailable: the server resets connections from the scraper. espa.gr lists RSS feeds only for its 2014-2020 site; if you find a working feed for current calls, set type 'rss' and enabled true."
+    },
+    {
+      "name": "minfin",
+      "label": "Υπουργείο Εθνικής Οικονομίας & Οικονομικών",
+      "type": "rss_or_html",
+      "feed_url": "https://www.minfin.gov.gr/feed/",
+      "url": "https://www.minfin.gov.gr/"
+    },
+    {
+      "name": "mindev",
+      "label": "Υπουργείο Ανάπτυξης",
+      "type": "rss_or_html",
+      "feed_url": "https://www.mindev.gov.gr/feed/",
+      "url": "https://www.mindev.gov.gr/"
+    },
+    {
+      "name": "efka",
+      "label": "e-ΕΦΚΑ – Δελτία Τύπου, Ανακοινώσεις, Εγκύκλιοι",
+      "type": "html",
+      "url": "https://www.e-efka.gov.gr/el",
+      "item_selector": ".efka-current-affairs .item-list li",
+      "title_selector": ".title",
+      "date_selector": ".date"
+    },
+    {
+      "name": "dypa",
+      "label": "ΔΥΠΑ – προγράμματα απασχόλησης & επιδόματα",
+      "type": "rss",
+      "url": "https://www.dypa.gov.gr/feed"
+    },
+    {
+      "name": "primeminister",
+      "label": "Πρωθυπουργός – ανακοινώσεις",
+      "type": "rss_or_html",
+      "feed_url": "https://www.primeminister.gr/feed",
+      "url": "https://www.primeminister.gr/"
+    },
+    {
+      "name": "opeka",
+      "label": "ΟΠΕΚΑ – επιδόματα και παροχές",
+      "type": "rss",
+      "url": "https://opeka.gov.gr/feed/"
+    },
+    {
+      "name": "ypergasias",
+      "label": "Υπουργείο Εργασίας και Κοινωνικής Ασφάλισης",
+      "type": "rss",
+      "url": "https://ypergasias.gov.gr/feed/"
+    },
+    {
+      "name": "ypen",
+      "label": "Υπουργείο Περιβάλλοντος και Ενέργειας",
+      "type": "rss",
+      "url": "https://ypen.gov.gr/feed/"
+    },
+    {
+      "name": "hdb",
+      "label": "Ελληνική Αναπτυξιακή Τράπεζα – δάνεια και εγγυήσεις",
+      "type": "rss",
+      "url": "https://hdb.gr/feed/"
+    },
+    {
+      "name": "minscfa",
+      "label": "Υπουργείο Κοινωνικής Συνοχής και Οικογένειας",
+      "type": "rss",
+      "url": "https://minscfa.gov.gr/feed/"
+    },
+    {
+      "name": "greece20",
+      "label": "Ταμείο Ανάκαμψης (Ελλάδα 2.0)",
+      "type": "rss",
+      "url": "https://greece20.gov.gr/feed/",
+      "enabled": false,
+      "note": "Unavailable: the site did not finish loading when checked on 23 Nov 2026. Set enabled to true to try it again."
+    },
+    {
+      "name": "diavgeia",
+      "label": "Διαύγεια – προκηρύξεις δράσεων",
+      "type": "diavgeia",
+      "api": "https://diavgeia.gov.gr/opendata/search.json",
+      "terms": [
+        "προκήρυξη δράσης",
+        "πρόσκληση υποβολής αιτήσεων χρηματοδότησης"
+      ],
+      "size": 30,
+      "enabled": true,
+      "expect_items": false
+    }
+  ]
+}

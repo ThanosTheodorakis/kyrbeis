@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Κύρβεις — Προθεσμίες, επιδόματα και επιδοτήσεις του Δημοσίου</title>
+<meta name="description" content="Προθεσμίες, επιδοτήσεις και προγράμματα από ΑΑΔΕ, e-ΕΦΚΑ, ΟΠΕΚΑ, ΔΥΠΑ, υπουργεία και Διαύγεια, σε ένα μέρος. Ενημερώνεται καθημερινά.">
+<meta name="theme-color" content="#14263F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314263F'/%3E%3Cpath d='M7 21h18M11 21V11M16 21V8M21 21v-6' stroke='%23E9EDF0' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="alternate" type="application/rss+xml" title="Κύρβεις" href="data/feed.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#list" data-i18n="skip">Μετάβαση στα αποτελέσματα</a>
+
+<header class="top">
+  <div class="brand">
+    <a class="wordmark" href="./" lang="el"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M7 21h18M11 21V11M16 21V8M21 21v-6" stroke="var(--paper)" stroke-width="2.6" stroke-linecap="round"/></svg>Κύρβεις</a>
+    <h1 data-i18n="title">Τι λήγει, τι ανοίγει</h1>
+    <p class="lede" data-i18n="lede">Προθεσμίες, επιδοτήσεις και προγράμματα από ΑΑΔΕ, e-ΕΦΚΑ, ΟΠΕΚΑ, ΔΥΠΑ, υπουργεία και Διαύγεια, συγκεντρωμένα και ενημερωμένα κάθε πρωί.</p>
+  </div>
+  <div class="top-side">
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="el" aria-pressed="true">Ελληνικά</button>
+      <button type="button" data-lang="en" aria-pressed="false">English</button>
+    </div>
+    <p class="updated" id="updated"></p>
+  </div>
+</header>
+
+<section class="horizon" aria-labelledby="horizon-h">
+  <div class="horizon-head">
+    <h2 id="horizon-h" data-i18n="horizon">Οι επόμενες 60 ημέρες</h2>
+    <p id="next-up" class="next-up"></p>
+  </div>
+  <div class="track-wrap">
+    <div class="track" id="track" role="group" data-i18n-label="timeline" aria-label="Χρονολόγιο προθεσμιών"></div>
+  </div>
+</section>
+
+<div class="layout">
+  <aside class="rail" aria-label="Filters">
+    <label class="search">
+      <span class="vh" data-i18n="search">Αναζήτηση</span>
+      <input id="q" type="search" autocomplete="off" data-i18n-ph="searchPh" placeholder="Αναζήτηση, π.χ. ΕΝΦΙΑ, Εξοικονομώ">
+    </label>
+
+    <details class="filters" id="filters" open>
+    <summary data-i18n="filters">Φίλτρα</summary>
+    <div class="filters-body">
+    <fieldset>
+      <legend data-i18n="topic">Θέμα</legend>
+      <div id="cats"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend data-i18n="audience">Για ποιον</legend>
+      <div id="auds"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend data-i18n="show">Εμφάνιση</legend>
+      <label class="sort"><span data-i18n="dueFilter">Προθεσμία</span>
+        <select id="due">
+          <option value="" data-i18n="dueAny">Όλες οι ανακοινώσεις</option>
+          <option value="open" data-i18n="dueOpen">Με ανοιχτή προθεσμία</option>
+          <option value="7" data-i18n="due7">Λήγει σε 7 ημέρες</option>
+          <option value="30" data-i18n="due30">Λήγει σε 30 ημέρες</option>
+        </select>
+      </label>
+      <label class="sort"><span data-i18n="period">Δημοσίευση</span>
+        <select id="period">
+          <option value="" data-i18n="periodAny">Οποτεδήποτε</option>
+          <option value="7" data-i18n="period7">Τελευταίες 7 ημέρες</option>
+          <option value="30" data-i18n="period30">Τελευταίες 30 ημέρες</option>
+        </select>
+      </label>
+      <label class="sort"><span data-i18n="sort">Ταξινόμηση</span>
+        <select id="sort">
+          <option value="published" data-i18n="sortPub">Πιο πρόσφατα</option>
+          <option value="deadline" data-i18n="sortDl">Πλησιέστερη προθεσμία</option>
+        </select>
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <legend data-i18n="source">Φορέας</legend>
+      <div id="sources"></div>
+    </fieldset>
+
+    <button type="button" id="reset" class="reset" data-i18n="reset">Καθαρισμός φίλτρων</button>
+    </div>
+    </details>
+  </aside>
+
+  <main id="list" tabindex="-1">
+    <p class="count" id="count" aria-live="polite"></p>
+    <div id="results"></div>
+  </main>
+</div>
+
+<footer class="foot">
+  <div class="subscribe">
+    <h2 data-i18n="subscribe">Πάρτε τις ενημερώσεις αλλού</h2>
+    <p data-i18n="subscribeText">Προσθέστε όλες τις προθεσμίες στο ημερολόγιό σας ή ακολουθήστε τα νέα με RSS.</p>
+    <p class="sub-links">
+      <a href="data/deadlines.ics" id="ics" data-i18n="ics">Συνδρομή στο ημερολόγιο</a>
+      <a href="data/deadlines.ics" download data-i18n="icsFile">Λήψη αρχείου .ics</a>
+      <a href="data/feed.xml" data-i18n="rss">Ροή RSS</a>
+    </p>
+  </div>
+  <div class="status">
+    <h2 data-i18n="status">Κατάσταση πηγών</h2>
+    <ul id="status"></ul>
+  </div>
+  <p class="name-story" data-i18n="nameStory">Στην αρχαία Αθήνα οι νόμοι γράφονταν σε ξύλινες πινακίδες, τις κύρβεις, και στήνονταν δημόσια για να τους διαβάζουν όλοι. Οι Κύρβεις κάνουν το ίδιο για τις σημερινές ανακοινώσεις του Δημοσίου.</p>
+  <p class="disclaimer" data-i18n="disclaimer">Ανεπίσημη υπηρεσία. Οι πληροφορίες συλλέγονται αυτόματα και μπορεί να περιέχουν λάθη. Ελέγχετε πάντα την επίσημη ανακοίνωση πριν από κάθε ενέργεια.</p>
+  <p class="made"><a id="repo" href="https://github.com/" data-i18n="made">Ο κώδικας στο GitHub</a></p>
+</footer>
+
+<script src="app.js" defer></script>
+</body>
+</html>
