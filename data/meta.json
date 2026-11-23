@@ -1,0 +1,138 @@
+{
+ "updated": "2026-11-24T01:30:09+02:00",
+ "sources": [
+  {
+   "name": "aade",
+   "label": "ΑΑΔΕ – Δελτία Τύπου & Ανακοινώσεις",
+   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis",
+   "ok": false,
+   "found": 0,
+   "error": "https://www.aade.gr/deltia-typoy-anakoinoseis: 403 Client Error: Forbidden for url: https://www.aade.gr/deltia-typoy-anakoinoseis; https://www.aade.gr/deltia-typoy-anakoinoseis?page=1: 403 Client Erro"
+  },
+  {
+   "name": "minfin",
+   "label": "Υπουργείο Εθνικής Οικονομίας & Οικονομικών",
+   "url": "https://www.minfin.gov.gr/",
+   "ok": true,
+   "found": 10,
+   "kept": 3
+  },
+  {
+   "name": "mindev",
+   "label": "Υπουργείο Ανάπτυξης",
+   "url": "https://www.mindev.gov.gr/",
+   "ok": true,
+   "found": 10,
+   "kept": 6
+  },
+  {
+   "name": "efka",
+   "label": "e-ΕΦΚΑ – Δελτία Τύπου, Ανακοινώσεις, Εγκύκλιοι",
+   "url": "https://www.e-efka.gov.gr/el",
+   "ok": true,
+   "found": 20,
+   "kept": 1
+  },
+  {
+   "name": "dypa",
+   "label": "ΔΥΠΑ – προγράμματα απασχόλησης & επιδόματα",
+   "url": "https://www.dypa.gov.gr/feed",
+   "ok": false,
+   "found": 0,
+   "error": "https://www.dypa.gov.gr/feed: https://www.dypa.gov.gr/feed: HTTPSConnectionPool(host='www.dypa.gov.gr', port=443): Max retries exceeded with url: /feed (Caused by ConnectTimeoutError(<HTTPSConnection("
+  },
+  {
+   "name": "primeminister",
+   "label": "Πρωθυπουργός – ανακοινώσεις",
+   "url": "https://www.primeminister.gr/",
+   "ok": false,
+   "found": 0,
+   "error": "https://www.primeminister.gr/: 403 Client Error: Forbidden for url: https://www.primeminister.gr/"
+  },
+  {
+   "name": "opeka",
+   "label": "ΟΠΕΚΑ – επιδόματα και παροχές",
+   "url": "https://opeka.gov.gr/feed/",
+   "ok": true,
+   "found": 10,
+   "kept": 6
+  },
+  {
+   "name": "ypergasias",
+   "label": "Υπουργείο Εργασίας και Κοινωνικής Ασφάλισης",
+   "url": "https://ypergasias.gov.gr/feed/",
+   "ok": true,
+   "found": 12,
+   "kept": 6
+  },
+  {
+   "name": "ypen",
+   "label": "Υπουργείο Περιβάλλοντος και Ενέργειας",
+   "url": "https://ypen.gov.gr/feed/",
+   "ok": false,
+   "found": 0,
+   "error": "https://ypen.gov.gr/feed/: 403 Client Error: Forbidden for url: https://ypen.gov.gr/feed/"
+  },
+  {
+   "name": "hdb",
+   "label": "Ελληνική Αναπτυξιακή Τράπεζα – δάνεια και εγγυήσεις",
+   "url": "https://hdb.gr/feed/",
+   "ok": true,
+   "found": 10,
+   "kept": 1
+  },
+  {
+   "name": "minscfa",
+   "label": "Υπουργείο Κοινωνικής Συνοχής και Οικογένειας",
+   "url": "https://minscfa.gov.gr/feed/",
+   "ok": true,
+   "found": 10,
+   "kept": 8
+  },
+  {
+   "name": "diavgeia",
+   "label": "Διαύγεια – προκηρύξεις δράσεων",
+   "url": "https://diavgeia.gov.gr/opendata/search.json",
+   "ok": true,
+   "found": 8,
+   "kept": 8
+  },
+  {
+   "name": "espa_calls",
+   "label": "ΕΣΠΑ – Προσκλήσεις για ιδιώτες/επιχειρήσεις",
+   "url": "https://www.espa.gr/el/Pages/ProclamationsFS.aspx",
+   "ok": false,
+   "disabled": true,
+   "error": "Unavailable: the server resets connections from the scraper. espa.gr lists RSS feeds only for its 2014-2020 site; if you find a working feed for current calls, set type 'rss' and enabled true."
+  },
+  {
+   "name": "espa_news",
+   "label": "ΕΣΠΑ – Νέα",
+   "url": "https://www.espa.gr/el/Pages/NewsFS.aspx",
+   "ok": false,
+   "disabled": true,
+   "error": "Unavailable: the server resets connections from the scraper. espa.gr lists RSS feeds only for its 2014-2020 site; if you find a working feed for current calls, set type 'rss' and enabled true."
+  },
+  {
+   "name": "greece20",
+   "label": "Ταμείο Ανάκαμψης (Ελλάδα 2.0)",
+   "url": "https://greece20.gov.gr/feed/",
+   "ok": false,
+   "disabled": true,
+   "error": "Unavailable: the site did not finish loading when checked on 23 Nov 2026. Set enabled to true to try it again."
+  }
+ ],
+ "counts": {
+  "tax_deadline": 11,
+  "subsidy": 24,
+  "program": 28
+ },
+ "audience_counts": {
+  "households": 15,
+  "businesses": 9,
+  "farmers": 1,
+  "pensioners": 2,
+  "workers": 3
+ },
+ "total": 39
+}

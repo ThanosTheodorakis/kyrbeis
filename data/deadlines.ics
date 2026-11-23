@@ -1,0 +1,124 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//kyrbeis//EN
+CALSCALE:GREGORIAN
+X-WR-CALNAME:Κύρβεις – Προθεσμίες Δημοσίου
+X-WR-TIMEZONE:Europe/Athens
+BEGIN:VEVENT
+UID:ba8c235a4f5454fca9d1fa884137037587c3ae14@kyrbeis
+DTSTAMP:20261123T233009Z
+DTSTART;VALUE=DATE:20261127
+DTEND;VALUE=DATE:20261128
+SUMMARY:Ο «χάρτης» των πληρωμών από e-ΕΦΚΑ\, Δ
+ ΥΠΑ για την περίοδο 23 έως 27 Νοεμβρίου
+URL:https://ypergasias.gov.gr/o-chartis-ton-pliromon-apo-e-efka-dypa-gia-ti
+ n-periodo-23-eos-27-noemvriou/
+DESCRIPTION:ypergasias https://ypergasias.gov.gr/o-chartis-ton-pliromon-apo
+ -e-efka-dypa-gia-tin-periodo-23-eos-27-noemvriou/
+END:VEVENT
+BEGIN:VEVENT
+UID:f63597ed54b2141b47c782fd9b852d32e75f3b91@kyrbeis
+DTSTAMP:20261123T233009Z
+DTSTART;VALUE=DATE:20270112
+DTEND;VALUE=DATE:20270113
+SUMMARY:Δόμνα Μιχαηλίδου: Έως τις 12 Ιανουαρί
+ ου οι αιτήσεις για τον Προσωπικό Βοηθό –
+  Στις 30 Νοεμβρίου η επιστροφή ενοικίου σ
+ ε 1 εκατ. πολίτες
+URL:https://minscfa.gov.gr/domna-michailidou-eos-tis-12-ianouariou-oi-aitis
+ eis-gia-ton-prosopiko-voitho-stis-30-noemvriou-i-epistrofi-enoikiou-se-1-e
+ kat-polites/
+DESCRIPTION:minscfa https://minscfa.gov.gr/domna-michailidou-eos-tis-12-ian
+ ouariou-oi-aitiseis-gia-ton-prosopiko-voitho-stis-30-noemvriou-i-epistrofi
+ -enoikiou-se-1-ekat-polites/
+END:VEVENT
+BEGIN:VEVENT
+UID:46324a0e54118d48a32676bb3d76684763908ab3@kyrbeis
+DTSTAMP:20261123T233009Z
+DTSTART;VALUE=DATE:20270112
+DTEND;VALUE=DATE:20270113
+SUMMARY:Πρόγραμμα «Προσωπικός Βοηθός για Άτ
+ ομα με Αναπηρία»: Παράταση υποβολής νέων
+  αιτήσεων έως τις 12 Ιανουαρίου 2027 και δηλ
+ ώσεων συναίνεσης έως τις 31 Δεκεμβρίου 2026
+URL:https://opeka.gov.gr/programma-prosopikos-voithos-gia-atoma-me-anapiria
+ -paratasi-ypovolis-neon-aitiseon-eos-tis-12-ianoyarioy-2027-kai-diloseon-s
+ ynainesis-eos-tis-31-dekemvrioy-2026/
+DESCRIPTION:opeka https://opeka.gov.gr/programma-prosopikos-voithos-gia-ato
+ ma-me-anapiria-paratasi-ypovolis-neon-aitiseon-eos-tis-12-ianoyarioy-2027-
+ kai-diloseon-synainesis-eos-tis-31-dekemvrioy-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:716ff9c39869f3d0403ce052d63cf1d62959f7a7@kyrbeis
+DTSTAMP:20261123T233009Z
+DTSTART;VALUE=DATE:20270112
+DTEND;VALUE=DATE:20270113
+SUMMARY:Δόμνα Μιχαηλίδου: «Ο Προσωπικός Βοηθ
+ ός γίνεται μόνιμη υπηρεσία για την ανεξά
+ ρτητη διαβίωση των ατόμων με αναπηρία»
+URL:https://minscfa.gov.gr/domna-michailidou-o-prosopikos-voithos-ginetai-m
+ onimi-ypiresia-gia-tin-anexartiti-diaviosi-ton-atomon-me-anapiria/
+DESCRIPTION:minscfa https://minscfa.gov.gr/domna-michailidou-o-prosopikos-v
+ oithos-ginetai-monimi-ypiresia-gia-tin-anexartiti-diaviosi-ton-atomon-me-a
+ napiria/
+END:VEVENT
+BEGIN:VEVENT
+UID:429a5f15ef919fdaec924bc08938ded5de99caac@kyrbeis
+DTSTAMP:20261123T233009Z
+DTSTART;VALUE=DATE:20261123
+DTEND;VALUE=DATE:20261124
+SUMMARY:Παράταση έως και 23 Νοεμβρίου των αιτ
+ ήσεων στο πρόγραμμα παροχής χρηματικών 
+ βραβείων – Υποτροφιών σε επιτυχόντες/ού
+ σες μαθητές/τριες στις Πανελλαδικές Εξε
+ τάσεις 2026
+URL:https://opeka.gov.gr/paratasi-eos-kai-23-noemvrioy-ton-aitiseon-sto-pro
+ gramma-parochis-chrimatikon-vraveion-ypotrofion-se-epitychontes-oyses-math
+ ites-tries-stis-panelladikes-exetaseis-2026/
+DESCRIPTION:opeka https://opeka.gov.gr/paratasi-eos-kai-23-noemvrioy-ton-ai
+ tiseon-sto-programma-parochis-chrimatikon-vraveion-ypotrofion-se-epitychon
+ tes-oyses-mathites-tries-stis-panelladikes-exetaseis-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:e7251a39219ad530b8acbc5d781b5d7110cc15ee@kyrbeis
+DTSTAMP:20261123T233009Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:Ο «χάρτης» των πληρωμών από e-ΕΦΚΑ\, Δ
+ ΥΠΑ για την περίοδο 16 έως 20 Νοεμβρίου
+URL:https://ypergasias.gov.gr/o-chartis-ton-pliromon-apo-e-efka-dypa-gia-ti
+ n-periodo-16-eos-20-noemvriou/
+DESCRIPTION:ypergasias https://ypergasias.gov.gr/o-chartis-ton-pliromon-apo
+ -e-efka-dypa-gia-tin-periodo-16-eos-20-noemvriou/
+END:VEVENT
+BEGIN:VEVENT
+UID:d89785816ad13fe46b593ce0580f86ada3fc4022@kyrbeis
+DTSTAMP:20261123T233009Z
+DTSTART;VALUE=DATE:20261116
+DTEND;VALUE=DATE:20261117
+SUMMARY:Έως τη Δευτέρα 16 Νοεμβρίου η υποβολή 
+ των αιτήσεων στο πρόγραμμα παροχής χρημ
+ ατικών βραβείων – Υποτροφιών σε επιτυχό
+ ντες/-ούσες μαθητές/-τριες στις Πανελλαδ
+ ικές Εξετάσεις 2026
+URL:https://opeka.gov.gr/eos-ti-deytera-16-noemvrioy-i-ypovoli-ton-aitiseon
+ -sto-programma-parochis-chrimatikon-vraveion-ypotrofion-se-epitychontes-oy
+ ses-mathites-tries-stis-panelladikes-exetaseis-2026/
+DESCRIPTION:opeka https://opeka.gov.gr/eos-ti-deytera-16-noemvrioy-i-ypovol
+ i-ton-aitiseon-sto-programma-parochis-chrimatikon-vraveion-ypotrofion-se-e
+ pitychontes-oyses-mathites-tries-stis-panelladikes-exetaseis-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:e26758b7ceb94dd2f7999253d43af145313a22f8@kyrbeis
+DTSTAMP:20261123T233009Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:Ο «χάρτης» των πληρωμών από e-ΕΦΚΑ\, Δ
+ ΥΠΑ για την περίοδο 9 Νοεμβρίου έως 13 Νοε
+ μβρίου
+URL:https://ypergasias.gov.gr/o-chartis-ton-pliromon-apo-e-efka-dypa-gia-ti
+ n-periodo-9-noemvriou-eos-13-noemvriou/
+DESCRIPTION:ypergasias https://ypergasias.gov.gr/o-chartis-ton-pliromon-apo
+ -e-efka-dypa-gia-tin-periodo-9-noemvriou-eos-13-noemvriou/
+END:VEVENT
+END:VCALENDAR
