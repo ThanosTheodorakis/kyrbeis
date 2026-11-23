@@ -113,7 +113,7 @@ def test_serve_runs_once_a_day_and_catches_up(github, tmp_path):
     slept = []
     rn.serve(cfg, clock=lambda: next(times), sleep=slept.append, max_loops=2, scrape=new_data, retry_delay=0)
     assert git(github, "log", "-1", "--format=%s", "main").startswith("data: update ")  # caught up at once
-    assert slept == [rn.seconds_until_next(at(24, 9, 1), RUN_AT)]  # then waits for tomorrow
+    assert slept == [rn.CHECK_EVERY]  # then naps, re-checking the clock, until tomorrow
 
 
 def test_serve_retries_after_a_failure(github, tmp_path):
@@ -163,3 +163,21 @@ def test_git_askpass_answers_from_the_token():
     assert ask("Username for 'https://github.com': ") == "x-access-token"
     assert ask("Password for 'https://x-access-token@github.com': ") == "github_pat_secret"
     assert b"\r" not in script.read_bytes()  # Linux line endings, or sh can't run it
+
+
+def test_a_sleeping_computer_still_collects_soon_after_waking(github, tmp_path):
+    """The container's timer pauses while the PC sleeps. Short naps against the real clock
+    mean that after waking at 10:00 (past the 06:17 time) it collects within one nap."""
+    cfg = cfg_for(github, tmp_path)
+    clock = iter([at(24, 1), at(24, 10)])  # 01:00, then the PC sleeps and wakes at 10:00
+    slept = []
+    rn.serve(cfg, clock=lambda: next(clock), sleep=slept.append, max_loops=2, scrape=new_data, retry_delay=0)
+    assert slept == [rn.CHECK_EVERY]  # napped, never one 5-hour sleep
+    assert git(github, "log", "-1", "--format=%s", "main").startswith("data: update ")
+
+
+def test_naps_are_never_longer_than_the_check_interval(github, tmp_path):
+    cfg = cfg_for(github, tmp_path)
+    slept = []
+    rn.serve(cfg, clock=lambda: at(24, 1), sleep=slept.append, max_loops=3)
+    assert slept and all(s <= rn.CHECK_EVERY for s in slept)

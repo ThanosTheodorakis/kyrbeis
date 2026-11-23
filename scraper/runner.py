@@ -28,6 +28,9 @@ from scraper import update as up
 TZ = ZoneInfo("Europe/Athens")
 STATE_FILE = "kyrbeis-last-success"  # kept inside .git/, so it is never committed
 RETRY_AFTER = 3600  # after a failed run (e.g. no internet), try again in an hour
+# Never sleep longer than this in one go. While the computer sleeps, a container's timer
+# pauses too, so one long sleep could wake up hours late; short naps re-check the real clock.
+CHECK_EVERY = 15 * 60
 log = logging.getLogger("kyrbeis.runner")
 
 
@@ -121,6 +124,7 @@ def serve(
     cfg: dict, clock=lambda: datetime.now(TZ), sleep=time.sleep, max_loops: int | None = None, **update_kw
 ) -> None:
     loops = 0
+    announce = True
     log.info("running; collecting every day at %02d:%02d Athens time", *cfg["run_at"])
     while max_loops is None or loops < max_loops:
         loops += 1
@@ -136,13 +140,16 @@ def serve(
                 log.error("collection crashed: %s", e)
                 ok = False
             if ok:
+                announce = True
                 continue  # recompute the wait from the new state
             log.warning("collection failed; trying again in %d minutes", RETRY_AFTER // 60)
             sleep(RETRY_AFTER)
             continue
         wait = seconds_until_next(now, cfg["run_at"])
-        log.info("next collection in %.1f hours", wait / 3600)
-        sleep(wait)
+        if announce:  # once at start and after each collection, not on every nap
+            log.info("next collection in %.1f hours", wait / 3600)
+            announce = False
+        sleep(min(wait, CHECK_EVERY))
 
 
 def main(argv: list[str] | None = None) -> int:
