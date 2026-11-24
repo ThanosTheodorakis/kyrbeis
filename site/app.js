@@ -28,6 +28,8 @@
       cat: { tax_deadline: "Φορολογικά & προθεσμίες", subsidy: "Επιδοτήσεις & ενισχύσεις", program: "Προγράμματα & προσκλήσεις", other: "Λοιπές ανακοινώσεις" },
       catShort: { tax_deadline: "Φορολογικά", subsidy: "Επιδότηση", program: "Πρόγραμμα", other: "Ανακοίνωση" },
       count: (n, t) => n === t ? `${n} ανακοινώσεις` : `${n} από ${t} ανακοινώσεις`,
+      showN: n => n === 0 ? "Καμία ανακοίνωση" : n === 1 ? "Εμφάνιση 1 ανακοίνωσης" : `Εμφάνιση ${n} ανακοινώσεων`,
+      activeFilters: n => n === 1 ? "1 ενεργό φίλτρο" : `${n} ενεργά φίλτρα`,
       updated: d => `Ενημερώθηκε ${d}`,
       neverUpdated: "Δεν έχει γίνει ακόμη ενημέρωση",
       published: "Δημοσίευση", noDate: "χωρίς ημερομηνία",
@@ -76,6 +78,8 @@
       cat: { tax_deadline: "Tax & deadlines", subsidy: "Subsidies & grants", program: "Programs & calls", other: "Other notices" },
       catShort: { tax_deadline: "Tax", subsidy: "Subsidy", program: "Program", other: "Notice" },
       count: (n, t) => n === t ? `${n} announcements` : `${n} of ${t} announcements`,
+      showN: n => n === 0 ? "No announcements" : n === 1 ? "Show 1 announcement" : `Show ${n} announcements`,
+      activeFilters: n => n === 1 ? "1 active filter" : `${n} active filters`,
       updated: d => `Updated ${d}`,
       neverUpdated: "Not updated yet",
       published: "Published", noDate: "no date",
@@ -394,11 +398,20 @@
     return fmtDate(k, { weekday: "long", day: "numeric", month: "long" });
   }
 
+  // phones: the filter button shows how many filters are on, the panel's button how many results
+  function renderPanelInfo(n) {
+    const on = state.cats.size + state.aud.size + state.srcs.size + (state.due ? 1 : 0) + (state.period ? 1 : 0);
+    const badge = $("#fcount");
+    badge.hidden = !on; badge.textContent = on; badge.setAttribute("aria-label", t("activeFilters")(on));
+    $("#apply").textContent = t("showN")(n);
+  }
+
   function renderList() {
     const res = $("#results"); res.replaceChildren();
     if (!items.length) {
       res.append(el("div", { class: "empty" }, el("h3", { text: t("noDataTitle") }), el("p", { text: t("noDataText") })));
       $("#count").textContent = "";
+      renderPanelInfo(0);
       return;
     }
     let list = items.filter(it => matches(it));
@@ -409,6 +422,7 @@
       list.sort((a, b) => (b.published || "").localeCompare(a.published || "") || (b.first_seen || "").localeCompare(a.first_seen || ""));
     }
     $("#count").textContent = t("count")(list.length, items.length);
+    renderPanelInfo(list.length);
     if (!list.length) {
       res.append(el("div", { class: "empty" }, el("h3", { text: t("emptyTitle") }), el("p", { text: t("emptyText") })));
       return;
@@ -457,6 +471,7 @@
   function update() {
     state.shown = PAGE;
     renderHorizon(); renderList(); syncUrl();
+    keepPanelInPlace();
   }
 
   function renderAll() { renderStatic(); renderFilters(); renderHorizon(); renderList(); renderStatus(); }
@@ -490,8 +505,27 @@
     if (m && repo) $("#repo").href = `https://github.com/${m[1]}/${repo}`;
   })();
 
-  // filters start collapsed on phones so results come first
-  if (matchMedia("(max-width: 860px)").matches && !filtersActive()) $("#filters").open = false;
+  // phones: filters live in a panel under the sticky search bar, closed until asked for;
+  // wider screens always show them in the side column
+  const phone = matchMedia("(max-width: 860px)");
+  const panel = $("#filters");
+  const fitPanel = () => { panel.open = !phone.matches; };
+  fitPanel(); phone.addEventListener("change", fitPanel);
+  const closePanel = () => { if (phone.matches) panel.open = false; };
+  // if the bar was stuck to the top, keep it there after the list above the footer changes length
+  function keepPanelInPlace() {
+    if (!phone.matches || !panel.open) return;
+    const top = $(".layout").getBoundingClientRect().top + scrollY;
+    if (scrollY > top) scrollTo(0, top);
+  }
+  $("#apply").addEventListener("click", () => {
+    closePanel();
+    $("#list").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+  });
+  document.addEventListener("click", e => { if (panel.open && !e.target.closest(".rail")) closePanel(); });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && phone.matches && panel.open) { closePanel(); panel.querySelector("summary").focus(); }
+  });
 
   // ---------- load ----------
   renderStatic();
