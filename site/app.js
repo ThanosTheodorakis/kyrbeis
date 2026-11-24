@@ -15,6 +15,10 @@
       lede: "Προθεσμίες, επιδοτήσεις και προγράμματα από ΑΑΔΕ, e-ΕΦΚΑ, ΟΠΕΚΑ, ΔΥΠΑ, υπουργεία και Διαύγεια, συγκεντρωμένα και ενημερωμένα κάθε πρωί.",
       horizon: "Οι επόμενες 60 ημέρες",
       today: "Σήμερα",
+      week7: "Επόμενες 7 ημέρες",
+      inMonth: n => n === 1 ? "1 προθεσμία" : `${n} προθεσμίες`,
+      trackHint: "Κάθε κουκκίδα είναι μία προθεσμία. Πατήστε τη για να δείτε την ανακοίνωση.",
+      trackHintScroll: "Σύρετε οριζόντια για τις επόμενες εβδομάδες.",
       search: "Αναζήτηση", searchPh: "Αναζήτηση, π.χ. ΕΝΦΙΑ, Εξοικονομώ",
       topic: "Θέμα", show: "Εμφάνιση", source: "Φορέας",
       audience: "Για ποιον",
@@ -65,6 +69,10 @@
       lede: "Deadlines, subsidies and programs from Greece's tax authority, social security and benefits agencies, ministries and the Diavgeia register, collected in one place every morning.",
       horizon: "The next 60 days",
       today: "Today",
+      week7: "Next 7 days",
+      inMonth: n => n === 1 ? "1 deadline" : `${n} deadlines`,
+      trackHint: "Each dot is one deadline. Tap or click it to see the announcement.",
+      trackHintScroll: "Swipe sideways for the weeks ahead.",
       search: "Search", searchPh: "Search, e.g. ENFIA, Exoikonomo",
       topic: "Topic", show: "Show", source: "Agency",
       audience: "Who it's for",
@@ -132,14 +140,9 @@
   const AUDS = ["households", "businesses", "workers", "pensioners", "farmers"];
 
   // ---------- state ----------
-  const store = {
-    get(k) { try { return localStorage.getItem(k); } catch { return null; } },
-    set(k, v) { try { localStorage.setItem(k, v); } catch { /* storage unavailable */ } },
-  };
   const params = new URLSearchParams(location.search);
   const state = {
-    // explicit ?lang= wins, then the saved choice, then the browser language
-    lang: params.get("lang") || store.get("lang") || ((navigator.language || "el").slice(0, 2) === "el" ? "el" : "en"),
+    lang: params.get("lang") === "en" ? "en" : "el",   // the site opens in Greek; ?lang=en opens it in English
     q: params.get("q") || "",
     cats: new Set((params.get("cat") || "").split(",").filter(Boolean)),
     srcs: new Set((params.get("src") || "").split(",").filter(Boolean)),
@@ -278,54 +281,88 @@
     $("#sort").value = state.sort;
   }
 
+  // The 60-day timeline: one slot per day, months as shaded bands, a dated tick every Monday,
+  // one dot per deadline stacked on its day. Narrow screens scroll it sideways rather than
+  // squeezing 60 days into a few centimetres.
+  const MIN_DAY_PX = 14;
+  const tip = el("div", { class: "tip", hidden: true });
+  document.body.append(tip);
+  const hideTip = () => { tip.hidden = true; };
+  addEventListener("scroll", hideTip, { passive: true });
+
   function renderHorizon() {
     const track = $("#track"); track.replaceChildren();
-    const W = track.clientWidth || 800;
+    const scroller = $("#track-scroll");
+    const slots = HORIZON + 1;                      // today plus the next 60 days
+    const cs = getComputedStyle(scroller);
+    const room = (scroller.clientWidth || 800) - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    const W = Math.max(room, slots * MIN_DAY_PX);
+    track.style.width = `${W}px`;
+    const slot = W / slots;
+    const x = d => (d + .5) * slot;                 // centre of a day's slot
+    const dayAt = d => new Date(today.getTime() + d * DAY);
+    const short = d => dayAt(d).toLocaleDateString(state.lang === "el" ? "el-GR" : "en-GB", { day: "numeric", month: "short" });
+
     const upcoming = items
       .filter(it => it.deadline && matches(it))
       .map(it => ({ it, d: daysUntil(it.deadline) }))
-      .filter(x => x.d >= 0 && x.d <= HORIZON)
+      .filter(u => u.d >= 0 && u.d <= HORIZON)
       .sort((a, b) => a.d - b.d);
 
-    const x = d => (d / HORIZON) * W;
-    track.append(el("div", { class: "axis" }));
-    track.append(el("div", { class: "urgent-zone", style: `width:${x(7)}px` }));
-    for (let d = 7; d < HORIZON; d += 7) track.append(el("div", { class: "week", style: `left:${x(d)}px` }));
-    // month starts
-    for (let d = 1; d <= HORIZON; d++) {
-      const day = new Date(today.getTime() + d * DAY);
-      if (day.getDate() === 1 && x(d) < W - 80) {
-        track.append(el("div", { class: "month", style: `left:${x(d)}px`,
-          text: state.lang === "el" ? MONTHS_EL[day.getMonth()]
-            : day.toLocaleDateString("en-GB", { month: "long" }) }));
+    // months as alternating bands, each with its name and how many deadlines fall in it
+    let start = 0, band = 0;
+    for (let d = 1; d <= slots; d++) {
+      if (d === slots || dayAt(d).getDate() === 1) {
+        const m = dayAt(start), w = (d - start) * slot;
+        const n = upcoming.filter(u => u.d >= start && u.d < d).length;
+        const name = state.lang === "el" ? MONTHS_EL[m.getMonth()] : m.toLocaleDateString("en-GB", { month: "long" });
+        track.append(el("div", { class: `mband${band % 2 ? " alt" : ""}`, style: `left:${start * slot}px; width:${w}px` },
+          w > 56 ? el("span", { class: "mname" }, el("b", { text: name }), el("span", { text: n ? t("inMonth")(n) : "" })) : ""));
+        start = d; band++;
       }
     }
-    track.append(el("div", { class: "today" }, el("span", { text: t("today") })));
+    // the next seven days
+    track.append(el("div", { class: "urgent-zone", style: `width:${7 * slot}px` },
+      7 * slot > 80 ? el("span", { text: t("week7") }) : ""));
+
+    // the date scale: a tick per day, a labelled tick per Monday, "today" at the start
+    track.append(el("div", { class: "axis" }));
+    for (let d = 0; d <= HORIZON; d++) {
+      const monday = dayAt(d).getDay() === 1;
+      track.append(el("div", { class: `dtick${monday ? " wk" : ""}`, style: `left:${x(d)}px` }));
+      // Monday dates, but not where they would collide with the wider "Today, 24 Nov" label
+      if (monday && x(d) - x(0) > 118 && W - x(d) > 24) {
+        track.append(el("div", { class: "dlabel", style: `left:${x(d)}px`, text: short(d) }));
+      }
+    }
+    track.append(el("div", { class: "today", style: `left:${x(0) - 1}px` }));
+    track.append(el("div", { class: "dlabel now", style: `left:${x(0)}px`, text: `${t("today")}, ${short(0)}` }));
 
     if (!upcoming.length) {
       // "with the current filters" only makes sense when filters are actually set
       const anyUpcoming = items.some(it => it.deadline && daysUntil(it.deadline) >= 0 && daysUntil(it.deadline) <= HORIZON);
-      track.append(el("p", { class: "track-empty", text: anyUpcoming && filtersActive() ? t("emptyTrack") : t("noneUpcoming") }));
+      track.append(el("p", { class: "track-empty", style: `left:${7 * slot + 16}px`,
+        text: anyUpcoming && filtersActive() ? t("emptyTrack") : t("noneUpcoming") }));
     }
-    const tip = el("div", { class: "tip", hidden: true });
-    track.append(tip);
-    const showTip = (node, d, level, head, body) => {
+
+    const showTip = (node, head, body) => {
       const open = () => {
         tip.replaceChildren(el("b", { text: head }), document.createTextNode(body));
         tip.hidden = false;
-        tip.style.left = `${Math.min(Math.max(0, x(d) - 20), W - Math.min(320, W * .8))}px`;
-        tip.style.bottom = `${26 + level * 15 + 6}px`;
+        const r = node.getBoundingClientRect(), tw = tip.offsetWidth, th = tip.offsetHeight;
+        tip.style.left = `${Math.min(Math.max(8, r.left + r.width / 2 - 24), innerWidth - tw - 8)}px`;
+        tip.style.top = `${r.top - th - 8 < 8 ? r.bottom + 8 : r.top - th - 8}px`;
       };
-      const close = () => { tip.hidden = true; };
       node.addEventListener("mouseenter", open); node.addEventListener("focus", open);
-      node.addEventListener("mouseleave", close); node.addEventListener("blur", close);
+      node.addEventListener("mouseleave", hideTip); node.addEventListener("blur", hideTip);
     };
-    const bottom = level => `${26 - 6 + (level - 1) * 15}px`;
+    const AXIS = 34, STEP = 15;
+    const bottom = level => `${AXIS - 6 + (level - 1) * STEP}px`;
 
     const byDay = new Map();
     for (const u of upcoming) byDay.set(u.d, [...(byDay.get(u.d) || []), u]);
     for (const [d, group] of byDay) {
-      const left = `${Math.max(6, x(d))}px`;
+      const left = `${x(d)}px`;
       const dayLabel = fmtDate(group[0].it.deadline, { day: "numeric", month: "long" });
       const visible = group.length > MAX_STACK ? group.slice(0, MAX_STACK - 1) : group;
       visible.forEach(({ it }, i) => {
@@ -333,24 +370,35 @@
           type: "button", class: "tick", "data-cat": primaryCat(it),
           "aria-label": `${it.title}. ${t("due")}: ${fmtDate(it.deadline)} (${relDue(d)})`,
           style: `left:${left}; bottom:${bottom(i + 1)}`,
-          onclick: () => reveal(it),
+          onclick: () => { hideTip(); reveal(it); },
         });
-        showTip(dot, d, i + 1, `${dayLabel}, ${relDue(d)}`, it.title.length > 120 ? it.title.slice(0, 118) + "…" : it.title);
+        showTip(dot, `${dayLabel}, ${relDue(d)}`, it.title.length > 120 ? it.title.slice(0, 118) + "…" : it.title);
         track.append(dot);
       });
       const hidden = group.slice(visible.length);
       if (hidden.length) {
-        const level = visible.length + 1;
         const label = t("moreOnDay")(hidden.length, dayLabel);
         const more = el("button", {
           type: "button", class: "tick tick-more", "aria-label": label, text: `+${hidden.length}`,
-          style: `left:${left}; bottom:${bottom(level)}`,
-          onclick: () => reveal(hidden[0].it),
+          style: `left:${left}; bottom:${bottom(visible.length + 1)}`,
+          onclick: () => { hideTip(); reveal(hidden[0].it); },
         });
-        showTip(more, d, level, label, hidden.map(h => h.it.title).slice(0, 3).join(" · ") + (hidden.length > 3 ? " …" : ""));
+        showTip(more, label, hidden.map(h => h.it.title).slice(0, 3).join(" · ") + (hidden.length > 3 ? " …" : ""));
         track.append(more);
       }
     }
+
+    // colour key (only the colours on screen) and how to use it
+    const legend = $("#track-legend"); legend.replaceChildren();
+    const key = el("ul", { class: "key" });
+    for (const c of CATS) {
+      const n = upcoming.filter(u => primaryCat(u.it) === c).length;
+      if (n) key.append(el("li", {}, el("span", { class: "swatch", style: `--c:var(--dot-${c})` }), `${t("catShort")[c]} (${n})`));
+    }
+    const scrolls = W > room + 2;
+    legend.append(key, el("p", { class: "hint", text: scrolls ? `${t("trackHint")} ${t("trackHintScroll")}` : t("trackHint") }));
+    if (!upcoming.length) key.remove();
+
     const next = upcoming[0];
     $("#next-up").innerHTML = next
       ? t("nextUp")(escapeHtml(next.it.title.length > 70 ? next.it.title.slice(0, 68) + "…" : next.it.title), relDue(next.d))
@@ -444,13 +492,21 @@
     }
   }
 
+  // feeds and APIs are for machines; link people to the site's home page instead
+  function websiteOf(u) {
+    try {
+      const url = new URL(u);
+      return /\/feed\/?$|\/opendata\/|\.(xml|json|rss)$/i.test(url.pathname) ? `${url.origin}/` : u;
+    } catch { return u; }
+  }
+
   function renderStatus() {
     const ul = $("#status"); ul.replaceChildren();
     if (!meta) return;
     for (const s of meta.sources) {
       const ok = s.ok !== false;
       ul.append(el("li", { class: s.disabled ? "off" : !ok ? "bad" : s.partial ? "warn" : "" }, el("span", { class: "dot" }),
-        el("a", { href: safeHref(s.url), target: "_blank", rel: "noopener", text: sourceLabel(s.name) }),
+        el("a", { href: safeHref(websiteOf(s.url)), target: "_blank", rel: "noopener", text: sourceLabel(s.name) }),
         el("span", { class: "st-n", title: (s.partial || [s.error || ""]).join("\n") || null,
           text: s.disabled ? t("stDisabled") : !ok && s.found === 0 && /^0 items/.test(s.error || "") ? t("stEmpty") : !ok ? t("stFail") : s.partial ? t("stPartial")(s.found ?? 0) : t("stOk")(s.found ?? 0) })));
     }
@@ -478,7 +534,7 @@
 
   // ---------- events ----------
   document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => {
-    state.lang = b.dataset.lang; store.set("lang", state.lang); renderAll(); syncUrl();
+    state.lang = b.dataset.lang; renderAll(); syncUrl();
   }));
   let qTimer;
   $("#q").addEventListener("input", e => { clearTimeout(qTimer); qTimer = setTimeout(() => { state.q = e.target.value.trim(); update(); }, 150); });

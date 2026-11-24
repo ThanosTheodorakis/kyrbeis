@@ -1001,7 +1001,8 @@ def write_site_data(
             {
                 "name": s["name"],
                 "label": s.get("label", s["name"]),
-                "url": s.get("url") or s.get("api"),
+                # people should land on the agency's website, not on its RSS feed or API
+                "url": s.get("website") or s.get("url") or s.get("api"),
                 **status.get(s["name"], {}),
             }
             for s in sources

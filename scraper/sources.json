@@ -1,5 +1,5 @@
 {
-  "_help": "type: rss | html | rss_or_html | diavgeia. For html you can add item_selector/title_selector/date_selector/link_selector (CSS); without them a headline-link heuristic is used. keep_all=true keeps items even when no keyword matches. require_date=true drops items without a date (menu links). expect_items=false means 0 results is normal, not a failure. enabled=false + note shows the source as unavailable.",
+  "_help": "type: rss | html | rss_or_html | diavgeia. For html you can add item_selector/title_selector/date_selector/link_selector (CSS); without them a headline-link heuristic is used. keep_all=true keeps items even when no keyword matches. require_date=true drops items without a date (menu links). expect_items=false means 0 results is normal, not a failure. enabled=false + note shows the source as unavailable. website = the page the site links to for this source (defaults to url); set it when url is a feed or an API.",
   "sources": [
     {
       "name": "aade",
@@ -55,7 +55,8 @@
       "name": "dypa",
       "label": "ΔΥΠΑ – προγράμματα απασχόλησης & επιδόματα",
       "type": "rss",
-      "url": "https://www.dypa.gov.gr/feed"
+      "url": "https://www.dypa.gov.gr/feed",
+      "website": "https://www.dypa.gov.gr/"
     },
     {
       "name": "primeminister",
@@ -68,37 +69,43 @@
       "name": "opeka",
       "label": "ΟΠΕΚΑ – επιδόματα και παροχές",
       "type": "rss",
-      "url": "https://opeka.gov.gr/feed/"
+      "url": "https://opeka.gov.gr/feed/",
+      "website": "https://opeka.gov.gr/"
     },
     {
       "name": "ypergasias",
       "label": "Υπουργείο Εργασίας και Κοινωνικής Ασφάλισης",
       "type": "rss",
-      "url": "https://ypergasias.gov.gr/feed/"
+      "url": "https://ypergasias.gov.gr/feed/",
+      "website": "https://ypergasias.gov.gr/"
     },
     {
       "name": "ypen",
       "label": "Υπουργείο Περιβάλλοντος και Ενέργειας",
       "type": "rss",
-      "url": "https://ypen.gov.gr/feed/"
+      "url": "https://ypen.gov.gr/feed/",
+      "website": "https://ypen.gov.gr/"
     },
     {
       "name": "hdb",
       "label": "Ελληνική Αναπτυξιακή Τράπεζα – δάνεια και εγγυήσεις",
       "type": "rss",
-      "url": "https://hdb.gr/feed/"
+      "url": "https://hdb.gr/feed/",
+      "website": "https://hdb.gr/"
     },
     {
       "name": "minscfa",
       "label": "Υπουργείο Κοινωνικής Συνοχής και Οικογένειας",
       "type": "rss",
-      "url": "https://minscfa.gov.gr/feed/"
+      "url": "https://minscfa.gov.gr/feed/",
+      "website": "https://minscfa.gov.gr/"
     },
     {
       "name": "greece20",
       "label": "Ταμείο Ανάκαμψης (Ελλάδα 2.0)",
       "type": "rss",
       "url": "https://greece20.gov.gr/feed/",
+      "website": "https://greece20.gov.gr/",
       "enabled": false,
       "note": "Unavailable: the site did not finish loading when checked on 23 Nov 2026. Set enabled to true to try it again."
     },
@@ -107,6 +114,7 @@
       "label": "Διαύγεια – προκηρύξεις δράσεων",
       "type": "diavgeia",
       "api": "https://diavgeia.gov.gr/opendata/search.json",
+      "website": "https://diavgeia.gov.gr/",
       "terms": [
         "προκήρυξη δράσης",
         "πρόσκληση υποβολής αιτήσεων χρηματοδότησης"

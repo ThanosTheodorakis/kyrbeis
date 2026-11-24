@@ -575,3 +575,25 @@ def test_contact_is_read_from_new_and_old_env_var(monkeypatch, tmp_path, var):
     )
     g.main(["--config", str(cfg), "--site-data", str(tmp_path / "data")])
     assert seen["contact"] == "me@example.com"
+
+
+def test_status_links_go_to_websites_not_feeds(tmp_path):
+    # the footer links people to each agency; a raw RSS feed or JSON API is useless to them
+    srcs = [
+        {"name": "dypa", "type": "rss", "url": "https://www.dypa.gov.gr/feed", "website": "https://www.dypa.gov.gr/"},
+        {"name": "aade", "type": "html", "url": "https://www.aade.gr/deltia-typoy-anakoinoseis"},
+    ]
+    g.write_site_data([], tmp_path, srcs, {}, 365, "https://x")
+    meta = json.loads((tmp_path / "meta.json").read_text(encoding="utf-8"))
+    assert [s["url"] for s in meta["sources"]] == [
+        "https://www.dypa.gov.gr/",
+        "https://www.aade.gr/deltia-typoy-anakoinoseis",
+    ]
+
+
+def test_every_feed_or_api_source_has_a_website():
+    cfg = json.loads((Path(g.__file__).parent / "sources.json").read_text(encoding="utf-8"))
+    for s in cfg["sources"]:
+        link = s.get("url") or s.get("api")
+        if s["type"] in ("rss", "diavgeia") or link.rstrip("/").endswith(("feed", ".json", ".xml")):
+            assert s.get("website", "").startswith("https://"), s["name"]

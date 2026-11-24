@@ -79,37 +79,71 @@ h1, h2, h3 { margin: 0; font-weight: 650; letter-spacing: -.01em; }
 .horizon-head h2 { font-size: 1.05rem; font-weight: 600; color: var(--ink-2); }
 .next-up { margin: 0; font-size: .95rem; }
 .next-up strong { font-weight: 650; }
-.track-wrap { background: var(--ink); border-radius: var(--radius-m); padding: 20px 24px 14px; color: #E6ECF2; }
+.track-wrap {
+  --dot-tax_deadline: #E0AE55; --dot-subsidy: #A6C878; --dot-program: #D79AC8; --dot-other: #B3C0CE;
+  background: var(--ink); border-radius: var(--radius-m); padding: 6px 0 14px; color: #E6ECF2;
+}
 :root[data-theme="dark"] .track-wrap { background: #091220; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .track-wrap { background: #091220; } }
-.track { position: relative; height: 128px; }
-.track .axis { position: absolute; left: 0; right: 0; bottom: 26px; height: 1px; background: rgba(230,236,242,.28); }
-.track .week { position: absolute; bottom: 22px; width: 1px; height: 9px; background: rgba(230,236,242,.28); }
-.track .month { position: absolute; bottom: 0; font-size: .78rem; color: rgba(230,236,242,.7); transform: translateX(-1px); white-space: nowrap; }
-.track .month::before { content: ""; position: absolute; left: 0; bottom: 20px; width: 1px; height: 82px; background: rgba(230,236,242,.14); }
-.track .today { position: absolute; left: 0; bottom: 26px; top: 0; width: 2px; background: #E6ECF2; }
-.track .today span { position: absolute; top: -2px; left: 8px; font-size: .78rem; font-weight: 600; white-space: nowrap; }
-.track .urgent-zone { position: absolute; left: 0; bottom: 27px; top: 20px; background: rgba(255,156,140,.13); border-right: 1px dashed rgba(255,156,140,.5); }
+.track-scroll {
+  overflow-x: auto; overflow-y: hidden; padding: 0 24px; overscroll-behavior-x: contain;
+  scrollbar-width: thin; scrollbar-color: rgba(230,236,242,.3) transparent;
+}
+.track { position: relative; height: 190px; }
+
+/* months: alternating bands across the full height, name at the top */
+.track .mband { position: absolute; top: 0; bottom: 34px; border-left: 1px solid rgba(230,236,242,.22); }
+.track .mband.alt { background: rgba(230,236,242,.055); }
+.track .mband:first-child { border-left: 0; }
+.track .mname { position: absolute; top: 8px; left: 8px; right: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: .8rem; color: rgba(230,236,242,.72); }
+.track .mname b, .track .mname span { display: block; overflow: hidden; text-overflow: ellipsis; }
+.track .mname b { font-weight: 650; color: #E6ECF2; }
+.track .mname span { font-size: .74rem; }
+
+/* the next seven days */
+.track .urgent-zone {
+  position: absolute; left: 0; top: 50px; bottom: 34px;
+  background: rgba(255,156,140,.13); border-right: 1px dashed rgba(255,156,140,.55);
+}
+.track .urgent-zone span { position: absolute; top: 4px; left: 9px; font-size: .72rem; font-weight: 600; color: #FFB4A8; white-space: nowrap; }
+
+/* date scale */
+.track .axis { position: absolute; left: 0; right: 0; bottom: 34px; height: 1px; background: rgba(230,236,242,.45); }
+.track .dtick { position: absolute; bottom: 30px; width: 1px; height: 4px; background: rgba(230,236,242,.35); }
+.track .dtick.wk { height: 8px; bottom: 26px; background: rgba(230,236,242,.7); }
+.track .dlabel { position: absolute; bottom: 6px; transform: translateX(-50%); font-size: .74rem; color: rgba(230,236,242,.75); white-space: nowrap; }
+.track .dlabel.now { transform: none; margin-left: -1px; font-weight: 650; color: #E6ECF2; }
+.track .today { position: absolute; top: 50px; bottom: 26px; width: 2px; background: #E6ECF2; }
+
 .tick {
   position: absolute; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%;
   border: 2px solid #0F1A2A; padding: 0; cursor: pointer; background: var(--c, #fff);
   transition: transform .15s ease;
 }
 .tick:hover, .tick:focus-visible { transform: scale(1.45); outline-color: #E6ECF2; }
-.tick[data-cat="tax_deadline"] { --c: #E0AE55; }
-.tick[data-cat="subsidy"] { --c: #A6C878; }
-.tick[data-cat="program"] { --c: #D79AC8; }
-.tick[data-cat="other"] { --c: #B3C0CE; }
+.tick[data-cat="tax_deadline"] { --c: var(--dot-tax_deadline); }
+.tick[data-cat="subsidy"] { --c: var(--dot-subsidy); }
+.tick[data-cat="program"] { --c: var(--dot-program); }
+.tick[data-cat="other"] { --c: var(--dot-other); }
 .tick-more {
   width: auto; height: 16px; min-width: 22px; margin-left: -11px; border-radius: 8px; padding: 0 5px;
   background: #E6ECF2; color: #14263F; font: 650 .68rem/12px var(--font); border-width: 2px;
 }
-.track-empty { position: absolute; left: calc(11.7% + 16px); right: 12px; top: 34px; font-size: .95rem; color: rgba(230,236,242,.75); max-width: 46ch; }
+.track-empty { position: absolute; right: 12px; top: 76px; margin: 0; font-size: .95rem; color: rgba(230,236,242,.8); max-width: 46ch; }
+
+/* colour key and how-to */
+.track-legend { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 24px; padding: 10px 24px 0; border-top: 1px solid rgba(230,236,242,.14); margin-top: 4px; }
+.track-legend .key { display: flex; flex-wrap: wrap; gap: 4px 16px; list-style: none; margin: 0; padding: 0; font-size: .82rem; }
+.track-legend .key li { display: flex; align-items: center; gap: 6px; }
+.track-legend .swatch { width: 10px; height: 10px; }
+.track-legend .hint { margin: 0; font-size: .8rem; color: rgba(230,236,242,.68); }
+
 .tip {
-  position: absolute; z-index: 3; width: max-content; max-width: min(320px, 80vw);
+  position: fixed; z-index: 10; width: max-content; max-width: min(320px, calc(100vw - 16px));
   background: #E6ECF2; color: #14263F; font-size: .85rem; line-height: 1.35;
   padding: 8px 10px; border-radius: var(--radius-s); pointer-events: none; box-shadow: 0 6px 18px rgba(0,0,0,.25);
 }
+.tip[hidden] { display: none; }
 .tip b { display: block; font-weight: 650; margin-bottom: 2px; }
 
 /* ---------- layout ---------- */
@@ -202,7 +236,8 @@ main:focus { outline: none; }
   .jump { padding: 6px 0; }
 
   .horizon { padding-bottom: 20px; }
-  .track-wrap { padding: 16px 14px 10px; }
+  .track-scroll { padding: 0 14px; }
+  .track-legend { padding: 10px 14px 0; }
   /* bigger invisible tap area around each dot on the timeline */
   .tick::after { content: ""; position: absolute; inset: -9px; border-radius: 50%; }
 
