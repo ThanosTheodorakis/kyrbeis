@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-24T03:19:58+02:00",
+ "updated": "2026-11-24T11:28:14+02:00",
  "sources": [
   {
    "name": "aade",
@@ -15,7 +15,7 @@
    "url": "https://www.minfin.gov.gr/",
    "ok": true,
    "found": 10,
-   "kept": 1
+   "kept": 2
   },
   {
    "name": "mindev",
@@ -71,7 +71,7 @@
    "url": "https://ypen.gov.gr/",
    "ok": true,
    "found": 10,
-   "kept": 1
+   "kept": 2
   },
   {
    "name": "hdb",
@@ -94,8 +94,8 @@
    "label": "Διαύγεια – προκηρύξεις δράσεων",
    "url": "https://diavgeia.gov.gr/",
    "ok": true,
-   "found": 8,
-   "kept": 8
+   "found": 9,
+   "kept": 9
   },
   {
    "name": "espa_calls",
@@ -124,8 +124,8 @@
  ],
  "counts": {
   "tax_deadline": 21,
-  "subsidy": 28,
-  "program": 29
+  "subsidy": 31,
+  "program": 33
  },
  "audience_counts": {
   "households": 18,
@@ -134,5 +134,5 @@
   "pensioners": 2,
   "workers": 5
  },
- "total": 87
+ "total": 91
 }
