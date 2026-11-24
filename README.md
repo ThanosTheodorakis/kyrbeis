@@ -2,7 +2,7 @@
 
 > *In ancient Athens, laws were written on wooden tablets called **kyrbeis** and set up in public for everyone to read. Kyrbeis does the same for today's Greek public announcements.*
 
-**Tax deadlines, subsidies and funding programs from 12 Greek government sources, collected every morning into one searchable, bilingual website.**
+**Tax deadlines, subsidies and funding programs from 16 Greek government sources, collected every morning into one searchable, bilingual website.**
 
 [![Tests](https://github.com/ThanosTheodorakis/kyrbeis/actions/workflows/ci.yml/badge.svg)](https://github.com/ThanosTheodorakis/kyrbeis/actions/workflows/ci.yml)
 [![Deploy](https://github.com/ThanosTheodorakis/kyrbeis/actions/workflows/update.yml/badge.svg)](https://github.com/ThanosTheodorakis/kyrbeis/actions/workflows/update.yml)
@@ -17,13 +17,13 @@ What Greek citizens and small businesses need to act on is spread across many si
 
 ## What it does
 
-- **Collects** announcements every morning from AADE, e-EFKA, DYPA, OPEKA, five ministries (Finance, Development, Labour, Environment & Energy, Social Cohesion), the Hellenic Development Bank, the Prime Minister's office and the Diavgeia open-data API. It reads RSS feeds and the API where they exist, and web pages otherwise.
+- **Collects** announcements every morning from AADE, e-EFKA, DYPA, OPEKA, six ministries (Finance, Development, Labour, Environment & Energy, Social Cohesion, Rural Development), the Hellenic Development Bank, IKY (state scholarships), HFRI/ΕΛΙΔΕΚ (research grants), ELGA (farm insurance), the Prime Minister's office and the Diavgeia open-data API. It reads RSS feeds and the API where they exist, and web pages otherwise.
 - **Understands Greek announcements.** It tags each one by topic (taxes, subsidies, programs) and by audience (households, businesses, employees, pensioners, farmers). It also pulls the deadline out of free text like «αιτήσεις έως 30 Νοεμβρίου» and tells real opportunities apart from news (see *How the classifier works*).
 - **Publishes a static website** with:
   - a 60-day deadline timeline, the next seven days highlighted
   - search and filters by topic, audience, deadline status, publication date and agency, kept in the URL so a filtered view can be shared
   - Greek and English, dark mode, a phone layout
-  - a calendar subscription (`webcal://`) and an RSS feed
+  - an RSS feed
   - a source-health panel showing which sites answered on the last run
 
 ## How it works
@@ -35,7 +35,7 @@ flowchart LR
       B --> D[classify + extract deadlines]
       D --> E[merge into data/items.json<br/>rolling 1-year history]
     end
-    B -->|RSS / HTML / JSON API| C[(12 government sources)]
+    B -->|RSS / HTML / JSON API| C[(16 government sources)]
     E -->|git push| G[GitHub repository]
     G -->|push triggers deploy| H[GitHub Pages<br/>static site]
     H --> V[visitors]
@@ -95,7 +95,7 @@ Every misclassification found on the live site becomes a regression test built f
 **Front end:** HTML, CSS, vanilla JavaScript  
 **Collection:** Docker, git  
 **CI/CD:** GitHub Actions: pytest on Windows, macOS and Linux, ruff, Docker build checks, and deploy to GitHub Pages  
-**Output formats:** JSON, iCalendar (RFC 5545), RSS 2.0
+**Output formats:** JSON, RSS 2.0
 
 ## Development
 

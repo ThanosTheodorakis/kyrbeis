@@ -110,6 +110,38 @@
       "note": "Unavailable: the site did not finish loading when checked on 23 Nov 2026. Set enabled to true to try it again."
     },
     {
+      "name": "iky",
+      "label": "ΙΚΥ – υποτροφίες & Erasmus+",
+      "type": "rss_or_html",
+      "feed_url": "https://www.iky.gr/feed/",
+      "url": "https://www.iky.gr/",
+      "require_date": true
+    },
+    {
+      "name": "elidek",
+      "label": "ΕΛΙΔΕΚ – ερευνητικά προγράμματα & υποτροφίες",
+      "type": "rss_or_html",
+      "feed_url": "https://www.elidek.gr/feed/",
+      "url": "https://www.elidek.gr/",
+      "require_date": true
+    },
+    {
+      "name": "elga",
+      "label": "ΕΛΓΑ – αποζημιώσεις αγροτών",
+      "type": "rss_or_html",
+      "feed_url": "https://www.elga.gr/feed/",
+      "url": "https://www.elga.gr/",
+      "require_date": true
+    },
+    {
+      "name": "minagric",
+      "label": "Υπουργείο Αγροτικής Ανάπτυξης & Τροφίμων",
+      "type": "rss_or_html",
+      "feed_url": "https://www.minagric.gr/?format=feed&type=rss",
+      "url": "https://www.minagric.gr/",
+      "require_date": true
+    },
+    {
       "name": "diavgeia",
       "label": "Διαύγεια – προκηρύξεις δράσεων",
       "type": "diavgeia",

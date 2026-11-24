@@ -17,7 +17,7 @@ Outputs (in <repo>/output/, or --out DIR):
 State (seen items) is kept in output/seen.sqlite3
 
 With --site-data DIR the scraper instead merges results into DIR/items.json
-(a rolling history) and writes DIR/meta.json, DIR/deadlines.ics, DIR/feed.xml
+(a rolling history) and writes DIR/meta.json and DIR/feed.xml
 for the static website.
 
 Requires: requests, beautifulsoup4, lxml
@@ -367,6 +367,7 @@ CATEGORIES: dict[str, list[str]] = {
         "αιτησεων",
         "προσκληση υποβολ",
         "αιτηση ενδιαφεροντοσ",
+        "υποτροφι",  # υποτροφία, υποτροφίες, υποτροφιών (ΙΚΥ, ΕΛΙΔΕΚ)
         "εξοικονομω",
         "ανακαινιζω",
         "σπιτι μου",
@@ -419,6 +420,8 @@ CATEGORY_HINTS: dict[str, list[str]] = {
         "νεεσ θεσεισ",
         "μητρωο",
         "ενταξη",
+        "erasmus",
+        "κινητικοτητα",  # Erasmus+ mobility calls
     ],
 }
 
@@ -1229,56 +1232,6 @@ def merge_history(existing: list[dict], fresh: list[Item], keep_days: int, now: 
     return kept
 
 
-def _ics_escape(s: str) -> str:
-    return s.replace("\\", "\\\\").replace(";", r"\;").replace(",", r"\,").replace("\n", r"\n")
-
-
-def _utc_stamp(local_iso: str | None) -> str:
-    """Athens local time (as stored in first_seen) -> iCalendar UTC timestamp."""
-    dt = datetime.fromisoformat(local_iso or "2000-01-01T00:00:00")
-    return dt.replace(tzinfo=TZ).astimezone(ZoneInfo("UTC")).strftime("%Y%m%dT%H%M%SZ")
-
-
-def render_ics(items: list[Item]) -> str:
-    """All-day events for every known deadline, so people can subscribe in a calendar app."""
-    lines = [
-        "BEGIN:VCALENDAR",
-        "VERSION:2.0",
-        "PRODID:-//kyrbeis//EN",
-        "CALSCALE:GREGORIAN",
-        "X-WR-CALNAME:Κύρβεις – Προθεσμίες Δημοσίου",
-        "X-WR-TIMEZONE:Europe/Athens",
-    ]
-    for i in items:
-        if not i.deadline:
-            continue
-        d = date.fromisoformat(i.deadline)
-        lines += [
-            "BEGIN:VEVENT",
-            f"UID:{i.uid}@kyrbeis",
-            f"DTSTAMP:{_utc_stamp(i.first_seen)}",
-            f"DTSTART;VALUE=DATE:{d:%Y%m%d}",
-            f"DTEND;VALUE=DATE:{d + timedelta(days=1):%Y%m%d}",
-            f"SUMMARY:{_ics_escape(i.title[:200])}",
-            f"URL:{i.url}",
-            f"DESCRIPTION:{_ics_escape(i.source + ' ' + i.url)}",
-            "END:VEVENT",
-        ]
-    lines.append("END:VCALENDAR")
-    # RFC 5545 wants CRLF and lines folded at 75 octets
-    out = []
-    for ln in lines:
-        b = ln.encode()
-        while len(b) > 75:
-            cut = 75
-            while (b[cut] & 0xC0) == 0x80:  # don't split a UTF-8 character
-                cut -= 1
-            out.append(b[:cut].decode())
-            b = b" " + b[cut:]
-        out.append(b.decode())
-    return "\r\n".join(out) + "\r\n"
-
-
 def render_rss(items: list[Item], site_url: str) -> str:
     from email.utils import format_datetime
 
@@ -1329,7 +1282,7 @@ def write_site_data(
         "total": len(items),
     }
     (outdir / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1), encoding="utf-8")
-    (outdir / "deadlines.ics").write_text(render_ics(items), encoding="utf-8", newline="")
+    (outdir / "deadlines.ics").unlink(missing_ok=True)  # the calendar file was dropped (24 Nov 2026)
     (outdir / "feed.xml").write_text(render_rss(items, site_url), encoding="utf-8")
     return items
 
@@ -1352,7 +1305,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument(
         "--site-data",
         metavar="DIR",
-        help="merge into DIR/items.json and write meta.json, deadlines.ics, feed.xml for the website",
+        help="merge into DIR/items.json and write meta.json and feed.xml for the website",
     )
     ap.add_argument("--keep-days", type=int, default=365, help="history kept in --site-data mode")
     ap.add_argument("--site-url", default="", help="public URL of the site (used in feed.xml)")

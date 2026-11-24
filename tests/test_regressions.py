@@ -146,7 +146,7 @@ def test_meta_updated_has_a_timezone(tmp_path):
 
 def test_unchanged_items_give_identical_files(tmp_path):
     _site(tmp_path, _items())
-    before = {f: (tmp_path / f).read_bytes() for f in ("items.json", "deadlines.ics", "feed.xml")}
+    before = {f: (tmp_path / f).read_bytes() for f in ("items.json", "feed.xml")}
     _site(tmp_path, _items())  # a later run finding the same announcement
     after = {f: (tmp_path / f).read_bytes() for f in before}
     assert before == after
@@ -552,7 +552,6 @@ def test_user_agent_and_outputs_use_the_new_name(tmp_path):
     items = [g.enrich(g.Item("aade", "Προθεσμία ΕΝΦΙΑ έως 30/11/2026", "https://a/1", "2026-11-10"))]
     srcs = [{"name": "aade", "label": "ΑΑΔΕ", "url": "https://www.aade.gr"}]
     g.write_site_data(items, tmp_path, srcs, {"aade": {"ok": True, "found": 1, "kept": 1}}, 365, "https://x")
-    assert "X-WR-CALNAME:Κύρβεις" in (tmp_path / "deadlines.ics").read_text(encoding="utf-8")
     assert "<title>Κύρβεις</title>" in (tmp_path / "feed.xml").read_text(encoding="utf-8")
 
 
@@ -829,3 +828,30 @@ def test_press_release_prefix_is_removed_from_titles():
     )
     assert item.title == "ΕΑΕ 2026: 500.000 οι αγρότες"
     assert g.clean_title("Δελτίο Τύπου") == "Δελτίο Τύπου"  # nothing left: keep the original
+
+
+# --- new sources: IKY, ELIDEK, ELGA, Ministry of Rural Development (24 Nov 2026) -------
+
+
+@pytest.mark.parametrize(
+    "title,cat,deadline",
+    [
+        ("Πρόγραμμα υποτροφιών ΙΚΥ για μεταπτυχιακές σπουδές: αιτήσεις έως 12/1/2027", "program", "2027-01-12"),
+        ("Προκήρυξη υποτροφιών για υποψήφιους διδάκτορες", "program", None),
+        ("Erasmus+: Πρόσκληση υποβολής προτάσεων για σχέδια κινητικότητας 2027", "program", None),
+        ("ΕΛΓΑ: Πληρωμή αποζημιώσεων ύψους 18,3 εκατ. ευρώ σε 8.480 δικαιούχους", "subsidy", None),
+    ],
+)
+def test_new_sources_headlines(title, cat, deadline):
+    item = g.enrich(g.Item("iky", title, "https://e.gr/1", "2026-11-20"))
+    assert cat in item.categories
+    assert item.deadline == deadline
+
+
+def test_new_sources_are_configured_with_a_fallback():
+    cfg = json.loads((Path(g.__file__).parent / "sources.json").read_text(encoding="utf-8"))
+    by_name = {s["name"]: s for s in cfg["sources"]}
+    for name in ("iky", "elidek", "elga", "minagric"):
+        s = by_name[name]
+        assert s["type"] == "rss_or_html" and s["feed_url"].startswith("https://") and s["url"].startswith("https://")
+        assert s.get("require_date")  # the HTML fallback must not pick up menu links

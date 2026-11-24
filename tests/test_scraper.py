@@ -150,17 +150,16 @@ def test_merge_keeps_first_seen_and_drops_old():
     assert merged[0].url == "https://a/2"  # newest first
 
 
-def test_ics_is_valid_and_folded():
-    items = [_item("Πολύ μεγάλος τίτλος " * 10, "https://a/1", "2026-11-10", deadline="2026-11-30")]
-    ics = g.render_ics(items)
-    assert ics.startswith("BEGIN:VCALENDAR\r\n") and ics.endswith("END:VCALENDAR\r\n")
-    assert "DTSTART;VALUE=DATE:20261130" in ics
-    assert all(len(line.encode()) <= 75 for line in ics.split("\r\n"))
-
-
 def test_write_site_data(tmp_path):
     items = [g.enrich(_item("Παράταση προθεσμίας ΕΝΦΙΑ έως 30/11/2026", "https://a/1", "2026-11-10"))]
     srcs = [{"name": "aade", "label": "ΑΑΔΕ", "url": "https://www.aade.gr"}]
     g.write_site_data(items, tmp_path, srcs, {"aade": {"ok": True, "found": 1, "kept": 1}}, 365, "https://x")
-    for f in ["items.json", "meta.json", "deadlines.ics", "feed.xml"]:
+    for f in ["items.json", "meta.json", "feed.xml"]:
         assert (tmp_path / f).stat().st_size > 0
+
+
+def test_old_calendar_file_is_removed(tmp_path):
+    # the site no longer offers a calendar; the next collection deletes the stale file from data/
+    (tmp_path / "deadlines.ics").write_text("BEGIN:VCALENDAR", encoding="utf-8")
+    g.write_site_data([], tmp_path, [], {}, 365, "https://x")
+    assert not (tmp_path / "deadlines.ics").exists()

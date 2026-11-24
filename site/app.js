@@ -19,7 +19,7 @@
       inMonth: n => n === 1 ? "1 προθεσμία" : `${n} προθεσμίες`,
       trackHint: "Κάθε κουκκίδα είναι μία προθεσμία. Πατήστε τη για να δείτε την ανακοίνωση.",
       trackHintScroll: "Σύρετε οριζόντια για τις επόμενες εβδομάδες.",
-      search: "Αναζήτηση", searchPh: "Αναζήτηση, π.χ. ΕΝΦΙΑ, Εξοικονομώ",
+      search: "Αναζήτηση", searchPh: "Αναζήτηση, π.χ. ΕΝΦΙΑ",
       topic: "Θέμα", show: "Εμφάνιση", source: "Φορέας",
       audience: "Για ποιον",
       aud: { households: "Ιδιώτες & οικογένειες", businesses: "Επιχειρήσεις & ελ. επαγγελματίες",
@@ -29,7 +29,7 @@
       period: "Δημοσίευση", periodAny: "Οποτεδήποτε", period7: "Τελευταίες 7 ημέρες", period30: "Τελευταίες 30 ημέρες",
       sort: "Ταξινόμηση", sortPub: "Πιο πρόσφατα", sortDl: "Πλησιέστερη προθεσμία",
       reset: "Καθαρισμός φίλτρων", filters: "Φίλτρα",
-      cat: { tax_deadline: "Φορολογικά & προθεσμίες", subsidy: "Επιδοτήσεις & ενισχύσεις", program: "Προγράμματα & προσκλήσεις", other: "Λοιπές ανακοινώσεις" },
+      cat: { tax_deadline: "Φορολογικά", subsidy: "Επιδοτήσεις & ενισχύσεις", program: "Προγράμματα & προσκλήσεις", other: "Λοιπές ανακοινώσεις" },
       catShort: { tax_deadline: "Φορολογικά", subsidy: "Επιδότηση", program: "Πρόγραμμα", other: "Ανακοίνωση" },
       count: (n, t) => n === t ? `${n} ανακοινώσεις` : `${n} από ${t} ανακοινώσεις`,
       showN: n => n === 0 ? "Καμία ανακοίνωση" : n === 1 ? "Εμφάνιση 1 ανακοίνωσης" : `Εμφάνιση ${n} ανακοινώσεων`,
@@ -50,12 +50,12 @@
       noDataText: "Η πρώτη συλλογή γίνεται με την επόμενη αυτόματη ενημέρωση. Ξαναδείτε σε λίγο.",
       loadError: "Τα δεδομένα δεν φορτώθηκαν. Ανανεώστε τη σελίδα.",
       more: n => `Εμφάνιση ${n} ακόμη`,
-      jumpFoot: "Συνδρομή στο ημερολόγιο & κατάσταση πηγών",
+      jumpFoot: "Κατάσταση πηγών & RSS",
       groupToday: "Σήμερα", groupYesterday: "Χθες", groupUndated: "Χωρίς ημερομηνία",
       groupDue: "Με προθεσμία", groupNoDue: "Χωρίς γνωστή προθεσμία",
-      subscribe: "Πάρτε τις ενημερώσεις αλλού",
-      subscribeText: "Προσθέστε όλες τις προθεσμίες στο ημερολόγιό σας ή ακολουθήστε τα νέα με RSS.",
-      ics: "Συνδρομή στο ημερολόγιο", icsFile: "Λήψη αρχείου .ics", rss: "Ροή RSS",
+      subscribe: "Ροή RSS",
+      subscribeText: "Ακολουθήστε τις νέες ανακοινώσεις σε έναν αναγνώστη RSS.",
+      rss: "Ροή RSS",
       status: "Κατάσταση πηγών",
       stOk: n => `${n} βρέθηκαν`, stFail: "δεν απάντησε", stDisabled: "μη διαθέσιμη", stEmpty: "0 αποτελέσματα, πιθανή αλλαγή σελίδας", stPartial: n => `${n} βρέθηκαν, κάποιες σελίδες απέτυχαν`,
       disclaimer: "Ανεπίσημη υπηρεσία. Οι πληροφορίες συλλέγονται αυτόματα και μπορεί να περιέχουν λάθη. Ελέγχετε πάντα την επίσημη ανακοίνωση πριν από κάθε ενέργεια.",
@@ -73,7 +73,7 @@
       inMonth: n => n === 1 ? "1 deadline" : `${n} deadlines`,
       trackHint: "Each dot is one deadline. Tap or click it to see the announcement.",
       trackHintScroll: "Swipe sideways for the weeks ahead.",
-      search: "Search", searchPh: "Search, e.g. ENFIA, Exoikonomo",
+      search: "Search", searchPh: "Search, e.g. ENFIA",
       topic: "Topic", show: "Show", source: "Agency",
       audience: "Who it's for",
       aud: { households: "Individuals & families", businesses: "Businesses & self-employed",
@@ -83,7 +83,7 @@
       period: "Published", periodAny: "Any time", period7: "Last 7 days", period30: "Last 30 days",
       sort: "Sort by", sortPub: "Most recent", sortDl: "Nearest deadline",
       reset: "Clear filters", filters: "Filters",
-      cat: { tax_deadline: "Tax & deadlines", subsidy: "Subsidies & grants", program: "Programs & calls", other: "Other notices" },
+      cat: { tax_deadline: "Taxes", subsidy: "Subsidies & grants", program: "Programs & calls", other: "Other notices" },
       catShort: { tax_deadline: "Tax", subsidy: "Subsidy", program: "Program", other: "Notice" },
       count: (n, t) => n === t ? `${n} announcements` : `${n} of ${t} announcements`,
       showN: n => n === 0 ? "No announcements" : n === 1 ? "Show 1 announcement" : `Show ${n} announcements`,
@@ -104,12 +104,12 @@
       noDataText: "The first collection happens with the next automatic update. Check back soon.",
       loadError: "The data didn't load. Refresh the page.",
       more: n => `Show ${n} more`,
-      jumpFoot: "Calendar subscription & source status",
+      jumpFoot: "Source status & RSS",
       groupToday: "Today", groupYesterday: "Yesterday", groupUndated: "Undated",
       groupDue: "With a deadline", groupNoDue: "No known deadline",
-      subscribe: "Get updates elsewhere",
-      subscribeText: "Add every deadline to your calendar, or follow new announcements by RSS.",
-      ics: "Subscribe in your calendar", icsFile: "Download .ics file", rss: "RSS feed",
+      subscribe: "RSS feed",
+      subscribeText: "Follow new announcements in an RSS reader.",
+      rss: "RSS feed",
       status: "Source status",
       stOk: n => `${n} found`, stFail: "not responding", stDisabled: "unavailable", stEmpty: "0 results, page may have changed", stPartial: n => `${n} found, some pages failed`,
       disclaimer: "Unofficial service. Information is collected automatically and may contain mistakes. Always check the official announcement before acting on it.",
@@ -125,6 +125,7 @@
     dypa: "ΔΥΠΑ", primeminister: "Πρωθυπουργός", diavgeia: "Διαύγεια",
     opeka: "ΟΠΕΚΑ", ypergasias: "Υπ. Εργασίας", ypen: "Υπ. Περιβάλλοντος & Ενέργειας",
     hdb: "Αναπτυξιακή Τράπεζα", minscfa: "Υπ. Κοινωνικής Συνοχής", greece20: "Ταμείο Ανάκαμψης",
+    iky: "ΙΚΥ", elidek: "ΕΛΙΔΕΚ", elga: "ΕΛΓΑ", minagric: "Υπ. Αγροτικής Ανάπτυξης",
   };
   // nominative month names: toLocaleDateString gives the genitive ("Δεκεμβρίου") for el
   const MONTHS_EL = ["Ιανουάριος", "Φεβρουάριος", "Μάρτιος", "Απρίλιος", "Μάιος", "Ιούνιος",
@@ -135,6 +136,8 @@
     dypa: "DYPA (employment)", primeminister: "Prime Minister", diavgeia: "Diavgeia",
     opeka: "OPEKA (benefits)", ypergasias: "Ministry of Labour", ypen: "Ministry of Environment & Energy",
     hdb: "Hellenic Development Bank", minscfa: "Ministry of Social Cohesion & Family", greece20: "Recovery Fund",
+    iky: "IKY (scholarships)", elidek: "HFRI (research grants)", elga: "ELGA (farm insurance)",
+    minagric: "Ministry of Rural Development",
   };
   const CATS = ["tax_deadline", "subsidy", "program", "other"];
   const AUDS = ["households", "businesses", "workers", "pensioners", "farmers"];
@@ -548,12 +551,6 @@
   });
   let rTimer;
   addEventListener("resize", () => { clearTimeout(rTimer); rTimer = setTimeout(renderHorizon, 120); });
-
-  // calendar: webcal:// makes calendar apps subscribe (and keep updating) instead of downloading
-  (() => {
-    const ics = new URL("data/deadlines.ics", location.href);
-    if (ics.protocol === "https:") $("#ics").href = `webcal://${ics.host}${ics.pathname}`;
-  })();
 
   // repo link from the GitHub Pages URL
   (() => {
