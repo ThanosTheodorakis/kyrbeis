@@ -147,11 +147,31 @@ def _nearest_occurrence(day: int, month: int, ref: date) -> date | None:
     return min(options, key=lambda d: abs((d - ref).days)) if options else None
 
 
-def find_dates(text: str, ref: date | None = None) -> list[tuple[int, date]]:
+# A deadline without a year may lie up to this far in the past (a recent reference, like
+# "υπέβαλαν αίτηση έως τις 25 Σεπτεμβρίου" in a 1 November post, 37 days back); anything
+# earlier means the next time that day comes round ("έως 31 Δεκεμβρίου" in March is this December).
+YEARLESS_GRACE = timedelta(days=45)
+
+
+def _resolve_yearless(day: int, month: int, ref: date) -> date | None:
+    """The year for a deadline written without one, e.g. "έως 30 Σεπτεμβρίου".
+
+    Deadlines usually lie ahead of the announcement, often many months ahead, so take
+    the earliest occurrence no more than YEARLESS_GRACE before `ref`:
+    - 1 Feb + "30 Σεπτεμβρίου" -> 30 Sep this year (nearest-date would pick last September)
+    - 20 Nov + "10 Ιανουαρίου" -> next January
+    - 1 Nov + "25 Σεπτεμβρίου" -> this September, a recent past reference (then dropped as past)"""
+    options = [d for y in (ref.year - 1, ref.year, ref.year + 1) if (d := _mk(y, month, day))]
+    return next((d for d in sorted(options) if d >= ref - YEARLESS_GRACE), None)
+
+
+def find_dates(text: str, ref: date | None = None, forward: bool = False) -> list[tuple[int, date]]:
     """Return (position, date) for every date-looking string in text.
 
     Dates need a year, unless `ref` is given: then "30 Νοεμβρίου" or "15/12"
-    count too, in whichever year puts them closest to `ref`."""
+    count too, in whichever year puts them closest to `ref`, or, with `forward`
+    (for deadlines), in the year given by _resolve_yearless."""
+    pick = _resolve_yearless if forward else _nearest_occurrence
     found: dict[int, date] = {}
     n = norm(text)
     for m in ISO_DATE.finditer(n):
@@ -165,10 +185,10 @@ def find_dates(text: str, ref: date | None = None) -> list[tuple[int, date]]:
             found.setdefault(m.start(), d)
     if ref is not None:
         for m in NUM_DM.finditer(n):
-            if m.start() not in found and (d := _nearest_occurrence(int(m[1]), int(m[2]), ref)):
+            if m.start() not in found and (d := pick(int(m[1]), int(m[2]), ref)):
                 found[m.start()] = d
         for m in WORD_DM.finditer(n):
-            if m.start() not in found and (mon := MONTHS.get(m[2])) and (d := _nearest_occurrence(int(m[1]), mon, ref)):
+            if m.start() not in found and (mon := MONTHS.get(m[2])) and (d := pick(int(m[1]), mon, ref)):
                 found[m.start()] = d
     return sorted(found.items())
 
@@ -244,7 +264,7 @@ def find_deadline(text: str, published: date | None = None, context: str | None 
     - Only in actionable announcements (see read_context; `context` is the whole item,
       default `text`): "επίσκεψη έως 25/11" or "συνέδριο 22-25/11" has no deadline.
     - ...that ask the reader to act (owes_action): a payment calendar "23 έως 27/11" has none.
-    - Year-less dates get the year closest to `published` (or today).
+    - Year-less dates are resolved forward from `published` (or today); see _resolve_yearless.
     - The date must follow its cue closely; see GAP_AFTER_UNTIL / GAP_AFTER_CUE.
     - A date right after "από"/"from" is a start date, never a deadline.
     - Prefer a date right after έως/μέχρι over one after weaker cues.
@@ -252,7 +272,9 @@ def find_deadline(text: str, published: date | None = None, context: str | None 
       because the earlier one is the deadline being replaced."""
     n = norm(text)
     ref = published or today_local()
-    dates = [(pos, d) for pos, d in find_dates(text, ref) if not _FROM_BEFORE.search(n[max(0, pos - 14) : pos])]
+    dates = [
+        (pos, d) for pos, d in find_dates(text, ref, forward=True) if not _FROM_BEFORE.search(n[max(0, pos - 14) : pos])
+    ]
 
     def after(cue_re: re.Pattern[str], gap: re.Pattern[str]) -> list[date]:
         out = []

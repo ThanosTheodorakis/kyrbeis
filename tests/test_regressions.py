@@ -749,3 +749,39 @@ def test_same_headline_twice_from_one_source_is_kept_once():
     other_source = g.Item("aade", t, "https://aade.gr/c", "2026-11-18")
     kept = g.merge_history([], [a, b, other_source], 365, "2026-11-24T06:17:00+02:00")
     assert sorted(i.url for i in kept) == ["https://aade.gr/c", "https://e-efka.gov.gr/a"]
+
+
+# --- year-less deadlines far ahead (24 Nov 2026) ------------------------------
+
+
+@pytest.mark.parametrize(
+    "published,text,expected",
+    [
+        # more than six months ahead: nearest-date resolution put these in the past and dropped them
+        (date(2026, 2, 1), "Αιτήσεις έως 30 Σεπτεμβρίου", date(2026, 9, 30)),
+        (date(2026, 1, 10), "Υποβολή αιτήσεων μέχρι 15/7", date(2026, 7, 15)),
+        (date(2026, 3, 1), "Η προθεσμία λήγει στις 31 Δεκεμβρίου", date(2026, 12, 31)),
+        # across the new year
+        (date(2026, 11, 20), "Αιτήσεις έως 10 Ιανουαρίου", date(2027, 1, 10)),
+        (date(2026, 12, 1), "Ρύθμιση οφειλών: αιτήσεις έως 31 Μαΐου", date(2027, 5, 31)),
+    ],
+)
+def test_yearless_deadlines_resolve_forward(published, text, expected):
+    assert g.find_deadline(text, published) == expected
+
+
+@pytest.mark.parametrize(
+    "published,text",
+    [
+        # a recent past reference stays in the past, so it is not a deadline
+        (date(2026, 11, 1), "Πληρώθηκαν όσοι υπέβαλαν αίτηση έως τις 25 Σεπτεμβρίου"),
+        (date(2027, 1, 2), "Πληρώθηκαν όσοι υπέβαλαν αίτηση έως τις 20 Δεκεμβρίου"),
+    ],
+)
+def test_recent_past_reference_is_not_a_deadline(published, text):
+    assert g.find_deadline(text, published) is None
+
+
+def test_publication_dates_without_a_year_still_look_back():
+    # a listing dated "20 Νοε" seen on 5 Jan is last November, not next
+    assert [d for _, d in g.find_dates("20 Νοε", date(2027, 1, 5))] == [date(2026, 11, 20)]
