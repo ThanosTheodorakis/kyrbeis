@@ -6,7 +6,7 @@
   const DAY = 864e5;
   const HORIZON = 60;
   const MAX_STACK = 5; // dots per day on the timeline; the rest collapse into "+N"
-  const PAGE = 60;
+  const PAGE = 20; // announcements per "show more", so the footer stays within reach
 
   const T = {
     el: {
@@ -44,6 +44,7 @@
       noDataText: "Η πρώτη συλλογή γίνεται με την επόμενη αυτόματη ενημέρωση. Ξαναδείτε σε λίγο.",
       loadError: "Τα δεδομένα δεν φορτώθηκαν. Ανανεώστε τη σελίδα.",
       more: n => `Εμφάνιση ${n} ακόμη`,
+      jumpFoot: "Συνδρομή στο ημερολόγιο & κατάσταση πηγών",
       groupToday: "Σήμερα", groupYesterday: "Χθες", groupUndated: "Χωρίς ημερομηνία",
       groupDue: "Με προθεσμία", groupNoDue: "Χωρίς γνωστή προθεσμία",
       subscribe: "Πάρτε τις ενημερώσεις αλλού",
@@ -91,6 +92,7 @@
       noDataText: "The first collection happens with the next automatic update. Check back soon.",
       loadError: "The data didn't load. Refresh the page.",
       more: n => `Show ${n} more`,
+      jumpFoot: "Calendar subscription & source status",
       groupToday: "Today", groupYesterday: "Yesterday", groupUndated: "Undated",
       groupDue: "With a deadline", groupNoDue: "No known deadline",
       subscribe: "Get updates elsewhere",
