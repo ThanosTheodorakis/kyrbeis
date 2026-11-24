@@ -682,3 +682,70 @@ def test_real_prime_minister_news_is_just_news(title):
 )
 def test_typical_opportunities_are_kept(title, cat):
     assert cat in g.categorize(title)
+
+
+# --- from the live site, 24 Nov 2026 ------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "title",
+    [
+        # statements by people
+        "Βασιλική Παντελοπούλου: Ενίσχυση των πόρων της Πολιτικής Συνοχής για την πρόσβαση των δικαιούχων "
+        "στην επόμενη Προγραμματική Περίοδο 2028-2034",
+        "Δ. Μαρκόπουλος από τη Λάρισα: Αγώνας δρόμου για την πληρωμή των αγροτών – "
+        "Καμία φορολογική υπηρεσία δεν κλείνει",
+        # an event abroad
+        "Το Σάββατο η νέα δράση Rebrain Greece στο Μόναχο",
+        # a court notice about expropriation compensation
+        "Ειδοποίηση για την συζήτηση αίτησης που προσδιορίστηκε να συζητηθεί την 01-03-2027 στο ακροατήριο "
+        "του Μονομελούς Εφετείου Θεσσαλονίκης: Να καθοριστεί η αποζημίωση για τα ακίνητα που απαλλοτριώνονται",
+        # a minister's appeal, not a call for applications
+        "Ανοιχτή πρόσκληση Στ. Καλαφάτη στις επιχειρήσεις να γίνουν «πρώτοι πελάτες» των startups, "
+        "παράλληλα με φορολογική υπερέκπτωση έως 315%",
+    ],
+)
+def test_live_news_is_just_news(title):
+    item = g.enrich(g.Item("x", title, "https://e.gr/1", "2026-11-20"))
+    assert (item.categories, item.deadline) == ([], None)
+
+
+def test_payment_calendar_is_not_a_deadline():
+    # the state pays between 23 and 27/11; nobody has to do anything by the 27th
+    item = g.enrich(
+        g.Item(
+            "x",
+            "Ο «χάρτης» των πληρωμών από e-ΕΦΚΑ, ΔΥΠΑ για την περίοδο 23 έως 27 Νοεμβρίου",
+            "https://e.gr/1",
+            "2026-11-20",
+        )
+    )
+    assert item.deadline is None
+
+
+@pytest.mark.parametrize(
+    "title,cats,deadline",
+    [
+        ("Πληρωμή ΕΝΦΙΑ: η τελευταία δόση έως 31/12", ["tax_deadline"], "2026-12-31"),
+        ("Κοινωνικός Τουρισμός: αιτήσεις έως 15/12", ["program"], "2026-12-15"),
+        ("ΥΚΟΙΣΟ: Στα 400 ευρώ, από 250, η ετήσια ενίσχυση για άτομα με αναπηρία", ["subsidy"], None),
+        ("Προσωρινοί πίνακες δικαιούχων του προγράμματος «Νταντάδες της γειτονιάς»", ["program"], None),
+    ],
+)
+def test_live_opportunities_are_kept(title, cats, deadline):
+    item = g.enrich(g.Item("x", title, "https://e.gr/1", "2026-11-20"))
+    assert (item.categories, item.deadline) == (cats, deadline)
+
+
+def test_words_starting_with_a_keyword_dont_count():
+    assert g.categorize("Ενίσχυση στην επόμενη Προγραμματική Περίοδο") == []  # not «πρόγραμμα»
+    assert g.read_context("η αποτελεσματική αντιμετώπιση της βίας") == (False, False)  # not «αποτελέσματα»
+
+
+def test_same_headline_twice_from_one_source_is_kept_once():
+    t = "ΑΝΑΡΤΗΣΗ ΑΝΑΣΥΝΤΑΓΜΕΝΩΝ ΠΙΝΑΚΩΝ ΠΡΟΚΗΡΥΞΗΣ ΣΟΧ 1/2026"
+    a = g.Item("efka", t, "https://e-efka.gov.gr/a", "2026-11-18")
+    b = g.Item("efka", t, "https://e-efka.gov.gr/b", "2026-11-18")
+    other_source = g.Item("aade", t, "https://aade.gr/c", "2026-11-18")
+    kept = g.merge_history([], [a, b, other_source], 365, "2026-11-24T06:17:00+02:00")
+    assert sorted(i.url for i in kept) == ["https://aade.gr/c", "https://e-efka.gov.gr/a"]

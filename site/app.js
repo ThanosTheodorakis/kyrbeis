@@ -427,7 +427,8 @@
     }
     return el("article", { class: "item", "data-cat": cat, id: `i-${it.uid}` },
       el("div", { class: "bar" }),
-      el("div", {}, el("h4", {}, el("a", { href: safeHref(it.url), target: "_blank", rel: "noopener", text: it.title })), metaRow),
+      el("div", {}, el("h4", {}, el("a", { href: safeHref(it.url), target: "_blank", rel: "noopener", text: it.title,
+        title: it.title.length > 180 ? it.title : null })), metaRow),
       due);
   }
 

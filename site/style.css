@@ -186,7 +186,11 @@ main:focus { outline: none; }
 .item[data-cat="subsidy"] { --c: var(--subsidy); }
 .item[data-cat="program"] { --c: var(--program); }
 .item h4 { margin: 0; font-size: 1.04rem; font-weight: 560; line-height: 1.35; max-width: 70ch; }
-.item h4 a { color: var(--ink); text-decoration: none; }
+.item h4 a {
+  color: var(--ink); text-decoration: none;
+  /* some notices have 100-word titles: show three lines, the rest on hover and on the page itself */
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden;
+}
 .item h4 a:hover { color: var(--link); text-decoration: underline; }
 .item .meta { margin-top: 5px; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .85rem; color: var(--ink-3); }
 .item .tag { color: var(--c); font-weight: 560; }

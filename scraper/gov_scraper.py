@@ -243,6 +243,7 @@ def find_deadline(text: str, published: date | None = None, context: str | None 
 
     - Only in actionable announcements (see read_context; `context` is the whole item,
       default `text`): "επίσκεψη έως 25/11" or "συνέδριο 22-25/11" has no deadline.
+    - ...that ask the reader to act (owes_action): a payment calendar "23 έως 27/11" has none.
     - Year-less dates get the year closest to `published` (or today).
     - The date must follow its cue closely; see GAP_AFTER_UNTIL / GAP_AFTER_CUE.
     - A date right after "από"/"from" is a start date, never a deadline.
@@ -261,8 +262,9 @@ def find_deadline(text: str, published: date | None = None, context: str | None 
                 out.append(nxt[1])
         return [d for d in out if not published or d >= published]
 
-    actionable, _ = read_context(text if context is None else context)
-    if not actionable:
+    whole = text if context is None else context
+    actionable, _ = read_context(whole)
+    if not actionable or not owes_action(whole):
         return None
     until, other = after(UNTIL_CUES, GAP_AFTER_UNTIL), after(DEADLINE_CUES, GAP_AFTER_CUE)
     if EXTENSION.search(n) and (until or other):
@@ -301,7 +303,6 @@ CATEGORIES: dict[str, list[str]] = {
         "mydata!",
         "υποβολη δηλωσ",
         "πληρωμη φορου",
-        "φορολογικ",
     ],
     "subsidy": [
         "επιδοτηση",
@@ -310,7 +311,6 @@ CATEGORIES: dict[str, list[str]] = {
         "επιδομα",
         "χρηματοδοτηση",
         "επιχορηγηση",
-        "αποζημιωση",
         "voucher",
         "κουπονι",
         "pass!",
@@ -328,13 +328,9 @@ CATEGORIES: dict[str, list[str]] = {
         "εξοικονομω",
         "ανακαινιζω",
         "σπιτι μου",
-        "ωφελουμεν",
-        "δικαιουχ",
-        "επιλεξιμ",
         "προκηρυξ",
         # "πρόγραμμα" alone is ambiguous, these phrases are not
         "νεο προγραμμα",
-        "νεα δραση",
         "προγραμμα απασχολησ",
         "προγραμμα καταρτισ",
         "κοινωφελ",
@@ -363,9 +359,13 @@ CATEGORY_HINTS: dict[str, list[str]] = {
         "επιστροφη",
         "δανεια",
         "πιστωση",
+        "αποζημιωσ",
     ],
     "program": [
-        "προγραμμα",
+        "προγραμμα!",
+        "προγραμματοσ!",
+        "προγραμματα!",
+        "προγραμματων!",
         "δραση",
         "δρασεισ",
         "δρασεων",
@@ -408,7 +408,27 @@ ACTION = _word_re(
         "δηλωσ",
         "ανοιγει",
         "ανοιξε",
-        "αποτελεσματ",  # results of a call matter to everyone who applied
+        "αποτελεσματα!",  # results of a call matter to everyone who applied
+        "αποτελεσματων!",
+        "applications",
+        "apply",
+    ]
+)
+# Narrower: things a citizen must *do* by a date. "Πληρωμή … 23 έως 27/11" is when the state
+# pays, not a deadline; "αιτήσεις έως 27/11" is.
+CITIZEN_ACTION = _word_re(
+    [
+        "αιτησ",
+        "αιτηση!",
+        "υποβολ",
+        "υποβαλ",
+        "προθεσμ",
+        "παρατασ",
+        "παρατειν",
+        "εγγραφ",
+        "ρυθμισ",
+        "δηλωσ",
+        "εξοφλ",
         "applications",
         "apply",
     ]
@@ -454,6 +474,12 @@ EVENT = _word_re(
         "συνοδο",
         "συνοδου",
         "συζητηση",
+        # court notices (expropriations, hearings)
+        "ακροατηριο",
+        "εφετει",
+        "πρωτοδικει",
+        "απαλλοτρι",
+        "δικασιμ",
         # outages and maintenance: "εκτός λειτουργίας έως 25/11" is not a deadline
         "εκτοσ λειτουργιασ",
         "διακοπη λειτουργιασ",
@@ -487,8 +513,68 @@ _REWRITES = [
 ]
 
 
+# "Βασιλική Παντελοπούλου: …", "Δ. Μαρκόπουλος από τη Λάρισα: …": a person's statement.
+# Two capitalised words (or an initial and a surname), optionally "για/από/σε … ", then a colon.
+_PERSON_SAYS = re.compile(
+    r"^\s*(?:[Α-ΩΆ-Ώ]\.\s*|[Α-ΩΆ-Ώ][α-ωά-ώϊϋΐΰ]+\s+)[Α-ΩΆ-Ώ][α-ωά-ώϊϋΐΰ]+(?:-[Α-ΩΆ-Ώ][α-ωά-ώϊϋΐΰ]+)?"
+    r"(?:\s+(?:για|από|στ[οηα]ν?|σε|με)\s[^:]{0,160})?\s*:"
+)
+# ...unless the "name" is really a noun phrase that often opens a headline
+_NOT_A_NAME = {
+    "δελτιο",
+    "ανακοινωση",
+    "ενημερωση",
+    "προγραμμα",
+    "προσκληση",
+    "παραταση",
+    "πληρωμη",
+    "νεο",
+    "νεα",
+    "νεεσ",
+    "νεοι",
+    "ανοιχτη",
+    "δημοσια",
+    "δημοσιο",
+    "κοινο",
+    "κοινη",
+    "επιδομα",
+    "ειδοποιηση",
+    "οδηγοσ",
+    "αποτελεσματα",
+    "τροποποιηση",
+    "προθεσμια",
+    "επιταγη",
+    "επιστροφη",
+    "ρυθμιση",
+    "ψηφιακη",
+    "ψηφιακο",
+    "εθνικη",
+    "εθνικο",
+    "ελληνικη",
+    "ελληνικο",
+    "ευρωπαικη",
+    "ευρωπαικο",
+    "κοινωνικοσ",
+    "κοινωνικη",
+    "κοινωνικο",
+    "ενιαια",
+    "ενιαιο",
+    "ειδικη",
+    "ειδικο",
+    "εκτακτη",
+    "εκτακτο",
+    "μηνιαια",
+    "ετησια",
+}
+
+
+def _person_says(text: str) -> bool:
+    m = _PERSON_SAYS.match(text or "")
+    return bool(m) and norm(m.group().split()[0]).rstrip(".") not in _NOT_A_NAME
+
+
 def _prepare(text: str) -> str:
-    n = norm(text)
+    n = ("_statement_ " if _person_says(text) else "") + norm(text)
     for rx, repl in _REWRITES:
         n = rx.sub(f" {repl} ", n)
     return n
@@ -496,6 +582,12 @@ def _prepare(text: str) -> str:
 
 _cat_re = {cat: _word_re(words) for cat, words in CATEGORIES.items()}
 _hint_re = {cat: _word_re(words) for cat, words in CATEGORY_HINTS.items()}
+
+
+def owes_action(text: str) -> bool:
+    """Does the text ask the reader to do something (apply, submit, declare, pay a tax)?"""
+    n = _prepare(text)
+    return bool(CITIZEN_ACTION.search(n) or _cat_re["tax_deadline"].search(n) or _cat_re["program"].search(n))
 
 
 def read_context(text: str) -> tuple[bool, bool]:
@@ -1068,6 +1160,14 @@ def merge_history(existing: list[dict], fresh: list[Item], keep_days: int, now: 
         else:
             it.first_seen = now
         by_uid[it.uid] = it
+    # the same headline posted twice by one source (two links, same day) is one announcement
+    seen: dict[tuple, str] = {}
+    for uid, it in list(by_uid.items()):
+        key = (it.source, norm(it.title).strip(), it.published)
+        if key in seen:
+            del by_uid[uid]
+        else:
+            seen[key] = uid
     cutoff = (date.fromisoformat(now[:10]) - timedelta(days=keep_days)).isoformat()
     today = now[:10]
     kept = [
