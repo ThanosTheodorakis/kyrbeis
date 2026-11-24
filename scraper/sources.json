@@ -112,18 +112,16 @@
     {
       "name": "iky",
       "label": "ΙΚΥ – υποτροφίες & Erasmus+",
-      "type": "rss_or_html",
-      "feed_url": "https://www.iky.gr/feed/",
-      "url": "https://www.iky.gr/",
-      "require_date": true
+      "type": "rss",
+      "url": "https://www.iky.gr/feed/",
+      "website": "https://www.iky.gr/"
     },
     {
       "name": "elidek",
       "label": "ΕΛΙΔΕΚ – ερευνητικά προγράμματα & υποτροφίες",
-      "type": "rss_or_html",
-      "feed_url": "https://www.elidek.gr/feed/",
-      "url": "https://www.elidek.gr/",
-      "require_date": true
+      "type": "rss",
+      "url": "https://www.elidek.gr/feed/",
+      "website": "https://www.elidek.gr/"
     },
     {
       "name": "elga",
@@ -131,13 +129,14 @@
       "type": "rss_or_html",
       "feed_url": "https://www.elga.gr/feed/",
       "url": "https://www.elga.gr/",
-      "require_date": true
+      "require_date": true,
+      "enabled": false,
+      "note": "Unavailable: www.elga.gr's TLS certificate fails verification (browsers warn too, 24 Nov 2026). The scraper never turns off certificate checks; set enabled to true once the site's certificate is fixed."
     },
     {
       "name": "minagric",
       "label": "Υπουργείο Αγροτικής Ανάπτυξης & Τροφίμων",
-      "type": "rss_or_html",
-      "feed_url": "https://www.minagric.gr/?format=feed&type=rss",
+      "type": "html",
       "url": "https://www.minagric.gr/",
       "require_date": true
     },

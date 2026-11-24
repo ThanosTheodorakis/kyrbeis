@@ -848,10 +848,16 @@ def test_new_sources_headlines(title, cat, deadline):
     assert item.deadline == deadline
 
 
-def test_new_sources_are_configured_with_a_fallback():
+def test_new_sources_are_configured_as_checked_on_24_nov():
     cfg = json.loads((Path(g.__file__).parent / "sources.json").read_text(encoding="utf-8"))
     by_name = {s["name"]: s for s in cfg["sources"]}
-    for name in ("iky", "elidek", "elga", "minagric"):
-        s = by_name[name]
-        assert s["type"] == "rss_or_html" and s["feed_url"].startswith("https://") and s["url"].startswith("https://")
-        assert s.get("require_date")  # the HTML fallback must not pick up menu links
+    for name in ("iky", "elidek"):  # working feeds
+        assert by_name[name]["type"] == "rss" and by_name[name]["website"].startswith("https://")
+    assert by_name["minagric"]["type"] == "html" and by_name["minagric"]["require_date"]  # no feed; skip menu links
+    # broken TLS certificate: off, with the reason shown on the site; never verify=False
+    assert by_name["elga"]["enabled"] is False and "certificate" in by_name["elga"]["note"]
+
+
+def test_tls_verification_is_never_disabled():
+    src = Path(g.__file__).read_text(encoding="utf-8")
+    assert "verify=False" not in src and "verify = False" not in src

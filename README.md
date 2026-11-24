@@ -2,7 +2,7 @@
 
 > *In ancient Athens, laws were written on wooden tablets called **kyrbeis** and set up in public for everyone to read. Kyrbeis does the same for today's Greek public announcements.*
 
-**Tax deadlines, subsidies and funding programs from 16 Greek government sources, collected every morning into one searchable, bilingual website.**
+**Tax deadlines, subsidies and funding programs from 15 Greek government sources, collected every morning into one searchable, bilingual website.**
 
 [![Tests](https://github.com/ThanosTheodorakis/kyrbeis/actions/workflows/ci.yml/badge.svg)](https://github.com/ThanosTheodorakis/kyrbeis/actions/workflows/ci.yml)
 [![Deploy](https://github.com/ThanosTheodorakis/kyrbeis/actions/workflows/update.yml/badge.svg)](https://github.com/ThanosTheodorakis/kyrbeis/actions/workflows/update.yml)
@@ -17,7 +17,7 @@ What Greek citizens and small businesses need to act on is spread across many si
 
 ## What it does
 
-- **Collects** announcements every morning from AADE, e-EFKA, DYPA, OPEKA, six ministries (Finance, Development, Labour, Environment & Energy, Social Cohesion, Rural Development), the Hellenic Development Bank, IKY (state scholarships), HFRI/ΕΛΙΔΕΚ (research grants), ELGA (farm insurance), the Prime Minister's office and the Diavgeia open-data API. It reads RSS feeds and the API where they exist, and web pages otherwise.
+- **Collects** announcements every morning from AADE, e-EFKA, DYPA, OPEKA, six ministries (Finance, Development, Labour, Environment & Energy, Social Cohesion, Rural Development), the Hellenic Development Bank, IKY (state scholarships), HFRI/ΕΛΙΔΕΚ (research grants), the Prime Minister's office and the Diavgeia open-data API. It reads RSS feeds and the API where they exist, and web pages otherwise.
 - **Understands Greek announcements.** It tags each one by topic (taxes, subsidies, programs) and by audience (households, businesses, employees, pensioners, farmers). It also pulls the deadline out of free text like «αιτήσεις έως 30 Νοεμβρίου» and tells real opportunities apart from news (see *How the classifier works*).
 - **Publishes a static website** with:
   - a 60-day deadline timeline, the next seven days highlighted
@@ -35,7 +35,7 @@ flowchart LR
       B --> D[classify + extract deadlines]
       D --> E[merge into data/items.json<br/>rolling 1-year history]
     end
-    B -->|RSS / HTML / JSON API| C[(16 government sources)]
+    B -->|RSS / HTML / JSON API| C[(15 government sources)]
     E -->|git push| G[GitHub repository]
     G -->|push triggers deploy| H[GitHub Pages<br/>static site]
     H --> V[visitors]
@@ -129,7 +129,7 @@ Scraper and site changes need no rebuild: the container pulls the latest code be
 
 - **Rules miss things.** Classification is rule-based, so an unusual phrasing can still be misfiled; each fix adds a rule and a regression test.
 - **Redesigns break HTML sources.** A site redesign breaks its HTML scraping. The source-health panel shows it, and the fix is usually one CSS selector.
-- **ESPA and the Recovery Fund site are switched off.** They reset automated connections, and the scraper doesn't disguise itself to get around that. The site lists them as unavailable.
+- **Some sources are switched off.** ESPA resets automated connections, the Recovery Fund site doesn't finish loading, and ELGA's TLS certificate fails verification. The scraper doesn't disguise itself or turn off certificate checks to get around problems like these. The site lists these sources as unavailable, with the reason.
 - **Collection needs the computer.** It depends on the collecting computer being on with internet. Missed days are caught up and the site stays online meanwhile.
 
 ## Roadmap
