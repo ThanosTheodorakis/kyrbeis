@@ -60,15 +60,15 @@
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 23/11/2026 Νέα ψηφιακή διαδικασία για την προσωρινή εισαγωγή οχημάτων με ξένες πινακίδες",
+  "title": "Νέα ψηφιακή διαδικασία για την προσωρινή εισαγωγή οχημάτων με ξένες πινακίδες",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-23112026",
   "published": "2026-11-23",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 23/11/2026",
   "categories": [],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
-  "uid": "d563b68dc935b8fe1d64616f3477e2031eb7f64a"
+  "uid": "9ab24c4b60fb3ad9414d9889ff702f8c0ee35b63"
  },
  {
   "source": "primeminister",
@@ -225,11 +225,12 @@
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 20/11/2026 ΕΑΕ 2026: 500.000 οι αγρότες που οριστικοποίησαν τις αιτήσεις τους για προκαταβολή",
+  "title": "ΕΑΕ 2026: 500.000 οι αγρότες που οριστικοποίησαν τις αιτήσεις τους για προκαταβολή",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-20112026",
   "published": "2026-11-20",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 20/11/2026",
   "categories": [
+   "subsidy",
    "program"
   ],
   "deadline": null,
@@ -237,7 +238,7 @@
   "audiences": [
    "farmers"
   ],
-  "uid": "fded8d2fa98235e11565c6b6d6a1a3d83279f180"
+  "uid": "6ff50f75c549c0e1a0fe214b0e48647b18751ab2"
  },
  {
   "source": "primeminister",
@@ -344,7 +345,6 @@
   "published": "2026-11-20",
   "summary": "Απάντηση σε Σαμαρά για το στεγαστικό: «Και οι τέσσερις προτάσεις του ήδη εφαρμόζονται – Έχουμε ακόμη 43 πολιτικές για τη στέγαση» Στην παράταση των αιτήσεων για τον Προσωπικό Βοηθό έως τις 12 Ιανουαρίου 2027, στην επιστροφή ενοικίου που θα καταβληθεί σε ένα εκατομμύριο πολίτες στις 30 Νοεμβρίου, καθώς και στην οικονομική ενίσχυση των 400 ευρώ […] Το άρθρο εμφανίστηκε πρώτα στο Υπουργείο Κοινωνικής Συνοχής και Οικογένειας .",
   "categories": [
-   "tax_deadline",
    "subsidy",
    "program"
   ],
@@ -374,31 +374,31 @@
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 19/11/2026 ΑΑΔΕ - ΔΕΟΣ: Εξάρθρωση  κυκλώματος εταιρειών-βιτρίνα για παράνομες επιστροφές φόρων – 15 συλλήψεις",
+  "title": "ΑΑΔΕ - ΔΕΟΣ: Εξάρθρωση  κυκλώματος εταιρειών-βιτρίνα για παράνομες επιστροφές φόρων – 15 συλλήψεις",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-19112026-0",
   "published": "2026-11-19",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 19/11/2026",
   "categories": [],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [
    "businesses"
   ],
-  "uid": "1a64650fc2af66c5efd85f414519049f514f29a0"
+  "uid": "2ac8aea5804f0dd4bc22b8865005f14d5a087d35"
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 19/11/2026 ΥΠΕΘΟΟ – ΥΠΑΑΤ – ΑΑΔΕ: 7,4 εκατ. ευρώ στους κτηνοτρόφους της Λέσβου για το γάλα που καταστράφηκε λόγω αφθώδους πυρετού",
+  "title": "ΥΠΕΘΟΟ – ΥΠΑΑΤ – ΑΑΔΕ: 7,4 εκατ. ευρώ στους κτηνοτρόφους της Λέσβου για το γάλα που καταστράφηκε λόγω αφθώδους πυρετού",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-19112026",
   "published": "2026-11-19",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 19/11/2026",
   "categories": [],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [
    "farmers"
   ],
-  "uid": "33483d000cd63ebd2fa4b895bdf61388d9d52969"
+  "uid": "837f88f618f81a10f794152f81d494ebe3697acc"
  },
  {
   "source": "dypa",
@@ -406,9 +406,7 @@
   "url": "https://www.dypa.gov.gr/paratasi-ipovolis-kai-metathesi-aposfraghisis-prosforwn-ghia-tin-promitheia-ekpaideftikwn-ilikwn-kai-meson-atomikis-prostasias-ghia-tis-epas-kai-saek-tis-perifereiakis-dieuthinsis-peloponnisoy",
   "published": "2026-11-19",
   "summary": "",
-  "categories": [
-   "tax_deadline"
-  ],
+  "categories": [],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
@@ -432,9 +430,7 @@
   "url": "https://www.dypa.gov.gr/parokhis-ipiresiwn-kathariotitas-ton-ktirion-armodiotitas-ton-perifereiakwn-dnseon-anatolikis-makedonias-thrakis-thessalias-kai-hpiroy-tis-dypa-ghia-khroniko-diastima-dyo-2-etwn-me-dinatotita-paratasis-eos-ena-1-etos",
   "published": "2026-11-19",
   "summary": "",
-  "categories": [
-   "tax_deadline"
-  ],
+  "categories": [],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
@@ -505,7 +501,6 @@
   "published": "2026-11-18",
   "summary": "Ο Ο.Π.Ε.Κ.Α. ανακοινώνει ότι, με την υπ’ αρ. πρωτ. 6268/17.11.2026 απόφαση του Διοικητή του (ΑΔΑ: 9ΤΙ746Μ9ΗΓ-ΟΓΩ), παρατείνεται έως την Τρίτη 12 Ιανουαρίου 2027 και ώρα 23:59 η προθεσμία υποβολής νέων αιτήσεων στο πρόγραμμα «Προσωπικός Βοηθός για Άτομα με Αναπηρία». Παράλληλα, έως την Πέμπτη 31 Δεκεμβρίου 2026 και ώρα 23:59 παρατείνεται η προθεσμία υποβολής δηλώσεων συναίνεσης […] The post appeared first on ΟΠΕΚΑ .",
   "categories": [
-   "tax_deadline",
    "program"
   ],
   "deadline": "2027-01-12",
@@ -536,7 +531,6 @@
   "published": "2026-11-18",
   "summary": "Παράταση έως τις 12 Ιανουαρίου 2027 για νέες αιτήσεις – Έως τις 31 Δεκεμβρίου οι δηλώσεις συναίνεσης των υφιστάμενων ωφελουμένων Ο Προσωπικός Βοηθός καθιερώθηκε ως μόνιμη υπηρεσία εθνικής εμβέλειας, με προϋπολογισμό 150 εκατ. ευρώ για την πρώτη τριετία, από εθνικούς και ευρωπαϊκούς πόρους. Το πρόγραμμα δίνει στα άτομα με αναπηρία τη δυνατότητα να επιλέγουν τον […] Το άρθρο εμφανίστηκε πρώτα στο Υπουργείο Κοινωνικής Συνοχής και Οικογένειας .",
   "categories": [
-   "tax_deadline",
    "program"
   ],
   "deadline": "2027-01-12",
@@ -628,19 +622,19 @@
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 16/11/2026 Έως 19 Νοεμβρίου η προθεσμία υποβολής της ΕΑΕ 2026 για την χορήγηση προκαταβολής Παρεμβάσεων Αγροτικής Ανάπτυξης",
+  "title": "Έως 19 Νοεμβρίου η προθεσμία υποβολής της ΕΑΕ 2026 για την χορήγηση προκαταβολής Παρεμβάσεων Αγροτικής Ανάπτυξης",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-16112026",
   "published": "2026-11-16",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 16/11/2026",
   "categories": [
-   "tax_deadline"
+   "subsidy"
   ],
   "deadline": "2026-11-19",
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [
    "farmers"
   ],
-  "uid": "a72404d8a18b268c673c704d0bf2c73bc9ca0557"
+  "uid": "ec5ec78cc155a42496c58baf702cdd8bec4d2441"
  },
  {
   "source": "mindev",
@@ -661,7 +655,6 @@
   "published": "2026-11-16",
   "summary": "Ο Οργανισμός Προνοιακών Επιδομάτων και Κοινωνικής Αλληλεγγύης (ΟΠΕΚΑ) ενημερώνει ότι η προθεσμία υποβολής αιτήσεων στο πρόγραμμα παροχής χρηματικών βραβείων – Υποτροφιών σε επιτυχόντες/ούσες μαθητές/τριες στις Πανελλαδικές Εξετάσεις για πρώτη φορά το έτος 2026 σε δημόσια Ανώτατα Εκπαιδευτικά Ιδρύματα της ημεδαπής, δικαιούχους του ΛΑΕ/ΟΠΕΚΑ, με άμεσο ή έμμεσο δικαίωμα, που λήγει στις 16/11/2026 παρατείνεται έως και […] The post app",
   "categories": [
-   "tax_deadline",
    "subsidy",
    "program"
   ],
@@ -691,17 +684,17 @@
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 15/11/2026 ΑΑΔΕ: Έως 30 Νοεμβρίου η προθεσμία υποβολής της ΕΑΕ 2026, έως 19 Νοεμβρίου για την προκαταβολή, με δυνατότητα αίτησης απλουστευμένης υποβολής",
+  "title": "ΑΑΔΕ: Έως 30 Νοεμβρίου η προθεσμία υποβολής της ΕΑΕ 2026, έως 19 Νοεμβρίου για την προκαταβολή, με δυνατότητα αίτησης απλουστευμένης υποβολής",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-15112026",
   "published": "2026-11-15",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 15/11/2026",
   "categories": [
-   "tax_deadline"
+   "subsidy"
   ],
   "deadline": "2026-11-19",
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
-  "uid": "47f4edc99767223fb2f8248e3e3b74ba0b321fc5"
+  "uid": "c2df939ecebb77f9f707c48ce23ef9ed25033a95"
  },
  {
   "source": "dypa",
@@ -747,38 +740,38 @@
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 12/11/2026 ΑΑΔΕ: Διπλή διάκριση στο Ετήσιο Συνέδριο του Ινστιτούτου Εσωτερικών Ελεγκτών Ελλάδας (IIA Greece)",
+  "title": "ΑΑΔΕ: Διπλή διάκριση στο Ετήσιο Συνέδριο του Ινστιτούτου Εσωτερικών Ελεγκτών Ελλάδας (IIA Greece)",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-12112026-1",
   "published": "2026-11-12",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 12/11/2026",
   "categories": [],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
-  "uid": "dabb5053a868de1b2a69ce39f9bafb9b89715325"
+  "uid": "621c46f95c3100352461b12d7cff8296552a3e08"
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 12/11/2026 Ολοκληρώθηκε η προκαταβολή στους κτηνοτρόφους με αίτηση έως τις 25 Σεπτεμβρίου και αίτημα κατανομής βοσκοτόπων. Οι πληρωμές ενισχύσεων του 2026 πλέον συγκεντρωμένες στο myAGRO",
+  "title": "Ολοκληρώθηκε η προκαταβολή στους κτηνοτρόφους με αίτηση έως τις 25 Σεπτεμβρίου και αίτημα κατανομής βοσκοτόπων. Οι πληρωμές ενισχύσεων του 2026 πλέον συγκεντρωμένες στο myAGRO",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/agrotikes-enishyseis/deltio-typoy-12112026",
   "published": "2026-11-12",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 12/11/2026",
   "categories": [
    "subsidy"
   ],
-  "deadline": "2027-09-25",
+  "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [
    "farmers"
   ],
-  "uid": "ce12d7d1680ee75c715dfb3e0166613493e03281"
+  "uid": "5cad20fc8b85cea9dfb78142bc0cd21337511ab7"
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 12/11/2026 Νέα ψηφιακή διαδικασία για την απαλλαγή ΦΠΑ παροχής υπηρεσιών για επιχειρήσεις σε ειδικά τελωνειακά καθεστώτα",
+  "title": "Νέα ψηφιακή διαδικασία για την απαλλαγή ΦΠΑ παροχής υπηρεσιών για επιχειρήσεις σε ειδικά τελωνειακά καθεστώτα",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-12112026",
   "published": "2026-11-12",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 12/11/2026",
   "categories": [
    "tax_deadline",
    "program"
@@ -788,7 +781,7 @@
   "audiences": [
    "businesses"
   ],
-  "uid": "7b2b4cf37ee0b2e6113a7f8c992ab1e23da7f524"
+  "uid": "7b0159a960544270158110392e1164be88424876"
  },
  {
   "source": "minscfa",
@@ -808,15 +801,15 @@
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 11/11/2026 ΥΠΑΑΤ– ΑΑΔΕ: Από 11/11 η έναρξη υποβολής αιτημάτων πληρωμής για την Παρέμβαση Π3-73-2.3",
+  "title": "ΥΠΑΑΤ– ΑΑΔΕ: Από 11/11 η έναρξη υποβολής αιτημάτων πληρωμής για την Παρέμβαση Π3-73-2.3",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/agrotikes-enishyseis/deltio-typoy-11112026",
   "published": "2026-11-11",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 11/11/2026",
   "categories": [],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
-  "uid": "493dad14f669cd7e30046b58b48b9dd092155931"
+  "uid": "39ece9a99c166148812305ab8f9e374970ff5292"
  },
  {
   "source": "minscfa",
@@ -837,17 +830,17 @@
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 10/11/2026 Μετάθεση στις 17 Νοεμβρίου 2026 για την υποβολή της ΕΑΕ 2026 – Κρίσιμη η έγκαιρη καταχώριση στοιχείων για την προκαταβολή των ενισχύσεων",
+  "title": "Μετάθεση στις 17 Νοεμβρίου 2026 για την υποβολή της ΕΑΕ 2026 – Κρίσιμη η έγκαιρη καταχώριση στοιχείων για την προκαταβολή των ενισχύσεων",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/agrotikes-enishyseis/deltio-typoy-10112026",
   "published": "2026-11-10",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 10/11/2026",
   "categories": [
    "subsidy"
   ],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
-  "uid": "1633ab7a823c934e8b965b1226cb7b99a8b5160b"
+  "uid": "2e19640fcd800cb178b0b2a225b2364fd8173c69"
  },
  {
   "source": "dypa",
@@ -868,7 +861,6 @@
   "published": "2026-11-10",
   "summary": "",
   "categories": [
-   "tax_deadline",
    "program"
   ],
   "deadline": null,
@@ -912,10 +904,10 @@
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 09/11/2026 Προσθήκη νέου κωδικού στη δήλωση ΦΠΑ για τον ΕΦΚ αγροτικού πετρελαίου",
+  "title": "Προσθήκη νέου κωδικού στη δήλωση ΦΠΑ για τον ΕΦΚ αγροτικού πετρελαίου",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-09112026-2",
   "published": "2026-11-09",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 09/11/2026",
   "categories": [
    "tax_deadline"
   ],
@@ -924,45 +916,45 @@
   "audiences": [
    "farmers"
   ],
-  "uid": "37f1f46f10882e53080ecc06ad44cc83b8971757"
+  "uid": "e087ca26c12fed9e980f50c658e928c182f1f55c"
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 09/11/2026 Επέκταση χειμερινού ωραρίου λειτουργίας του Τελωνειακού Ελεγκτικού Σταθμού Μαυροματίου Θεσπρωτίας",
+  "title": "Επέκταση χειμερινού ωραρίου λειτουργίας του Τελωνειακού Ελεγκτικού Σταθμού Μαυροματίου Θεσπρωτίας",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-09112026-1",
   "published": "2026-11-09",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 09/11/2026",
   "categories": [],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
-  "uid": "f52e34cd11b8d3977037030b5e4d147544caa034"
+  "uid": "ee40963577778d5f178d0a1ca9e5aacd9f0e67dc"
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 09/11/2026 Δύο κεντρικά πρόσωπα της επιχείρησης «Αχυράνθρωποι» εξακολουθούν να αναζητούνται - Μηνυτήρια αναφορά του Διοικητή της ΑΑΔΕ στον Εισαγγελέα Πρωτοδικών Αθηνών",
+  "title": "Δύο κεντρικά πρόσωπα της επιχείρησης «Αχυράνθρωποι» εξακολουθούν να αναζητούνται - Μηνυτήρια αναφορά του Διοικητή της ΑΑΔΕ στον Εισαγγελέα Πρωτοδικών Αθηνών",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-09112026-0",
   "published": "2026-11-09",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 09/11/2026",
   "categories": [],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [
    "businesses"
   ],
-  "uid": "230b70af8f364290feb0309856ca378039ec019c"
+  "uid": "2f9452f37a7e1d8f6eeca17d921862479d9feea1"
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 09/11/2026 Έως 13 Νοεμβρίου η ετήσια απογραφή αιγοπροβάτων για την προκαταβολή της Π3-70-1.5",
+  "title": "Έως 13 Νοεμβρίου η ετήσια απογραφή αιγοπροβάτων για την προκαταβολή της Π3-70-1.5",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/agrotikes-enishyseis/deltio-typoy-09112026",
   "published": "2026-11-09",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 09/11/2026",
   "categories": [],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
-  "uid": "697ee6fe5fb65ee7e9e38f3757ea58769e2b8115"
+  "uid": "2231654baa794136c4789f3204637732703e50fb"
  },
  {
   "source": "dypa",
@@ -970,9 +962,7 @@
   "url": "https://www.dypa.gov.gr/paratasi-prothesmias-ipovolis-prosforwn-kai-metathesi-ilektronikis-aposfraghisis-toy-anoiktou-ilektronikou-diaghonismou-132026-ghia-tin-promitheia-efpathwn-analwsimon-eidwn-tis-saek-patras-as-eshdhs-559262",
   "published": "2026-11-09",
   "summary": "",
-  "categories": [
-   "tax_deadline"
-  ],
+  "categories": [],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
@@ -997,24 +987,24 @@
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 07/11/2026 ΑΑΔΕ ΔΕΟΣ- Επιχείρηση «Αχυράνθρωποι»: Εξαρθρώθηκε κύκλωμα 2.000 εταιρειών, 1.300 αχυρανθρώπων, 4.200 ΑΦΜ με χρέη άνω των 203 εκατ. ευρώ προς Δημόσιο και ΕΦΚΑ - 18 συλλήψεις",
+  "title": "ΑΑΔΕ ΔΕΟΣ- Επιχείρηση «Αχυράνθρωποι»: Εξαρθρώθηκε κύκλωμα 2.000 εταιρειών, 1.300 αχυρανθρώπων, 4.200 ΑΦΜ με χρέη άνω των 203 εκατ. ευρώ προς Δημόσιο και ΕΦΚΑ - 18 συλλήψεις",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-07112026",
   "published": "2026-11-07",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 07/11/2026",
   "categories": [],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [
    "businesses"
   ],
-  "uid": "393885d2964a8520d5c3a6e733d4dad84bd1c29f"
+  "uid": "68b8a152ea6e0222f1abcfbfb96165c33fc5c590"
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 06/11/2026 ΥΠΕΘΟΟ - ΥΠΑΑΤ  -  ΑΑΔΕ: Ενισχύσεις ύψους 1,97 εκατ. ευρώ για παραγωγούς μηδικής στον Έβρο και βιομηχανικής τομάτας στην Ημαθία – Από σήμερα οι αιτήσεις",
+  "title": "ΥΠΕΘΟΟ - ΥΠΑΑΤ  -  ΑΑΔΕ: Ενισχύσεις ύψους 1,97 εκατ. ευρώ για παραγωγούς μηδικής στον Έβρο και βιομηχανικής τομάτας στην Ημαθία – Από σήμερα οι αιτήσεις",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-06112026-0",
   "published": "2026-11-06",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 06/11/2026",
   "categories": [
    "subsidy",
    "program"
@@ -1022,14 +1012,14 @@
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
-  "uid": "c075d9aa5b34bf1cf83f806a460f13ab273f8bfc"
+  "uid": "8facdfe1e0c3d3c70f61a0d53f0f8dc32defde6f"
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 06/11/2026 myDiesel: Σήμερα η πρώτη πληρωμή επιστροφής ΕΦΚ και ΦΠΑ στα πρατήρια για το αγροτικό πετρέλαιο",
+  "title": "MyDiesel: Σήμερα η πρώτη πληρωμή επιστροφής ΕΦΚ και ΦΠΑ στα πρατήρια για το αγροτικό πετρέλαιο",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-06112026",
   "published": "2026-11-06",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 06/11/2026 myDiesel: Σήμερα η πρώτη πληρωμή επιστροφής ΕΦΚ και ΦΠΑ στα πρατήρια για το αγροτικό πετρέλαιο",
   "categories": [
    "tax_deadline",
    "subsidy"
@@ -1039,7 +1029,7 @@
   "audiences": [
    "farmers"
   ],
-  "uid": "d595102d0230303223dfb01e77d0782712311fa3"
+  "uid": "ad03072da807ce3e1440431a0b33247fa37b7adc"
  },
  {
   "source": "ypergasias",
@@ -1104,39 +1094,41 @@
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 03/11/2026 ΥΠΑΑΤ– ΑΑΔΕ: Μέχρι τις 19 Φεβρουαρίου 2027 οι βώλοι για τις εκτροφές άνω των 900 αιγοπροβάτων για την ΕΑΕ 2026",
+  "title": "ΥΠΑΑΤ– ΑΑΔΕ: Μέχρι τις 19 Φεβρουαρίου 2027 οι βώλοι για τις εκτροφές άνω των 900 αιγοπροβάτων για την ΕΑΕ 2026",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/agrotikes-enishyseis/deltio-typoy-03112026",
   "published": "2026-11-03",
-  "summary": "",
-  "categories": [],
+  "summary": "Δελτίο Τύπου 03/11/2026",
+  "categories": [
+   "subsidy"
+  ],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
-  "uid": "194b8a56cce3ca6474ec837e679e8af5ff87a76b"
+  "uid": "c0be5f960e79b1fa01712313b44015e781a2449b"
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 03/11/2026 Επέκταση λειτουργιών της Ψηφιακής παρακολούθησης της Διακίνησης Αποθεμάτων",
+  "title": "Επέκταση λειτουργιών της Ψηφιακής παρακολούθησης της Διακίνησης Αποθεμάτων",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-03112026",
   "published": "2026-11-03",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 03/11/2026",
   "categories": [],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
-  "uid": "b9fc05bfa434cd0b1b588b5c077c387be59a52fe"
+  "uid": "b19fafd9ea749e1e2cfbb5f8978928bd1108878a"
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 02/11/2026 myAADE: Δηλώσεις  συμπληρωματικού φόρου (Pillar II)",
+  "title": "MyAADE: Δηλώσεις  συμπληρωματικού φόρου (Pillar II)",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-02112026",
   "published": "2026-11-02",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 02/11/2026 myAADE: Δηλώσεις συμπληρωματικού φόρου (Pillar II)",
   "categories": [],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
-  "uid": "f9d448dc379f5fc67f36720647c45200bd9bf41d"
+  "uid": "971bb6346e43b6f6e4735c1672cd382f49fb68ea"
  },
  {
   "source": "diavgeia",
@@ -1155,22 +1147,24 @@
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 01/11/2026 Πληρώθηκε η προκαταβολή 70% της Βασικής Εισοδηματικής Στήριξης της ΕΑΕ 2026 για όσους υπέβαλαν αίτηση έως τις 25 Σεπτεμβρίου",
+  "title": "Πληρώθηκε η προκαταβολή 70% της Βασικής Εισοδηματικής Στήριξης της ΕΑΕ 2026 για όσους υπέβαλαν αίτηση έως τις 25 Σεπτεμβρίου",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/agrotikes-enishyseis/deltio-typoy-01112026",
   "published": "2026-11-01",
-  "summary": "",
-  "categories": [],
+  "summary": "Δελτίο Τύπου 01/11/2026",
+  "categories": [
+   "subsidy"
+  ],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
-  "uid": "904e54af9672023e8485b14dc9ad1682da9791f3"
+  "uid": "0937354489773c92cabef4841107f6912973edaf"
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 30/10/2026 Καταβολή 33,9 εκατ. ευρώ σε 117.198 αγρότες για την τρίτη καταβολή επιστροφής ΕΦΚ πετρελαίου έτους 2026",
+  "title": "Καταβολή 33,9 εκατ. ευρώ σε 117.198 αγρότες για την τρίτη καταβολή επιστροφής ΕΦΚ πετρελαίου έτους 2026",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/agrotikes-enishyseis/deltio-typoy-30102026-0",
   "published": "2026-10-30",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 30/10/2026",
   "categories": [
    "tax_deadline",
    "subsidy"
@@ -1180,43 +1174,45 @@
   "audiences": [
    "farmers"
   ],
-  "uid": "61718e271f1601b8816d6d65dce3086ae357f0f8"
+  "uid": "b5705704b80aea930c5b3f50460ab2a241106818"
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 30/10/2026 Μετάθεση προθεσμιών επικαιροποίησης των νέων Ευρωπαϊκών ΚΑΔ, έως 31/12",
+  "title": "Μετάθεση προθεσμιών επικαιροποίησης των νέων Ευρωπαϊκών ΚΑΔ, έως 31/12",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-30102026-1",
   "published": "2026-10-30",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 30/10/2026",
   "categories": [],
   "deadline": "2026-12-31",
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
-  "uid": "852b324eafe33869a58b84e805b043a56024566e"
+  "uid": "c71254353f54754624a22fc1fcd863dccfb9419f"
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 30/10/2026 Πώς θα εφαρμόζεται το τέλος των 2 ευρώ στις ηλεκτρονικές αγορές από χώρες εκτός Ε.Ε. από την 1η Νοεμβρίου",
+  "title": "Πώς θα εφαρμόζεται το τέλος των 2 ευρώ στις ηλεκτρονικές αγορές από χώρες εκτός Ε.Ε. από την 1η Νοεμβρίου",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-30102026-0",
   "published": "2026-10-30",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 30/10/2026",
   "categories": [],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
-  "uid": "8d46c5368f61bc39b8dc0508794310bd909ef37a"
+  "uid": "324d8804813069cba2204498d6d7c67954876285"
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 30/10/2026 Στις 10 Νοεμβρίου η καταληκτική ημερομηνία υποβολής της ΕΑΕ 2026 - Απλουστεύσεις στη δήλωση ακινήτων με ΑΤΑΚ και ΚΑΕΚ",
+  "title": "Στις 10 Νοεμβρίου η καταληκτική ημερομηνία υποβολής της ΕΑΕ 2026 - Απλουστεύσεις στη δήλωση ακινήτων με ΑΤΑΚ και ΚΑΕΚ",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/agrotikes-enishyseis/deltio-typoy-30102026",
   "published": "2026-10-30",
-  "summary": "",
-  "categories": [],
+  "summary": "Δελτίο Τύπου 30/10/2026",
+  "categories": [
+   "subsidy"
+  ],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
-  "uid": "f3436b54b22672ec3d0113aeb8288ccee50cb9d9"
+  "uid": "201415a288435c43fd0ddb147448223319d3b264"
  },
  {
   "source": "efka",
@@ -1267,17 +1263,17 @@
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 27/10/2026 Διευκρινίσεις για τα δικαιολογητικά της Ενιαίας Αίτησης Ενίσχυσης 2026",
+  "title": "Διευκρινίσεις για τα δικαιολογητικά της Ενιαίας Αίτησης Ενίσχυσης 2026",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-27102026",
   "published": "2026-10-27",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 27/10/2026",
   "categories": [
    "subsidy"
   ],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
-  "uid": "edb5d56436c2176e522804897a85c0c9bed4e359"
+  "uid": "ce52d899797ed21af80951886fb0b2ffadd9f3e3"
  },
  {
   "source": "diavgeia",
@@ -1298,28 +1294,28 @@
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 26/10/2026 Ανάκληση μη ασφαλούς αλκοολούχου ποτού (απόσταγμα φράουλας)",
+  "title": "Ανάκληση μη ασφαλούς αλκοολούχου ποτού (απόσταγμα φράουλας)",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-26102026-0",
   "published": "2026-10-26",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 26/10/2026",
   "categories": [],
   "deadline": null,
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
-  "uid": "210679d173be0ae7d99f1001128c7c9f77ce9c3a"
+  "uid": "e2f66fe7e94d2edf8dbf95fa337061f2d9d43e31"
  },
  {
   "source": "aade",
-  "title": "Δελτίο Τύπου 26/10/2026 Έως 13/11 η υποβολή Δηλώσεων Βραχυχρόνιας Διαμονής",
+  "title": "Έως 13/11 η υποβολή Δηλώσεων Βραχυχρόνιας Διαμονής",
   "url": "https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-26102026",
   "published": "2026-10-26",
-  "summary": "",
+  "summary": "Δελτίο Τύπου 26/10/2026",
   "categories": [
    "tax_deadline"
   ],
   "deadline": "2026-11-13",
   "first_seen": "2026-11-24T01:45:18",
   "audiences": [],
-  "uid": "2bbb7c66d9230cb530b9f0748bcb067aa5ae67d1"
+  "uid": "170965ac6135aeb0a7b5a7cece4a771325674b16"
  }
 ]

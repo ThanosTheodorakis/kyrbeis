@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-24T11:28:14+02:00",
+ "updated": "2026-11-24T11:43:13+02:00",
  "sources": [
   {
    "name": "aade",
@@ -39,7 +39,7 @@
    "url": "https://www.dypa.gov.gr/",
    "ok": true,
    "found": 20,
-   "kept": 7
+   "kept": 5
   },
   {
    "name": "primeminister",
@@ -123,8 +123,8 @@
   }
  ],
  "counts": {
-  "tax_deadline": 21,
-  "subsidy": 31,
+  "tax_deadline": 11,
+  "subsidy": 37,
   "program": 33
  },
  "audience_counts": {
