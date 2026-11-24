@@ -5,6 +5,19 @@ CALSCALE:GREGORIAN
 X-WR-CALNAME:Κύρβεις – Προθεσμίες Δημοσίου
 X-WR-TIMEZONE:Europe/Athens
 BEGIN:VEVENT
+UID:123de8d14fbfbfa46731b6dfbb7cc530669b4537@kyrbeis
+DTSTAMP:20261124T173047Z
+DTSTART;VALUE=DATE:20270301
+DTEND;VALUE=DATE:20270302
+SUMMARY:ΥΠΑΑΤ – ΑΑΔΕ: Από 26 Νοεμβρίου έως 1 Μ
+ αρτίου η υποβολή αιτήσεων πληρωμής (Α’ & 
+ Β’ δόση) της Παρέμβασης Π3-77-1.1 «Σύσταση Ο
+ μάδων και Οργανώσεων Παραγωγών»
+URL:https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy-24112026
+DESCRIPTION:aade https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy
+ -24112026
+END:VEVENT
+BEGIN:VEVENT
 UID:f63597ed54b2141b47c782fd9b852d32e75f3b91@kyrbeis
 DTSTAMP:20261123T233009Z
 DTSTART;VALUE=DATE:20270112

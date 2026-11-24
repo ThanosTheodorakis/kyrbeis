@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-24T11:43:13+02:00",
+ "updated": "2026-11-24T19:30:47+02:00",
  "sources": [
   {
    "name": "aade",
@@ -7,7 +7,7 @@
    "url": "https://www.aade.gr/deltia-typoy-anakoinoseis",
    "ok": true,
    "found": 30,
-   "kept": 29
+   "kept": 30
   },
   {
    "name": "minfin",
@@ -31,7 +31,7 @@
    "url": "https://www.e-efka.gov.gr/el",
    "ok": true,
    "found": 20,
-   "kept": 3
+   "kept": 2
   },
   {
    "name": "dypa",
@@ -87,7 +87,7 @@
    "url": "https://minscfa.gov.gr/",
    "ok": true,
    "found": 10,
-   "kept": 7
+   "kept": 6
   },
   {
    "name": "diavgeia",
@@ -123,9 +123,9 @@
   }
  ],
  "counts": {
-  "tax_deadline": 11,
+  "tax_deadline": 12,
   "subsidy": 37,
-  "program": 33
+  "program": 34
  },
  "audience_counts": {
   "households": 18,
@@ -134,5 +134,5 @@
   "pensioners": 2,
   "workers": 5
  },
- "total": 91
+ "total": 92
 }
