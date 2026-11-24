@@ -238,9 +238,11 @@ GAP_AFTER_UNTIL = re.compile(rf"^{_P}(?:(?:{'|'.join(_FILLERS)}){_P})*$")
 GAP_AFTER_CUE = re.compile(rf"^{_P}(?:[^\W\d_]+{_P}){{0,4}}$")
 
 
-def find_deadline(text: str, published: date | None = None) -> date | None:
+def find_deadline(text: str, published: date | None = None, context: str | None = None) -> date | None:
     """Pick the date most likely to be the deadline.
 
+    - Only in actionable announcements (see read_context; `context` is the whole item,
+      default `text`): "επίσκεψη έως 25/11" or "συνέδριο 22-25/11" has no deadline.
     - Year-less dates get the year closest to `published` (or today).
     - The date must follow its cue closely; see GAP_AFTER_UNTIL / GAP_AFTER_CUE.
     - A date right after "από"/"from" is a start date, never a deadline.
@@ -259,6 +261,9 @@ def find_deadline(text: str, published: date | None = None) -> date | None:
                 out.append(nxt[1])
         return [d for d in out if not published or d >= published]
 
+    actionable, _ = read_context(text if context is None else context)
+    if not actionable:
+        return None
     until, other = after(UNTIL_CUES, GAP_AFTER_UNTIL), after(DEADLINE_CUES, GAP_AFTER_CUE)
     if EXTENSION.search(n) and (until or other):
         return max(until + other)
@@ -274,39 +279,35 @@ def find_deadline(text: str, published: date | None = None) -> date | None:
 # Keywords match at the start of a word, accents and case ignored, so
 # "επιδοτηση" also matches "επιδοτήσεις". End a keyword with "!" to require
 # the whole word ("pass!" won't match "password").
+#
+# Two strengths of keyword:
+# - CATEGORIES: unambiguous; one is enough ("επίδομα", "ΕΝΦΙΑ", "αιτήσεις").
+# - CATEGORY_HINTS: ambiguous words that also appear in ordinary news ("πρόγραμμα" is
+#   also a schedule, "ενίσχυση" also "strengthening", "επιστροφή" also "return"). They
+#   count only when the announcement is actionable (see ACTION) and isn't an event.
 CATEGORIES: dict[str, list[str]] = {
     "tax_deadline": [
         "προθεσμια",
-        "παραταση",
-        "παρατεινεται",
         "φορολογικη δηλωση",
         "φορολογικεσ δηλωσεισ",
         "δηλωση φορολογιασ",
         "ενφια",
         "φπα!",
         "εκκαθαριστικ",
-        "δοση",
-        "δοσεισ",
         "ρυθμιση οφειλων",
         "τελη κυκλοφοριασ",
         "e9!",
         "ε9!",
         "mydata!",
-        "εισφορεσ",
-        "εισφορων",
-        "καταβολη",
         "υποβολη δηλωσ",
-        "αποδειξεισ",
         "πληρωμη φορου",
+        "φορολογικ",
     ],
     "subsidy": [
         "επιδοτηση",
         "επιδοτησεισ",
         "επιδοτησεων",
         "επιδομα",
-        "ενισχυση",
-        "ενισχυσεισ",
-        "ενισχυσεων",
         "χρηματοδοτηση",
         "επιχορηγηση",
         "αποζημιωση",
@@ -314,11 +315,53 @@ CATEGORIES: dict[str, list[str]] = {
         "κουπονι",
         "pass!",
         "εσπα!",
-        "επιστροφη",
         "ταμειο ανακαμψησ",
-        "δανεια",
         "εγγυοδοσια",
         "de minimis",
+        "επιταγη",
+    ],
+    "program": [
+        "αιτησεισ",
+        "αιτησεων",
+        "προσκληση υποβολ",
+        "αιτηση ενδιαφεροντοσ",
+        "εξοικονομω",
+        "ανακαινιζω",
+        "σπιτι μου",
+        "ωφελουμεν",
+        "δικαιουχ",
+        "επιλεξιμ",
+        "προκηρυξ",
+        # "πρόγραμμα" alone is ambiguous, these phrases are not
+        "νεο προγραμμα",
+        "νεα δραση",
+        "προγραμμα απασχολησ",
+        "προγραμμα καταρτισ",
+        "κοινωφελ",
+        "προγραμμα στεγασ",
+        "προγραμμα επιδοτ",
+        "προγραμμα ενισχυσ",
+        "προγραμμα χρηματοδοτ",
+        "επιδοτουμενο προγραμμα",
+    ],
+}
+CATEGORY_HINTS: dict[str, list[str]] = {
+    "tax_deadline": [
+        "παραταση",
+        "παρατεινεται",
+        "δοση",
+        "δοσεισ",
+        "εισφορεσ",
+        "εισφορων",
+        "καταβολη",
+        "αποδειξεισ",
+    ],
+    "subsidy": [
+        "ενισχυση",
+        "ενισχυσεισ",
+        "ενισχυσεων",
+        "επιστροφη",
+        "δανεια",
         "πιστωση",
     ],
     "program": [
@@ -328,28 +371,150 @@ CATEGORIES: dict[str, list[str]] = {
         "δρασεων",
         "προσκληση",
         "προσκλησεισ",
-        "αιτησεισ",
-        "αιτησεων",
         "πλατφορμα",
-        "εξοικονομω",
-        "ανακαινιζω",
-        "σπιτι μου",
         "ψηφιακ",
         "καταρτιση",
         "νεοι!",
         "νεουσ!",
         "νεεσ θεσεισ",
         "μητρωο",
-        "ωφελουμεν",
         "ενταξη",
     ],
 }
+
+# Something a citizen or business does, gets or must meet. Without one of these (or a
+# euro amount, or a CATEGORIES word), an announcement is news, not an opportunity.
+ACTION = _word_re(
+    [
+        "αιτησ",
+        "αιτηση!",
+        "υποβολ",
+        "υποβαλ",
+        "δικαιουχ",
+        "ωφελουμεν",
+        "επιλεξιμ",
+        "προυποθεσ",
+        "πληρωμ",
+        "πληρων",
+        "πληρωθ",
+        "καταβολ",
+        "καταβαλ",
+        "εξοφλ",
+        "προθεσμ",
+        "παρατασ",
+        "παρατειν",
+        "εγγραφ",
+        "ρυθμισ",
+        "δηλωσ",
+        "ανοιγει",
+        "ανοιξε",
+        "αποτελεσματ",  # results of a call matter to everyone who applied
+        "applications",
+        "apply",
+    ]
+)
+MONEY = re.compile(r"\d[\d.,]*\s*(?:€|ευρω|εκατ|δισ)|€\s*\d")
+
+# Events and agendas: visits, meetings, speeches, ceremonies. Their dates are when
+# something happens, not deadlines, and their "programme" is a schedule.
+EVENT = _word_re(
+    [
+        "_agenda_",
+        "_statement_",
+        "επισκεψ",
+        "επισκεπτ",
+        "περιοδει",
+        "συναντηση",
+        "συναντησεισ",
+        "συναντηθηκ",
+        "συνομιλ",
+        "ομιλια",
+        "ομιλιασ",
+        "συνεντευξ",
+        "εκδηλωση!",
+        "εκδηλωσησ!",
+        "εκδηλωσεισ!",
+        "εκδηλωσεων!",
+        "συνεδριο",
+        "συνεδριου",
+        "συνεδριασ",
+        "τελετ",
+        "ορκωμοσι",
+        "χαιρετισμ",
+        "υποδεχ",
+        "ταξιδ",
+        "συλλυπητηρι",
+        "συγχαρητηρι",
+        "εγκαινι",
+        "βραβευσ",
+        "εορτασμ",
+        "επετει",
+        "μνημοσυν",
+        "κηδει",
+        "συνοδο",
+        "συνοδου",
+        "συζητηση",
+        # outages and maintenance: "εκτός λειτουργίας έως 25/11" is not a deadline
+        "εκτοσ λειτουργιασ",
+        "διακοπη λειτουργιασ",
+        "μη διαθεσιμ",
+        "προγραμματισμενη συντηρηση",
+        "εργασιεσ συντηρησησ",
+    ]
+)
+
+_OFFICIALS = r"(?:προεδρ|αντιπροεδρ|πρωθυπουργ|υπουργ|υφυπουργ|αναπληρωτ|γενικ\w* γραμματ|κυβερνητικ|εκπροσωπ)"
+# Phrases rewritten before matching, so one word can't be read in the wrong sense.
+_REWRITES = [
+    # "εκδήλωση ενδιαφέροντος" is applying, not an event
+    (re.compile(r"(?<!\w)εκδηλωσ\w* ενδιαφεροντοσ"), "αιτηση ενδιαφεροντοσ"),
+    # "το πρόγραμμα του Προέδρου", "δημόσιο πρόγραμμα", "πρόγραμμα επισκέψεων" are schedules
+    (
+        re.compile(
+            rf"(?<!\w)(?:(?:δημοσιο|ημερησιο|εβδομαδιαιο|επισημο)\s+)?προγραμμα\w*\s+(?:του|τησ|των)\s+{_OFFICIALS}\w*"
+        ),
+        "_agenda_",
+    ),
+    (re.compile(r"(?<!\w)(?:δημοσιο|ημερησιο|εβδομαδιαιο|επισημο)\s+προγραμμα\w*"), "_agenda_"),
+    (
+        re.compile(
+            r"(?<!\w)προγραμμα\w*\s+(?:επισκεψ|εκδηλωσ|ομιλ|μεταδοσ|εργασιων|συνεδρ|περιοδει|ταξιδ|εορτασμ|τελετ)\w*"
+        ),
+        "_agenda_",
+    ),
+    # "δηλώσεις του Υπουργού" are statements, not tax returns
+    (re.compile(rf"(?<!\w)δηλωσ\w*\s+(?:του|τησ|των)\s+{_OFFICIALS}\w*"), "_statement_"),
+]
+
+
+def _prepare(text: str) -> str:
+    n = norm(text)
+    for rx, repl in _REWRITES:
+        n = rx.sub(f" {repl} ", n)
+    return n
+
+
 _cat_re = {cat: _word_re(words) for cat, words in CATEGORIES.items()}
+_hint_re = {cat: _word_re(words) for cat, words in CATEGORY_HINTS.items()}
+
+
+def read_context(text: str) -> tuple[bool, bool]:
+    """(actionable, event): does the text offer or require something, and is it an event/agenda?
+    An announcement with an unambiguous keyword is always actionable, even if it is also an event
+    ("Ομιλία για το νέο επίδομα" is news about a benefit)."""
+    n = _prepare(text)
+    strong = any(rx.search(n) for rx in _cat_re.values())
+    event = bool(EVENT.search(n))
+    actionable = strong or (not event and bool(ACTION.search(n) or MONEY.search(n)))
+    return actionable, event
 
 
 def categorize(text: str) -> list[str]:
-    n = norm(text)
-    return [cat for cat, rx in _cat_re.items() if rx.search(n)]
+    n = _prepare(text)
+    strong = {cat for cat, rx in _cat_re.items() if rx.search(n)}
+    actionable, _ = read_context(text)
+    hinted = {cat for cat, rx in _hint_re.items() if rx.search(n)} if actionable else set()
+    return [cat for cat in CATEGORIES if cat in strong | hinted]
 
 
 # Who an announcement is for. Same matching rules as CATEGORIES. An item can be
@@ -802,11 +967,13 @@ def enrich(item: Item) -> Item:
     if item.published and item.published > today.isoformat():
         item.published = None
     item.summary = clean_summary(item.summary, item.title)
-    item.categories = categorize(f"{item.title} {item.summary}")
+    item.categories = categorize(f"{item.title} {item.summary}")  # also judged on the whole text
     item.audiences = audiences_for(f"{item.title} {item.summary}")
     pub = date.fromisoformat(item.published) if item.published else None
     # title and summary separately, so a cue at the end of one can't grab a date from the other
-    dl = find_deadline(item.title, pub) or find_deadline(item.summary, pub)
+    # ...but whether it's actionable at all is judged on the whole announcement
+    whole = f"{item.title} {item.summary}"
+    dl = find_deadline(item.title, pub, whole) or find_deadline(item.summary, pub, whole)
     item.deadline = dl.isoformat() if dl else None
     return item
 

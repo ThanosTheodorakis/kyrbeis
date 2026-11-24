@@ -37,7 +37,7 @@ def test_start_date_after_apo_is_not_the_deadline():
     [
         ("Υποβολή αιτήσεων έως 30 Νοεμβρίου", date(2026, 11, 30)),
         ("μέχρι 15/12 οι δηλώσεις", date(2026, 12, 15)),
-        ("έως 10 Ιαν.", date(2027, 1, 10)),  # already past this year -> next year
+        ("Αιτήσεις έως 10 Ιαν.", date(2027, 1, 10)),  # already past this year -> next year
         ("προθεσμία έως 5.1", date(2027, 1, 5)),
     ],
 )
@@ -597,3 +597,88 @@ def test_every_feed_or_api_source_has_a_website():
         link = s.get("url") or s.get("api")
         if s["type"] in ("rss", "diavgeia") or link.rstrip("/").endswith(("feed", ".json", ".xml")):
             assert s.get("website", "").startswith("https://"), s["name"]
+
+
+# --- context: news and agendas are not programs or deadlines (24 Nov 2026) -----
+
+
+@pytest.mark.parametrize(
+    "title",
+    [
+        "Το πρόγραμμα του Προέδρου της Δημοκρατίας από 22/11 έως 25/11",
+        "Δημόσιο πρόγραμμα του Πρωθυπουργού για την Τρίτη 25 Νοεμβρίου",
+        "Το πρόγραμμα επισκέψεων του Υπουργού έως 28/11",
+        "Επίσκεψη του Υπουργού στη Θεσσαλονίκη έως 25/11",
+        "Συνέδριο για την ψηφιακή μετάβαση, 22 έως 25 Νοεμβρίου",
+        "Ενίσχυση της συνεργασίας Ελλάδας – Κύπρου",
+        "Επιστροφή του Πρωθυπουργού από τις Βρυξέλλες",
+        "Δηλώσεις του Υπουργού Οικονομικών μετά τη συνάντηση έως 25/11",
+        "Η πλατφόρμα θα είναι εκτός λειτουργίας έως 25/11",
+    ],
+)
+def test_news_and_agendas_are_not_programs_or_deadlines(title):
+    item = g.enrich(g.Item("x", title, "https://e.gr/1", "2026-11-20"))
+    assert item.categories == []
+    assert item.deadline is None
+
+
+@pytest.mark.parametrize(
+    "title,cat,deadline",
+    [
+        ("Εξοικονομώ: υποβολή αιτήσεων έως 15/12/2026", "program", "2026-12-15"),
+        ("Πρόγραμμα απασχόλησης 5.000 ανέργων: αιτήσεις έως 10/12", "program", "2026-12-10"),
+        ("Υποβολή αιτήσεων από 1/12 έως 15/12", "program", "2026-12-15"),
+        ("Παράταση προθεσμίας υποβολής δηλώσεων ΦΠΑ έως 17/1/2027", "tax_deadline", "2027-01-17"),
+        ("Ενίσχυση 250 ευρώ σε συνταξιούχους: πότε πληρώνεται", "subsidy", None),
+        ("Δράση ενίσχυσης μικρομεσαίων με προϋπολογισμό 100 εκατ. ευρώ", "program", None),
+        ("Εκδήλωση ενδιαφέροντος για το πρόγραμμα κατάρτισης έως 30/11", "program", "2026-11-30"),
+        ("Ομιλία του Υπουργού για το νέο επίδομα θέρμανσης", "subsidy", None),
+    ],
+)
+def test_real_opportunities_still_count(title, cat, deadline):
+    item = g.enrich(g.Item("x", title, "https://e.gr/1", "2026-11-20"))
+    assert cat in item.categories
+    assert item.deadline == deadline
+
+
+def test_summary_can_make_a_title_actionable():
+    # the title alone ("Νέα δράση έως 15/12") is fine; a bare "Ψηφιακός μετασχηματισμός έως 15/12" needs the summary
+    item = g.Item(
+        "x",
+        "Ψηφιακός μετασχηματισμός έως 15/12/2026",
+        "https://e.gr/1",
+        "2026-11-20",
+        summary="Οι επιχειρήσεις υποβάλλουν αίτηση ηλεκτρονικά.",
+    )
+    item = g.enrich(item)
+    assert item.deadline == "2026-12-15"
+    assert "program" in item.categories
+
+
+# real headlines from primeminister.gr, 21-23 Nov 2026: schedules, visits and statements
+@pytest.mark.parametrize(
+    "title",
+    [
+        "Πρόγραμμα του Πρωθυπουργού για αύριο, Δευτέρα 23 Νοεμβρίου 2026",
+        "Ενημερωτικό σημείωμα για την επίσκεψη του Πρωθυπουργού στην έκθεση XENIA 2026",
+        "Κοινό Ανακοινωθέν 4ης Διακυβερνητικής Συνόδου Ελλάδας-Κύπρου",
+        "Δηλώσεις του Πρωθυπουργού μετά την ολοκλήρωση των εργασιών της 4ης Διακυβερνητικής Συνόδου",
+    ],
+)
+def test_real_prime_minister_news_is_just_news(title):
+    item = g.enrich(g.Item("primeminister", title, "https://e.gr/1", "2026-11-21"))
+    assert (item.categories, item.deadline) == ([], None)
+
+
+@pytest.mark.parametrize(
+    "title,cat",
+    [
+        ("Κοινωφελής εργασία: τα οριστικά αποτελέσματα", "program"),
+        ("Επιταγή ακρίβειας: πότε καταβάλλεται", "subsidy"),
+        ("Αποτελέσματα του προγράμματος Ψηφιακός Μετασχηματισμός ΜμΕ", "program"),
+        ("Πληρωμή επιδομάτων ΟΠΕΚΑ στις 27 Νοεμβρίου", "subsidy"),
+        ("Οδηγός για τη φορολογική δήλωση 2026", "tax_deadline"),
+    ],
+)
+def test_typical_opportunities_are_kept(title, cat):
+    assert cat in g.categorize(title)
