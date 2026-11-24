@@ -94,6 +94,21 @@ DESCRIPTION:aade https://www.aade.gr/deltia-typoy-anakoinoseis/deltio-typoy
  -15112026
 END:VEVENT
 BEGIN:VEVENT
+UID:ce12d7d1680ee75c715dfb3e0166613493e03281@kyrbeis
+DTSTAMP:20261123T234518Z
+DTSTART;VALUE=DATE:20270925
+DTEND;VALUE=DATE:20270926
+SUMMARY:Δελτίο Τύπου 12/11/2026 Ολοκληρώθηκε η πρ
+ οκαταβολή στους κτηνοτρόφους με αίτηση 
+ έως τις 25 Σεπτεμβρίου και αίτημα κατανομ
+ ής βοσκοτόπων. Οι πληρωμές ενισχύσεων το
+ υ 2026 πλέον συγκεντρωμένες στο myAGRO
+URL:https://www.aade.gr/deltia-typoy-anakoinoseis/agrotikes-enishyseis/delt
+ io-typoy-12112026
+DESCRIPTION:aade https://www.aade.gr/deltia-typoy-anakoinoseis/agrotikes-en
+ ishyseis/deltio-typoy-12112026
+END:VEVENT
+BEGIN:VEVENT
 UID:d89785816ad13fe46b593ce0580f86ada3fc4022@kyrbeis
 DTSTAMP:20261123T233009Z
 DTSTART;VALUE=DATE:20261116
