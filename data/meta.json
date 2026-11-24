@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-24T02:55:55+02:00",
+ "updated": "2026-11-24T03:09:11+02:00",
  "sources": [
   {
    "name": "aade",
@@ -15,7 +15,7 @@
    "url": "https://www.minfin.gov.gr/",
    "ok": true,
    "found": 10,
-   "kept": 3
+   "kept": 1
   },
   {
    "name": "mindev",
@@ -63,7 +63,7 @@
    "url": "https://ypergasias.gov.gr/",
    "ok": true,
    "found": 12,
-   "kept": 5
+   "kept": 1
   },
   {
    "name": "ypen",
@@ -87,7 +87,7 @@
    "url": "https://minscfa.gov.gr/",
    "ok": true,
    "found": 10,
-   "kept": 8
+   "kept": 7
   },
   {
    "name": "diavgeia",
@@ -123,9 +123,9 @@
   }
  ],
  "counts": {
-  "tax_deadline": 23,
-  "subsidy": 29,
-  "program": 37
+  "tax_deadline": 21,
+  "subsidy": 28,
+  "program": 29
  },
  "audience_counts": {
   "households": 18,
@@ -134,5 +134,5 @@
   "pensioners": 2,
   "workers": 5
  },
- "total": 88
+ "total": 87
 }
