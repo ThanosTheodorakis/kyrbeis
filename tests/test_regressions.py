@@ -785,3 +785,47 @@ def test_recent_past_reference_is_not_a_deadline(published, text):
 def test_publication_dates_without_a_year_still_look_back():
     # a listing dated "20 Νοε" seen on 5 Jan is last November, not next
     assert [d for _, d in g.find_dates("20 Νοε", date(2027, 1, 5))] == [date(2026, 11, 20)]
+
+
+# --- from the live site, 24 Nov 2026 (2) --------------------------------------
+
+
+def test_past_tense_reference_is_not_a_deadline_next_year():
+    # published 12 Nov; 25 Sep is 48 days back, and "Ολοκληρώθηκε" says it's over (was: "25 Σεπ, σε 305 ημέρες")
+    item = g.enrich(
+        g.Item(
+            "aade",
+            "Ολοκληρώθηκε η προκαταβολή στους κτηνοτρόφους με αίτηση έως τις 25 Σεπτεμβρίου",
+            "https://e.gr/1",
+            "2026-11-12",
+        )
+    )
+    assert item.deadline is None
+
+
+def test_was_extended_is_past_tense_but_the_new_date_is_ahead():
+    assert g.find_deadline("Παρατάθηκε έως 30 Σεπτεμβρίου η προθεσμία υποβολής αιτήσεων", date(2026, 2, 1)) == date(
+        2026, 9, 30
+    )
+
+
+@pytest.mark.parametrize(
+    "title",
+    [
+        "Πρόγραμμα «Προσωπικός Βοηθός»: Παράταση υποβολής νέων αιτήσεων έως τις 12 Ιανουαρίου 2027",
+        "Έως 19 Νοεμβρίου η προθεσμία υποβολής της ΕΑΕ 2026 για την χορήγηση προκαταβολής",
+    ],
+)
+def test_extensions_and_deadlines_are_not_tax_by_themselves(title):
+    item = g.enrich(g.Item("x", title, "https://e.gr/1", "2026-11-16"))
+    assert "tax_deadline" not in item.categories
+    assert item.categories  # but still a topic: program / subsidy
+    assert item.deadline
+
+
+def test_press_release_prefix_is_removed_from_titles():
+    item = g.enrich(
+        g.Item("aade", "Δελτίο Τύπου 20/11/2026 ΕΑΕ 2026: 500.000 οι αγρότες", "https://e.gr/1", "2026-11-20")
+    )
+    assert item.title == "ΕΑΕ 2026: 500.000 οι αγρότες"
+    assert g.clean_title("Δελτίο Τύπου") == "Δελτίο Τύπου"  # nothing left: keep the original

@@ -151,18 +151,29 @@ def _nearest_occurrence(day: int, month: int, ref: date) -> date | None:
 # "υπέβαλαν αίτηση έως τις 25 Σεπτεμβρίου" in a 1 November post, 37 days back); anything
 # earlier means the next time that day comes round ("έως 31 Δεκεμβρίου" in March is this December).
 YEARLESS_GRACE = timedelta(days=45)
+# When the text is in the past tense ("Ολοκληρώθηκε η προκαταβολή … με αίτηση έως 25 Σεπτεμβρίου"),
+# a date up to this far back is a reference to the past, not a deadline next year.
+YEARLESS_GRACE_PAST = timedelta(days=200)
+
+# Past-tense markers: aorist passives ("ολοκληρώθηκε", "πληρώθηκαν", "καταβλήθηκε") and a few
+# active forms. "παρατάθηκε" (was extended) is past tense but announces a new, future deadline.
+PAST_TENSE = re.compile(
+    r"(?<!\w)(?!παραταθ)\w{3,}θηκ(?:ε|αν|ανε)(?!\w)"
+    r"|(?<!\w)(?:υπεβαλ\w*|ειχαν|ειχε|εληξε|εληγε|ολοκληρωσαν|οριστικοποιησαν|πληρωσε|κατεβαλ\w*)(?!\w)"
+)
 
 
-def _resolve_yearless(day: int, month: int, ref: date) -> date | None:
+def _resolve_yearless(day: int, month: int, ref: date, grace: timedelta = YEARLESS_GRACE) -> date | None:
     """The year for a deadline written without one, e.g. "έως 30 Σεπτεμβρίου".
 
     Deadlines usually lie ahead of the announcement, often many months ahead, so take
     the earliest occurrence no more than YEARLESS_GRACE before `ref`:
     - 1 Feb + "30 Σεπτεμβρίου" -> 30 Sep this year (nearest-date would pick last September)
     - 20 Nov + "10 Ιανουαρίου" -> next January
-    - 1 Nov + "25 Σεπτεμβρίου" -> this September, a recent past reference (then dropped as past)"""
+    - 1 Nov + "25 Σεπτεμβρίου" -> this September, a recent past reference (then dropped as past)
+    find_dates widens `grace` for text in the past tense (see PAST_TENSE)."""
     options = [d for y in (ref.year - 1, ref.year, ref.year + 1) if (d := _mk(y, month, day))]
-    return next((d for d in sorted(options) if d >= ref - YEARLESS_GRACE), None)
+    return next((d for d in sorted(options) if d >= ref - grace), None)
 
 
 def find_dates(text: str, ref: date | None = None, forward: bool = False) -> list[tuple[int, date]]:
@@ -171,9 +182,15 @@ def find_dates(text: str, ref: date | None = None, forward: bool = False) -> lis
     Dates need a year, unless `ref` is given: then "30 Νοεμβρίου" or "15/12"
     count too, in whichever year puts them closest to `ref`, or, with `forward`
     (for deadlines), in the year given by _resolve_yearless."""
-    pick = _resolve_yearless if forward else _nearest_occurrence
     found: dict[int, date] = {}
     n = norm(text)
+    if forward:
+        grace = YEARLESS_GRACE_PAST if PAST_TENSE.search(n) else YEARLESS_GRACE
+
+        def pick(day, month, ref):
+            return _resolve_yearless(day, month, ref, grace)
+    else:
+        pick = _nearest_occurrence
     for m in ISO_DATE.finditer(n):
         if d := _mk(int(m[1]), int(m[2]), int(m[3])):
             found[m.start()] = d
@@ -310,8 +327,9 @@ def find_deadline(text: str, published: date | None = None, context: str | None 
 #   also a schedule, "ενίσχυση" also "strengthening", "επιστροφή" also "return"). They
 #   count only when the announcement is actionable (see ACTION) and isn't an event.
 CATEGORIES: dict[str, list[str]] = {
+    # Taxes only. Deadlines of any kind have their own filter ("Προθεσμία"), so «παράταση» or
+    # «προθεσμία» no longer make a disability program or a farm payment "tax".
     "tax_deadline": [
-        "προθεσμια",
         "φορολογικη δηλωση",
         "φορολογικεσ δηλωσεισ",
         "δηλωση φορολογιασ",
@@ -341,6 +359,8 @@ CATEGORIES: dict[str, list[str]] = {
         "εγγυοδοσια",
         "de minimis",
         "επιταγη",
+        "εαε!",  # Ενιαία Αίτηση Ενίσχυσης, the farmers' annual subsidy application
+        "ενιαια αιτηση ενισχυσ",
     ],
     "program": [
         "αιτησεισ",
@@ -365,8 +385,6 @@ CATEGORIES: dict[str, list[str]] = {
 }
 CATEGORY_HINTS: dict[str, list[str]] = {
     "tax_deadline": [
-        "παραταση",
-        "παρατεινεται",
         "δοση",
         "δοσεισ",
         "εισφορεσ",
@@ -1075,8 +1093,18 @@ def _is_date(token: str) -> bool:
     return bool(find_dates(token, today_local()))
 
 
+# "Δελτίο Τύπου 20/11/2026 ΕΑΕ 2026: …" (AADE): the label and date are shown under the title anyway
+_PRESS_RELEASE = re.compile(r"^\s*Δελτίο\s+Τύπου\s*(?:\d{1,2}[./]\d{1,2}[./]\d{2,4})?\s*[:–-]?\s*", re.IGNORECASE)
+
+
+def clean_title(title: str) -> str:
+    cleaned = _PRESS_RELEASE.sub("", title or "")
+    return cleaned[:1].upper() + cleaned[1:] if cleaned else title
+
+
 def enrich(item: Item) -> Item:
     today = today_local()
+    item.title = clean_title(item.title)
     # a "published" date in the future is a misread deadline, not a publication date
     if item.published and item.published > today.isoformat():
         item.published = None
@@ -1367,7 +1395,8 @@ def main(argv: list[str] | None = None) -> int:
             enrich(it)
             if it.published and it.published < since.isoformat():
                 continue
-            if not it.categories and not (a.all_items or src.get("keep_all")):
+            # keep anything with a topic, and anything with a deadline even without one
+            if not it.categories and not it.deadline and not (a.all_items or src.get("keep_all")):
                 continue
             # for pages where menu links slip in: real posts carry a date
             if src.get("require_date") and not it.published:
