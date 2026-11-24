@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-24T19:30:47+02:00",
+ "updated": "2026-11-24T19:51:20+02:00",
  "sources": [
   {
    "name": "aade",
@@ -90,6 +90,38 @@
    "kept": 6
   },
   {
+   "name": "iky",
+   "label": "ΙΚΥ – υποτροφίες & Erasmus+",
+   "url": "https://www.iky.gr/",
+   "ok": true,
+   "found": 24,
+   "kept": 9
+  },
+  {
+   "name": "elidek",
+   "label": "ΕΛΙΔΕΚ – ερευνητικά προγράμματα & υποτροφίες",
+   "url": "https://www.elidek.gr/",
+   "ok": true,
+   "found": 10,
+   "kept": 1
+  },
+  {
+   "name": "elga",
+   "label": "ΕΛΓΑ – αποζημιώσεις αγροτών",
+   "url": "https://www.elga.gr/",
+   "ok": false,
+   "found": 0,
+   "error": "https://www.elga.gr/: https://www.elga.gr/: skipped, www.elga.gr was unreachable earlier in this run (SSLError)"
+  },
+  {
+   "name": "minagric",
+   "label": "Υπουργείο Αγροτικής Ανάπτυξης & Τροφίμων",
+   "url": "https://www.minagric.gr/",
+   "ok": true,
+   "found": 58,
+   "kept": 0
+  },
+  {
    "name": "diavgeia",
    "label": "Διαύγεια – προκηρύξεις δράσεων",
    "url": "https://diavgeia.gov.gr/",
@@ -124,8 +156,8 @@
  ],
  "counts": {
   "tax_deadline": 12,
-  "subsidy": 37,
-  "program": 34
+  "subsidy": 38,
+  "program": 43
  },
  "audience_counts": {
   "households": 18,
@@ -134,5 +166,5 @@
   "pensioners": 2,
   "workers": 5
  },
- "total": 92
+ "total": 102
 }
