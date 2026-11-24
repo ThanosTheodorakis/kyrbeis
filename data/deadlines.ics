@@ -118,19 +118,6 @@ DESCRIPTION:ypergasias https://ypergasias.gov.gr/o-chartis-ton-pliromon-apo
  -e-efka-dypa-gia-tin-periodo-16-eos-20-noemvriou/
 END:VEVENT
 BEGIN:VEVENT
-UID:697ee6fe5fb65ee7e9e38f3757ea58769e2b8115@kyrbeis
-DTSTAMP:20261123T234518Z
-DTSTART;VALUE=DATE:20261113
-DTEND;VALUE=DATE:20261114
-SUMMARY:Δελτίο Τύπου 09/11/2026 Έως 13 Νοεμβρίου η 
- ετήσια απογραφή αιγοπροβάτων για την πρ
- οκαταβολή της Π3-70-1.5
-URL:https://www.aade.gr/deltia-typoy-anakoinoseis/agrotikes-enishyseis/delt
- io-typoy-09112026
-DESCRIPTION:aade https://www.aade.gr/deltia-typoy-anakoinoseis/agrotikes-en
- ishyseis/deltio-typoy-09112026
-END:VEVENT
-BEGIN:VEVENT
 UID:d89785816ad13fe46b593ce0580f86ada3fc4022@kyrbeis
 DTSTAMP:20261123T233009Z
 DTSTART;VALUE=DATE:20261116
@@ -159,20 +146,6 @@ URL:https://ypergasias.gov.gr/o-chartis-ton-pliromon-apo-e-efka-dypa-gia-ti
  n-periodo-9-noemvriou-eos-13-noemvriou/
 DESCRIPTION:ypergasias https://ypergasias.gov.gr/o-chartis-ton-pliromon-apo
  -e-efka-dypa-gia-tin-periodo-9-noemvriou-eos-13-noemvriou/
-END:VEVENT
-BEGIN:VEVENT
-UID:194b8a56cce3ca6474ec837e679e8af5ff87a76b@kyrbeis
-DTSTAMP:20261123T234518Z
-DTSTART;VALUE=DATE:20270219
-DTEND;VALUE=DATE:20270220
-SUMMARY:Δελτίο Τύπου 03/11/2026 ΥΠΑΑΤ– ΑΑΔΕ: Μέχρ
- ι τις 19 Φεβρουαρίου 2027 οι βώλοι για τις ε
- κτροφές άνω των 900 αιγοπροβάτων για την Ε
- ΑΕ 2026
-URL:https://www.aade.gr/deltia-typoy-anakoinoseis/agrotikes-enishyseis/delt
- io-typoy-03112026
-DESCRIPTION:aade https://www.aade.gr/deltia-typoy-anakoinoseis/agrotikes-en
- ishyseis/deltio-typoy-03112026
 END:VEVENT
 BEGIN:VEVENT
 UID:852b324eafe33869a58b84e805b043a56024566e@kyrbeis

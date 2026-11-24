@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-24T01:45:18+02:00",
+ "updated": "2026-11-24T02:55:55+02:00",
  "sources": [
   {
    "name": "aade",
@@ -23,7 +23,7 @@
    "url": "https://www.mindev.gov.gr/",
    "ok": true,
    "found": 10,
-   "kept": 6
+   "kept": 3
   },
   {
    "name": "efka",
@@ -31,15 +31,15 @@
    "url": "https://www.e-efka.gov.gr/el",
    "ok": true,
    "found": 20,
-   "kept": 1
+   "kept": 3
   },
   {
    "name": "dypa",
    "label": "ΔΥΠΑ – προγράμματα απασχόλησης & επιδόματα",
-   "url": "https://www.dypa.gov.gr/feed",
+   "url": "https://www.dypa.gov.gr/",
    "ok": true,
    "found": 20,
-   "kept": 9
+   "kept": 7
   },
   {
    "name": "primeminister",
@@ -47,12 +47,12 @@
    "url": "https://www.primeminister.gr/",
    "ok": true,
    "found": 10,
-   "kept": 6
+   "kept": 0
   },
   {
    "name": "opeka",
    "label": "ΟΠΕΚΑ – επιδόματα και παροχές",
-   "url": "https://opeka.gov.gr/feed/",
+   "url": "https://opeka.gov.gr/",
    "ok": true,
    "found": 10,
    "kept": 6
@@ -60,23 +60,23 @@
   {
    "name": "ypergasias",
    "label": "Υπουργείο Εργασίας και Κοινωνικής Ασφάλισης",
-   "url": "https://ypergasias.gov.gr/feed/",
+   "url": "https://ypergasias.gov.gr/",
    "ok": true,
    "found": 12,
-   "kept": 6
+   "kept": 5
   },
   {
    "name": "ypen",
    "label": "Υπουργείο Περιβάλλοντος και Ενέργειας",
-   "url": "https://ypen.gov.gr/feed/",
+   "url": "https://ypen.gov.gr/",
    "ok": true,
    "found": 10,
-   "kept": 2
+   "kept": 1
   },
   {
    "name": "hdb",
    "label": "Ελληνική Αναπτυξιακή Τράπεζα – δάνεια και εγγυήσεις",
-   "url": "https://hdb.gr/feed/",
+   "url": "https://hdb.gr/",
    "ok": true,
    "found": 10,
    "kept": 1
@@ -84,7 +84,7 @@
   {
    "name": "minscfa",
    "label": "Υπουργείο Κοινωνικής Συνοχής και Οικογένειας",
-   "url": "https://minscfa.gov.gr/feed/",
+   "url": "https://minscfa.gov.gr/",
    "ok": true,
    "found": 10,
    "kept": 8
@@ -92,7 +92,7 @@
   {
    "name": "diavgeia",
    "label": "Διαύγεια – προκηρύξεις δράσεων",
-   "url": "https://diavgeia.gov.gr/opendata/search.json",
+   "url": "https://diavgeia.gov.gr/",
    "ok": true,
    "found": 8,
    "kept": 8
@@ -116,23 +116,23 @@
   {
    "name": "greece20",
    "label": "Ταμείο Ανάκαμψης (Ελλάδα 2.0)",
-   "url": "https://greece20.gov.gr/feed/",
+   "url": "https://greece20.gov.gr/",
    "ok": false,
    "disabled": true,
    "error": "Unavailable: the site did not finish loading when checked on 23 Nov 2026. Set enabled to true to try it again."
   }
  ],
  "counts": {
-  "tax_deadline": 22,
-  "subsidy": 31,
-  "program": 47
+  "tax_deadline": 23,
+  "subsidy": 29,
+  "program": 37
  },
  "audience_counts": {
   "households": 18,
   "businesses": 15,
   "farmers": 8,
   "pensioners": 2,
-  "workers": 4
+  "workers": 5
  },
- "total": 85
+ "total": 88
 }
