@@ -25,13 +25,13 @@ concurrency:
   group: update-and-deploy
   cancel-in-progress: false
 
+# Two jobs, as GitHub recommends for Pages: "build" (optional scrape + package the site) and
+# "deploy". If the deploy hits one of GitHub's occasional artifact hiccups, use
+# "Re-run failed jobs" and only the deploy runs again, against the package already uploaded.
 jobs:
-  update:
+  build:
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -83,5 +83,14 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
       - id: deploy
         uses: actions/deploy-pages@v4
