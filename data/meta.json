@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-24T19:51:20+02:00",
+ "updated": "2026-11-25T09:27:49+02:00",
  "sources": [
   {
    "name": "aade",
@@ -71,7 +71,7 @@
    "url": "https://ypen.gov.gr/",
    "ok": true,
    "found": 10,
-   "kept": 2
+   "kept": 1
   },
   {
    "name": "hdb",
@@ -104,14 +104,6 @@
    "ok": true,
    "found": 10,
    "kept": 1
-  },
-  {
-   "name": "elga",
-   "label": "ΕΛΓΑ – αποζημιώσεις αγροτών",
-   "url": "https://www.elga.gr/",
-   "ok": false,
-   "found": 0,
-   "error": "https://www.elga.gr/: https://www.elga.gr/: skipped, www.elga.gr was unreachable earlier in this run (SSLError)"
   },
   {
    "name": "minagric",
@@ -152,6 +144,14 @@
    "ok": false,
    "disabled": true,
    "error": "Unavailable: the site did not finish loading when checked on 23 Nov 2026. Set enabled to true to try it again."
+  },
+  {
+   "name": "elga",
+   "label": "ΕΛΓΑ – αποζημιώσεις αγροτών",
+   "url": "https://www.elga.gr/",
+   "ok": false,
+   "disabled": true,
+   "error": "Unavailable: www.elga.gr's TLS certificate fails verification (browsers warn too, 24 Nov 2026). The scraper never turns off certificate checks; set enabled to true once the site's certificate is fixed."
   }
  ],
  "counts": {
