@@ -179,8 +179,25 @@ h1, h2, h3 { margin: 0; font-weight: 650; letter-spacing: -.01em; }
 .check input { width: 16px; height: 16px; margin: 0; flex-shrink: 0; accent-color: var(--ink); }
 .check .n { margin-left: auto; color: var(--ink-3); font-size: .85rem; }
 .swatch { width: 10px; height: 10px; border-radius: 50%; background: var(--c); flex-shrink: 0; }
-.sort { display: flex; flex-direction: column; gap: 4px; font-size: .9rem; margin-top: 8px; }
-.sort select { font: inherit; padding: 7px 8px; border-radius: var(--radius-s); border: 1px solid var(--rule); background: var(--surface); color: var(--ink); }
+/* above the list: deadline and publication on the left, sort order on the right */
+.toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 14px; }
+.pill {
+  position: relative; display: inline-flex; align-items: center; gap: 6px; height: 42px; padding-left: 16px;
+  border: 1px solid var(--rule); border-radius: 999px; background: var(--surface);
+  font-size: .9rem; color: var(--ink-2); cursor: pointer;
+}
+.pill:hover { border-color: var(--ink-3); }
+.pill:focus-within { outline: 2px solid var(--focus); outline-offset: 2px; }
+.pill.on { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.pill select {
+  appearance: none; -webkit-appearance: none; height: 100%; padding: 0 34px 0 0; border: 0; background: transparent;
+  font: inherit; font-weight: 600; color: var(--ink); cursor: pointer;
+}
+.pill select:focus { outline: none; }
+.pill select option { color: var(--ink); background: var(--surface); }
+.pill .chev { position: absolute; right: 13px; width: 12px; height: 12px; pointer-events: none; fill: none; stroke: var(--ink-2); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.pill-sort { margin-left: auto; padding-left: 14px; }
+.sort-ic { width: 16px; height: 16px; fill: none; stroke: var(--ink); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .apply, .badge { display: none; }
 .reset { align-self: flex-start; font: inherit; font-size: .9rem; background: none; border: 0; padding: 0; color: var(--link); text-decoration: underline; text-underline-offset: .18em; cursor: pointer; }
 
@@ -261,7 +278,7 @@ main:focus { outline: none; }
   /* bigger invisible tap area around each dot on the timeline */
   .tick::after { content: ""; position: absolute; inset: -9px; border-radius: 50%; }
 
-  .layout { grid-template-columns: 1fr; gap: 8px; }
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 8px; }  /* minmax: let the chip row scroll instead of widening the page */
 
   /* the search box and the filter button stay at the top while you scroll the list */
   .rail {
@@ -270,7 +287,12 @@ main:focus { outline: none; }
     background: var(--paper); border-bottom: 1px solid var(--rule);
   }
   .search { flex: 1; min-width: 0; }
-  .search input, .sort select { font-size: 16px; }   /* under 16px, iPhones zoom in on tap */
+  .search input, .pill select { font-size: 16px; }   /* under 16px, iPhones zoom in on tap */
+  /* one row that scrolls sideways, like a shop's filter chips */
+  .toolbar { flex-wrap: nowrap; overflow-x: auto; margin: 0 -16px 12px; padding: 2px 16px 4px; scrollbar-width: none; }
+  .toolbar::-webkit-scrollbar { display: none; }
+  .pill { flex-shrink: 0; }
+  .pill-sort { margin-left: 0; }
   .search input { height: 100%; min-height: 46px; }
   .filters > summary {
     display: flex; align-items: center; gap: 8px; height: 100%; min-height: 46px; padding: 0 14px;
@@ -299,7 +321,6 @@ main:focus { outline: none; }
   /* the list area is always at least a screen tall, so the bar stays put and
      "show results" can scroll to the list even when a filter leaves few or none */
   .layout { min-height: 100vh; min-height: 100dvh; align-content: start; }
-  .sort select { padding: 10px 8px; }
   .reset { padding: 6px 0; }
   /* stays at the bottom of the panel; the surface-coloured ring hides the list scrolling under it */
   .apply {

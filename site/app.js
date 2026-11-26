@@ -25,7 +25,7 @@
       aud: { households: "Ιδιώτες & οικογένειες", businesses: "Επιχειρήσεις & ελ. επαγγελματίες",
         workers: "Εργαζόμενοι & άνεργοι", pensioners: "Συνταξιούχοι", farmers: "Αγρότες",
         students: "Μαθητές & φοιτητές", researchers: "Ερευνητές & ακαδημαϊκοί", disability: "Άτομα με αναπηρία" },
-      dueFilter: "Προθεσμία", dueAny: "Όλες οι ανακοινώσεις", dueOpen: "Με ανοιχτή προθεσμία",
+      dueFilter: "Προθεσμία", dueAny: "Όλες", dueOpen: "Με ανοιχτή προθεσμία",
       due7: "Λήγει σε 7 ημέρες", due30: "Λήγει σε 30 ημέρες",
       period: "Δημοσίευση", periodAny: "Οποτεδήποτε", period7: "Τελευταίες 7 ημέρες", period30: "Τελευταίες 30 ημέρες",
       sort: "Ταξινόμηση", sortPub: "Πιο πρόσφατα", sortDl: "Πλησιέστερη προθεσμία",
@@ -80,7 +80,7 @@
       aud: { households: "Individuals & families", businesses: "Businesses & self-employed",
         workers: "Employees & unemployed", pensioners: "Pensioners", farmers: "Farmers",
         students: "Pupils & students", researchers: "Researchers & academics", disability: "People with disabilities" },
-      dueFilter: "Deadline", dueAny: "All announcements", dueOpen: "Open deadline",
+      dueFilter: "Deadline", dueAny: "Any", dueOpen: "Open deadline",
       due7: "Due within 7 days", due30: "Due within 30 days",
       period: "Published", periodAny: "Any time", period7: "Last 7 days", period30: "Last 30 days",
       sort: "Sort by", sortPub: "Most recent", sortDl: "Nearest deadline",
@@ -285,6 +285,7 @@
     $("#due").value = state.due;
     $("#period").value = state.period;
     $("#sort").value = state.sort;
+    markPills();
   }
 
   // The 60-day timeline: one slot per day, months as shaded bands, a dated tick every Monday,
@@ -455,11 +456,30 @@
 
   // phones: the filter button shows how many filters are on, the panel's button how many results
   function renderPanelInfo(n) {
-    const on = state.cats.size + state.aud.size + state.srcs.size + (state.due ? 1 : 0) + (state.period ? 1 : 0);
+    const on = state.cats.size + state.aud.size + state.srcs.size;
     const badge = $("#fcount");
     badge.hidden = !on; badge.textContent = on; badge.setAttribute("aria-label", t("activeFilters")(on));
     $("#apply").textContent = t("showN")(n);
   }
+
+  // outline the deadline/publication buttons while they're actually filtering
+  function markPills() {
+    $("#pill-due").classList.toggle("on", !!state.due);
+    $("#pill-period").classList.toggle("on", !!state.period);
+    fitSelects();
+  }
+
+  // a <select> is as wide as its longest option; size each to the option it shows instead
+  const measure = document.createElement("canvas").getContext("2d");
+  function fitSelects() {
+    document.querySelectorAll(".pill select").forEach(sel => {
+      const cs = getComputedStyle(sel), shown = sel.options[sel.selectedIndex];
+      measure.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+      const text = Math.ceil(measure.measureText(shown ? shown.text : "").width);
+      sel.style.width = `${text + parseFloat(cs.paddingRight) + 4}px`;
+    });
+  }
+  if (document.fonts) document.fonts.ready.then(fitSelects);   // re-measure once the web font is in
 
   function renderList() {
     const res = $("#results"); res.replaceChildren();
@@ -565,9 +585,9 @@
   }));
   let qTimer;
   $("#q").addEventListener("input", e => { clearTimeout(qTimer); qTimer = setTimeout(() => { state.q = e.target.value.trim(); update(); }, 150); });
-  $("#due").addEventListener("change", e => { state.due = e.target.value; update(); });
-  $("#period").addEventListener("change", e => { state.period = e.target.value; update(); });
-  $("#sort").addEventListener("change", e => { state.sort = e.target.value; update(); });
+  $("#due").addEventListener("change", e => { state.due = e.target.value; markPills(); update(); });
+  $("#period").addEventListener("change", e => { state.period = e.target.value; markPills(); update(); });
+  $("#sort").addEventListener("change", e => { state.sort = e.target.value; fitSelects(); update(); });
   $("#reset").addEventListener("click", () => {
     Object.assign(state, { q: "", due: "", period: "", sort: "published" });
     state.cats.clear(); state.aud.clear(); state.srcs.clear(); renderFilters(); update();
