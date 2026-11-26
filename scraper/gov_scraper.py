@@ -275,14 +275,34 @@ GAP_AFTER_UNTIL = re.compile(rf"^{_P}(?:(?:{'|'.join(_FILLERS)}){_P})*$")
 GAP_AFTER_CUE = re.compile(rf"^{_P}(?:[^\W\d_]+{_P}){{0,4}}$")
 
 
-def find_deadline(
-    text: str, published: date | None = None, context: str | None = None, until_ok: bool = True
-) -> date | None:
+# "Στόχος να λάβουν το κουπόνι έως 14/12", "θα πληρωθούν έως 20/12": a target, or something the
+# state will do, not something the reader must do by then. Looked for in the same sentence, just
+# before «έως/μέχρι». Future forms of *citizen* actions («θα υποβάλλονται έως») still count.
+_STATE_DOES = r"(?:λαβ|πληρωθ|καταβληθ|πιστωθ|ολοκληρωθ|παραδοθ|δοθ|μοιραστ|διανεμηθ)\w*"
+TARGET_BEFORE = re.compile(rf"(?<!\w)(?:στοχ\w*|(?:θα|να)\s+{_STATE_DOES})")
+TARGET_WINDOW = 110  # characters before the cue, within the sentence
+
+
+def _is_target(n: str, cue_at: int) -> bool:
+    """Is the «έως» at `cue_at` the end of a target/state action rather than a citizen's deadline?
+
+    The date belongs to the nearest phrase before it: in «θα λάβουν το επίδομα εφόσον υποβάλουν
+    αίτηση έως 10/12» the citizen's «αίτηση» comes after «θα λάβουν», so 10/12 is a deadline."""
+    before = n[max(0, cue_at - TARGET_WINDOW) : cue_at]
+    before = re.split(r"[.;!?·](?:\s|$)", before)[-1]  # same sentence only ("180.000" is not a sentence end)
+    targets = list(TARGET_BEFORE.finditer(before))
+    if not targets:
+        return False
+    return not CITIZEN_ACTION.search(before[targets[-1].end() :])
+
+
+def find_deadline(text: str, published: date | None = None, context: str | None = None) -> date | None:
     """Pick the date most likely to be the deadline.
 
     - Only in actionable announcements (see read_context; `context` is the whole item,
       default `text`): "επίσκεψη έως 25/11" or "συνέδριο 22-25/11" has no deadline.
     - ...that ask the reader to act (owes_action): a payment calendar "23 έως 27/11" has none.
+    - "έως" after a target or a state action in the same sentence ("στόχος… έως 14/12") is skipped.
     - Year-less dates are resolved forward from `published` (or today); see _resolve_yearless.
     - The date must follow its cue closely; see GAP_AFTER_UNTIL / GAP_AFTER_CUE.
     - A date right after "από"/"from" is a start date, never a deadline.
@@ -295,19 +315,23 @@ def find_deadline(
         (pos, d) for pos, d in find_dates(text, ref, forward=True) if not _FROM_BEFORE.search(n[max(0, pos - 14) : pos])
     ]
 
-    def after(cue_re: re.Pattern[str], gap: re.Pattern[str]) -> list[date]:
+    def after(cue_re: re.Pattern[str], gap: re.Pattern[str], skip_targets: bool = False) -> list[date]:
         out = []
         for cue in cue_re.finditer(n):
+            if skip_targets and _is_target(n, cue.start()):
+                continue
             nxt = next(((pos, d) for pos, d in dates if pos >= cue.end()), None)
             if nxt and gap.match(n[cue.end() : nxt[0]]):
                 out.append(nxt[1])
         return [d for d in out if not published or d >= published]
 
     whole = text if context is None else context
-    actionable, _ = read_context(whole)
+    # A person's statement is news for *topics*, but ministers announce real deadlines too
+    # ("Πιερρακάκης: «Παράταση της προθεσμίας έως 31/12»"), so for deadlines it is judged on its words.
+    actionable, _ = read_context(whole, statements_are_news=False)
     if not actionable or not owes_action(whole):
         return None
-    until = after(UNTIL_CUES, GAP_AFTER_UNTIL) if until_ok else []
+    until = after(UNTIL_CUES, GAP_AFTER_UNTIL, skip_targets=True)
     other = after(DEADLINE_CUES, GAP_AFTER_CUE)
     if EXTENSION.search(n) and (until or other):
         return max(until + other)
@@ -619,8 +643,8 @@ def _person_says(text: str) -> bool:
     return bool(m) and norm(m.group().split()[0]).rstrip(".") not in _NOT_A_NAME
 
 
-def _prepare(text: str) -> str:
-    n = ("_statement_ " if _person_says(text) else "") + norm(text)
+def _prepare(text: str, statements_are_news: bool = True) -> str:
+    n = ("_statement_ " if statements_are_news and _person_says(text) else "") + norm(text)
     for rx, repl in _REWRITES:
         n = rx.sub(f" {repl} ", n)
     return n
@@ -636,11 +660,11 @@ def owes_action(text: str) -> bool:
     return bool(CITIZEN_ACTION.search(n) or _cat_re["tax_deadline"].search(n) or _cat_re["program"].search(n))
 
 
-def read_context(text: str) -> tuple[bool, bool]:
+def read_context(text: str, statements_are_news: bool = True) -> tuple[bool, bool]:
     """(actionable, event): does the text offer or require something, and is it an event/agenda?
     An announcement with an unambiguous keyword is always actionable, even if it is also an event
     ("Ομιλία για το νέο επίδομα" is news about a benefit)."""
-    n = _prepare(text)
+    n = _prepare(text, statements_are_news)
     strong = any(rx.search(n) for rx in _cat_re.values())
     event = bool(EVENT.search(n))
     actionable = strong or (not event and bool(ACTION.search(n) or MONEY.search(n)))
@@ -1151,10 +1175,7 @@ def enrich(item: Item) -> Item:
     # title and summary separately, so a cue at the end of one can't grab a date from the other
     # ...but whether it's actionable at all is judged on the whole announcement
     whole = f"{item.title} {item.summary}"
-    # In a person's statement, "έως 14 Δεκεμβρίου" is a promise or a target, not a deadline for
-    # the reader; only an explicit «προθεσμία/λήγει» counts there.
-    until_ok = not _person_says(item.title)
-    dl = find_deadline(item.title, pub, whole, until_ok) or find_deadline(item.summary, pub, whole, until_ok)
+    dl = find_deadline(item.title, pub, whole) or find_deadline(item.summary, pub, whole)
     item.deadline = dl.isoformat() if dl else None
     return item
 

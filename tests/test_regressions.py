@@ -903,13 +903,36 @@ def test_a_ministers_target_date_is_not_a_deadline():
     assert "subsidy" in item.categories  # still about a real benefit
 
 
-def test_a_statement_can_still_announce_an_explicit_deadline():
-    item = g.enrich(
-        g.Item(
-            "minscfa",
-            "Δόμνα Μιχαηλίδου: Η προθεσμία για τις αιτήσεις λήγει στις 12 Ιανουαρίου 2027",
-            "https://e.gr/1",
-            "2026-11-25",
-        )
-    )
-    assert item.deadline == "2027-01-12"
+@pytest.mark.parametrize(
+    "title,deadline",
+    [
+        # statements often announce real deadlines: these must not be lost
+        ("Δόμνα Μιχαηλίδου: Οι αιτήσεις για το επίδομα υποβάλλονται έως 15 Δεκεμβρίου", "2026-12-15"),
+        ("Κ. Πιερρακάκης: «Παράταση της προθεσμίας υποβολής έως τις 31 Δεκεμβρίου»", "2026-12-31"),
+        ("Δόμνα Μιχαηλίδου: Η προθεσμία για τις αιτήσεις λήγει στις 12 Ιανουαρίου 2027", "2027-01-12"),
+        # future forms of what citizens do still count
+        ("Οι αιτήσεις θα υποβάλλονται έως 20 Δεκεμβρίου", "2026-12-20"),
+        # the date belongs to the nearest phrase: the citizen's application, not «θα λάβουν»
+        ("Οι δικαιούχοι θα λάβουν το επίδομα εφόσον καταβάλουν την αίτησή τους εώς τις 10 Δεκ.", "2026-12-10"),
+        ("Θα πληρωθούν όσοι υποβάλουν δήλωση μέχρι 15/12", "2026-12-15"),
+    ],
+)
+def test_statements_still_announce_real_deadlines(title, deadline):
+    item = g.enrich(g.Item("minscfa", title, "https://e.gr/1", "2026-11-25"))
+    assert item.deadline == deadline
+
+
+@pytest.mark.parametrize(
+    "title",
+    [
+        "Επίδομα θέρμανσης: θα πληρωθούν έως 20 Δεκεμβρίου όσοι υπέβαλαν αίτηση",
+        "Στόχος να ολοκληρωθούν οι αιτήσεις και να καταβληθεί η ενίσχυση έως τις 31 Δεκεμβρίου",
+    ],
+)
+def test_targets_and_state_actions_are_not_deadlines(title):
+    assert g.enrich(g.Item("x", title, "https://e.gr/1", "2026-11-25")).deadline is None
+
+
+def test_target_word_in_another_sentence_doesnt_hide_a_deadline():
+    title = "Στόχος μας η στήριξη των οικογενειών. Οι αιτήσεις υποβάλλονται έως 15 Δεκεμβρίου"
+    assert g.enrich(g.Item("x", title, "https://e.gr/1", "2026-11-25")).deadline == "2026-12-15"
