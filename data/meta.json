@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T17:28:14+02:00",
+ "updated": "2026-11-26T17:32:04+02:00",
  "sources": [
   {
    "name": "aade",
@@ -155,9 +155,9 @@
   }
  ],
  "counts": {
-  "tax_deadline": 13,
-  "subsidy": 47,
-  "program": 56
+  "tax_deadline": 12,
+  "subsidy": 46,
+  "program": 52
  },
  "audience_counts": {
   "households": 19,
