@@ -72,7 +72,7 @@ Each announcement goes through four steps:
    - on a παράταση (extension), the new date
    - dates without a year resolve forward from publication, unless the text is in the past tense («ολοκληρώθηκε… έως 25 Σεπτεμβρίου»)
 
-Every misclassification found on the live site becomes a regression test built from the real headline, so it can't come back.
+Every misclassification found on the live site becomes a regression test built from the real headline, so it can't come back. On top of that, a corpus of 129 headlines ([`tests/test_corpus.py`](tests/test_corpus.py)) pins down the expected topic and deadline for each case. Its 30-headline held-out set scored 24/30 exactly right, and 29/30 on deadlines, on first contact; the misses were fixed and are now tests too.
 
 ## Design decisions
 
@@ -104,7 +104,7 @@ git clone https://github.com/ThanosTheodorakis/kyrbeis.git && cd kyrbeis
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
 
-pytest                                              # offline test suite, ~200 tests
+pytest                                              # offline test suite, ~350 tests
 python -m scraper.gov_scraper --site-data data      # scrape into data/
 python -m scraper.gov_scraper --only aade -v        # one source, verbose
 python scripts/serve.py                             # preview at http://localhost:8000

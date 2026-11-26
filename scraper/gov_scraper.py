@@ -125,10 +125,11 @@ MONTHS = _month_forms()
 _W = r"[a-zα-ω]"  # a letter, after norm()
 ISO_DATE = re.compile(r"(?<!\d)(\d{4})-(\d{2})-(\d{2})(?!\d)")
 NUM_DATE = re.compile(r"(?<![\d/.])(\d{1,2})[./-](\d{1,2})[./-](\d{4}|\d{2})(?!\d)")
-WORD_DATE = re.compile(rf"(?<!\d)(\d{{1,2}})\s+({_W}{{3,12}})(?!{_W})\.?\s+(\d{{4}})(?!\d)")
+_ORD = r"(?:η|ησ|ην)?"  # «15ης Δεκεμβρίου», «1η Δεκεμβρίου»
+WORD_DATE = re.compile(rf"(?<!\d)(\d{{1,2}}){_ORD}\s+({_W}{{3,12}})(?!{_W})\.?\s+(\d{{4}})(?!\d)")
 # Year-less forms, only used when a reference date is known (see find_dates):
 NUM_DM = re.compile(r"(?<![\d/.,-])(\d{1,2})[./](\d{1,2})(?![\d]|[./-]\d)")
-WORD_DM = re.compile(rf"(?<!\d)(\d{{1,2}})\s+({_W}{{3,12}})(?!{_W})")
+WORD_DM = re.compile(rf"(?<!\d)(\d{{1,2}}){_ORD}\s+({_W}{{3,12}})(?!{_W})")
 
 
 def _mk(y: int, m: int, d: int) -> date | None:
@@ -227,15 +228,17 @@ def _word_re(words: list[str]) -> re.Pattern[str]:
 
 
 # "until" cues: the date right after them is the deadline.
-UNTIL_CUES = _word_re(["έως!", "μέχρι!", "το αργότερο", "until!"])
+UNTIL_CUES = _word_re(["έως!", "ως!", "μέχρι!", "το αργότερο", "until!"])  # «ως» only counts right before a date
 # weaker cues: a date after them is probably a deadline.
-DEADLINE_CUES = _word_re(["προθεσμί", "λήξη", "λήγει", "λήγουν", "καταληκτική", "deadline"])
+DEADLINE_CUES = _word_re(["προθεσμί", "λήξη", "λήγει", "λήγουν", "καταληκτική", "κλείνει!", "κλείνουν!", "deadline"])
 EXTENSION = _word_re(["παράταση", "παράτασης", "παρατείνεται", "παρατείνονται", "extension", "extended"])
 _FROM_BEFORE = re.compile(r"(?<!\w)(?:απο|from)(?:\s+(?:την|τη|τισ|the))?\s*$")
 
 # What may sit between a cue and its date. After έως/μέχρι only small words
 # ("έως και τις", "μέχρι την Παρασκευή"); "έως 72 δόσεις" has no date, so no deadline.
 _FILLERS = [
+    r"\d{1,2}[:.]\d{2}",  # a time: «έως τις 23:59 της 15ης Δεκεμβρίου»
+    "ωρα",
     "και",
     "τισ",
     "την",
@@ -365,8 +368,18 @@ CATEGORIES: dict[str, list[str]] = {
         "εκκαθαριστικ",
         "ρυθμιση οφειλων",
         "τελη κυκλοφοριασ",
+        "τελων κυκλοφοριασ",
         "e9!",
         "ε9!",
+        "ε1!",  # tax return forms
+        "e1!",
+        "ε2!",
+        "e2!",
+        "ε3!",
+        "e3!",
+        "myproperty",
+        "δηλωση ενοικ",
+        "δηλωσεισ ενοικ",
         "mydata!",
         "υποβολη δηλωσ",
         "πληρωμη φορου",
@@ -394,6 +407,8 @@ CATEGORIES: dict[str, list[str]] = {
         "αιτησεων",
         "προσκληση υποβολ",
         "αιτηση ενδιαφεροντοσ",
+        "υποβολη προτασ",  # calls for funding proposals
+        "υποβολησ προτασ",
         "υποτροφι",  # υποτροφία, υποτροφίες, υποτροφιών (ΙΚΥ, ΕΛΙΔΕΚ)
         "εξοικονομω",
         "ανακαινιζω",
@@ -415,6 +430,7 @@ CATEGORY_HINTS: dict[str, list[str]] = {
     "tax_deadline": [
         "δοση",
         "δοσεισ",
+        "δοσεων",
         "εισφορεσ",
         "εισφορων",
         "καταβολη",
@@ -428,6 +444,11 @@ CATEGORY_HINTS: dict[str, list[str]] = {
         "δανεια",
         "πιστωση",
         "αποζημιωσ",
+        # the state paying someone: «359 εκατ. ευρώ καταβάλλονται σε 1.064.460 δικαιούχους»
+        "καταβαλλονται σε",
+        "καταβαλλεται σε",
+        "πιστωνονται",
+        "πιστωνεται σε",
     ],
     "program": [
         "προγραμμα!",
@@ -437,10 +458,14 @@ CATEGORY_HINTS: dict[str, list[str]] = {
         "δραση",
         "δρασεισ",
         "δρασεων",
-        "προσκληση",
-        "προσκλησεισ",
+        "προσκλησ",  # every form: «της πρόσκλησης», «προσκλήσεις»
         "πλατφορμα",
-        "ψηφιακ",
+        # "ψηφιακ…" alone is too broad («Ψηφιακές συναλλαγές»); these phrases are programs
+        "ψηφιακοσ μετασχηματισμ",
+        "ψηφιακου μετασχηματισμ",
+        "ψηφιακεσ δεξιοτητ",
+        "ψηφιακων δεξιοτητ",
+        "σεμιναρι",
         "καταρτιση",
         "νεοι!",
         "νεουσ!",
@@ -476,8 +501,10 @@ ACTION = _word_re(
         "εγγραφ",
         "ρυθμισ",
         "δηλωσ",
+        "καταληκτικ",
         "ανοιγει",
         "ανοιξε",
+        "ανοιγμα",
         "αποτελεσματα!",  # results of a call matter to everyone who applied
         "αποτελεσματων!",
         "applications",
@@ -488,6 +515,7 @@ ACTION = _word_re(
 # pays, not a deadline; "αιτήσεις έως 27/11" is.
 CITIZEN_ACTION = _word_re(
     [
+        "πλατφορμ",  # an application platform opening or closing («λήξη στις 20/12»)
         "αιτησ",
         "αιτηση!",
         "υποβολ",
@@ -498,6 +526,7 @@ CITIZEN_ACTION = _word_re(
         "εγγραφ",
         "ρυθμισ",
         "δηλωσ",
+        "καταληκτικ",
         "εξοφλ",
         "applications",
         "apply",
@@ -544,6 +573,7 @@ EVENT = _word_re(
         "συνοδο",
         "συνοδου",
         "συζητηση",
+        "ημεριδ",
         # court notices (expropriations, hearings)
         "ακροατηριο",
         "εφετει",
@@ -654,10 +684,16 @@ _cat_re = {cat: _word_re(words) for cat, words in CATEGORIES.items()}
 _hint_re = {cat: _word_re(words) for cat, words in CATEGORY_HINTS.items()}
 
 
+TAXPAYER_DOES = _word_re(["πληρωμ", "πληρων", "πληρωθ", "καταβολ", "καταβαλ", "εξοφλ", "δοση", "δοσεισ", "δοσεων"])
+
+
 def owes_action(text: str) -> bool:
-    """Does the text ask the reader to do something (apply, submit, declare, pay a tax)?"""
+    """Does the text ask the reader to do something (apply, submit, declare, pay a tax)?
+    A tax word alone isn't enough: «Μειωμένος ΦΠΑ έως 31/12/2027» says how long a reduction lasts."""
     n = _prepare(text)
-    return bool(CITIZEN_ACTION.search(n) or _cat_re["tax_deadline"].search(n) or _cat_re["program"].search(n))
+    if CITIZEN_ACTION.search(n) or _cat_re["program"].search(n):
+        return True
+    return bool(_cat_re["tax_deadline"].search(n) and TAXPAYER_DOES.search(n))
 
 
 def read_context(text: str, statements_are_news: bool = True) -> tuple[bool, bool]:
@@ -674,8 +710,12 @@ def read_context(text: str, statements_are_news: bool = True) -> tuple[bool, boo
 def categorize(text: str) -> list[str]:
     n = _prepare(text)
     strong = {cat for cat, rx in _cat_re.items() if rx.search(n)}
-    actionable, _ = read_context(text)
-    hinted = {cat for cat, rx in _hint_re.items() if rx.search(n)} if actionable else set()
+    actionable, event = read_context(text)
+    # ambiguous words never count in events, even next to a clear one:
+    # «Ημερίδα για τα προγράμματα του ΕΣΠΑ» is about subsidies (ΕΣΠΑ), but it isn't a program
+    hinted = {cat for cat, rx in _hint_re.items() if rx.search(n)} if actionable and not event else set()
+    if "subsidy" in strong:
+        hinted.discard("tax_deadline")  # «Επίδομα παιδιού: η Δ΄ δόση» is the benefit's instalment, not a tax
     return [cat for cat in CATEGORIES if cat in strong | hinted]
 
 
