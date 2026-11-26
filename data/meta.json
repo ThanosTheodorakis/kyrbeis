@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T12:04:50+02:00",
+ "updated": "2026-11-26T17:05:33+02:00",
  "sources": [
   {
    "name": "aade",
@@ -7,7 +7,7 @@
    "url": "https://www.aade.gr/deltia-typoy-anakoinoseis",
    "ok": true,
    "found": 30,
-   "kept": 29
+   "kept": 30
   },
   {
    "name": "minfin",
@@ -15,7 +15,7 @@
    "url": "https://www.minfin.gov.gr/",
    "ok": true,
    "found": 10,
-   "kept": 0
+   "kept": 1
   },
   {
    "name": "mindev",
@@ -23,7 +23,7 @@
    "url": "https://www.mindev.gov.gr/",
    "ok": true,
    "found": 10,
-   "kept": 1
+   "kept": 2
   },
   {
    "name": "efka",
@@ -39,7 +39,7 @@
    "url": "https://www.dypa.gov.gr/",
    "ok": true,
    "found": 20,
-   "kept": 4
+   "kept": 5
   },
   {
    "name": "primeminister",
@@ -55,7 +55,7 @@
    "url": "https://opeka.gov.gr/",
    "ok": true,
    "found": 10,
-   "kept": 6
+   "kept": 7
   },
   {
    "name": "ypergasias",
@@ -103,14 +103,14 @@
    "url": "https://www.elidek.gr/",
    "ok": true,
    "found": 10,
-   "kept": 1
+   "kept": 2
   },
   {
    "name": "minagric",
    "label": "Υπουργείο Αγροτικής Ανάπτυξης & Τροφίμων",
    "url": "https://www.minagric.gr/",
    "ok": true,
-   "found": 57,
+   "found": 55,
    "kept": 0
   },
   {
@@ -155,16 +155,19 @@
   }
  ],
  "counts": {
-  "tax_deadline": 12,
-  "subsidy": 45,
-  "program": 52
+  "tax_deadline": 13,
+  "subsidy": 47,
+  "program": 56
  },
  "audience_counts": {
-  "households": 21,
+  "households": 19,
   "businesses": 21,
-  "farmers": 8,
+  "farmers": 9,
   "pensioners": 2,
-  "workers": 7
+  "workers": 7,
+  "students": 12,
+  "researchers": 8,
+  "disability": 5
  },
- "total": 112
+ "total": 118
 }
