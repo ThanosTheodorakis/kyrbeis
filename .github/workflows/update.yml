@@ -78,6 +78,11 @@ jobs:
           cp -r site/. _site/
           cp -r data _site/data
           touch _site/.nojekyll
+          # Point the page at this deploy's own CSS and JS (style.css?v=<commit>), so browsers and
+          # GitHub's cache never mix a new index.html with an old style.css or app.js.
+          v="${GITHUB_SHA::8}"
+          sed -i "s|href=\"style.css\"|href=\"style.css?v=$v\"|; s|src=\"app.js\"|src=\"app.js?v=$v\"|" _site/index.html
+          grep -q "style.css?v=$v" _site/index.html && grep -q "app.js?v=$v" _site/index.html
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

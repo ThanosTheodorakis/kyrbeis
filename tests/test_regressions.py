@@ -884,3 +884,32 @@ def test_new_audiences(title, expected):
 def test_new_audiences_dont_catch_lookalikes():
     assert "students" not in g.audiences_for("Μια σπουδαία ημέρα για την οικονομία")  # σπουδαία ≠ σπουδές
     assert "researchers" not in g.audiences_for("Έρευνες της αστυνομίας για απάτες")  # only «έρευνα/έρευνας»
+
+
+# --- from the live site, 26 Nov 2026 ------------------------------------------
+
+
+def test_a_ministers_target_date_is_not_a_deadline():
+    item = g.enrich(
+        g.Item(
+            "minscfa",
+            "Δόμνα Μιχαηλίδου: «Στόχος να λάβουν 180.000 πολίτες το πρώτο κουπόνι τροφίμων έως τις 14 Δεκεμβρίου»",
+            "https://e.gr/1",
+            "2026-11-25",
+            summary="Οι αιτήσεις υποβάλλονται στην πλατφόρμα.",
+        )
+    )
+    assert item.deadline is None
+    assert "subsidy" in item.categories  # still about a real benefit
+
+
+def test_a_statement_can_still_announce_an_explicit_deadline():
+    item = g.enrich(
+        g.Item(
+            "minscfa",
+            "Δόμνα Μιχαηλίδου: Η προθεσμία για τις αιτήσεις λήγει στις 12 Ιανουαρίου 2027",
+            "https://e.gr/1",
+            "2026-11-25",
+        )
+    )
+    assert item.deadline == "2027-01-12"

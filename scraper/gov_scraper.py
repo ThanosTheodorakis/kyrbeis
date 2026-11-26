@@ -275,7 +275,9 @@ GAP_AFTER_UNTIL = re.compile(rf"^{_P}(?:(?:{'|'.join(_FILLERS)}){_P})*$")
 GAP_AFTER_CUE = re.compile(rf"^{_P}(?:[^\W\d_]+{_P}){{0,4}}$")
 
 
-def find_deadline(text: str, published: date | None = None, context: str | None = None) -> date | None:
+def find_deadline(
+    text: str, published: date | None = None, context: str | None = None, until_ok: bool = True
+) -> date | None:
     """Pick the date most likely to be the deadline.
 
     - Only in actionable announcements (see read_context; `context` is the whole item,
@@ -305,7 +307,8 @@ def find_deadline(text: str, published: date | None = None, context: str | None 
     actionable, _ = read_context(whole)
     if not actionable or not owes_action(whole):
         return None
-    until, other = after(UNTIL_CUES, GAP_AFTER_UNTIL), after(DEADLINE_CUES, GAP_AFTER_CUE)
+    until = after(UNTIL_CUES, GAP_AFTER_UNTIL) if until_ok else []
+    other = after(DEADLINE_CUES, GAP_AFTER_CUE)
     if EXTENSION.search(n) and (until or other):
         return max(until + other)
     if until:
@@ -1148,7 +1151,10 @@ def enrich(item: Item) -> Item:
     # title and summary separately, so a cue at the end of one can't grab a date from the other
     # ...but whether it's actionable at all is judged on the whole announcement
     whole = f"{item.title} {item.summary}"
-    dl = find_deadline(item.title, pub, whole) or find_deadline(item.summary, pub, whole)
+    # In a person's statement, "έως 14 Δεκεμβρίου" is a promise or a target, not a deadline for
+    # the reader; only an explicit «προθεσμία/λήγει» counts there.
+    until_ok = not _person_says(item.title)
+    dl = find_deadline(item.title, pub, whole, until_ok) or find_deadline(item.summary, pub, whole, until_ok)
     item.deadline = dl.isoformat() if dl else None
     return item
 
