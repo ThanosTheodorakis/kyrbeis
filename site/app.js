@@ -53,7 +53,7 @@
       more: n => `Εμφάνιση ${n} ακόμη`,
       jumpFoot: "Κατάσταση πηγών & RSS",
       groupToday: "Σήμερα", groupYesterday: "Χθες", groupUndated: "Χωρίς ημερομηνία",
-      groupDue: "Με προθεσμία", groupNoDue: "Χωρίς γνωστή προθεσμία",
+      groupDue: "Ανοιχτή προθεσμία", groupPast: "Έληξε η προθεσμία", groupNoDue: "Χωρίς γνωστή προθεσμία",
       subscribe: "Ροή RSS",
       subscribeText: "Ακολουθήστε τις νέες ανακοινώσεις σε έναν αναγνώστη RSS.",
       rss: "Ροή RSS",
@@ -108,7 +108,7 @@
       more: n => `Show ${n} more`,
       jumpFoot: "Source status & RSS",
       groupToday: "Today", groupYesterday: "Yesterday", groupUndated: "Undated",
-      groupDue: "With a deadline", groupNoDue: "No known deadline",
+      groupDue: "Open deadline", groupPast: "Deadline passed", groupNoDue: "No known deadline",
       subscribe: "RSS feed",
       subscribeText: "Follow new announcements in an RSS reader.",
       rss: "RSS feed",
@@ -440,12 +440,14 @@
   }
 
   function groupKey(it) {
-    if (state.sort === "deadline") return it.deadline && daysUntil(it.deadline) >= 0 ? "due" : "nodue";
+    // upcoming, then passed (most recent first), then none: same order as the sort below
+    if (state.sort === "deadline") return !it.deadline ? "nodue" : daysUntil(it.deadline) >= 0 ? "due" : "past";
     if (!it.published) return "undated";
     return it.published.slice(0, 10);
   }
   function groupLabel(k) {
     if (k === "due") return t("groupDue");
+    if (k === "past") return t("groupPast");
     if (k === "nodue") return t("groupNoDue");
     if (k === "undated") return t("groupUndated");
     const n = -daysUntil(k);
