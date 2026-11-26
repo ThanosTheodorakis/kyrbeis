@@ -861,3 +861,26 @@ def test_new_sources_are_configured_as_checked_on_24_nov():
 def test_tls_verification_is_never_disabled():
     src = Path(g.__file__).read_text(encoding="utf-8")
     assert "verify=False" not in src and "verify = False" not in src
+
+
+# --- new audiences: students, researchers, people with disabilities (26 Nov 2026) ---
+
+
+@pytest.mark.parametrize(
+    "title,expected",
+    [
+        ("Υποτροφίες ΙΚΥ για μεταπτυχιακές σπουδές στο εξωτερικό", ["students"]),
+        ("Erasmus+: κινητικότητα φοιτητών 2027", ["students"]),
+        ("Χρηματοδότηση υποψήφιων διδακτόρων και μεταδιδακτόρων ερευνητών", ["researchers"]),
+        ("Νέα δράση ΕΛΙΔΕΚ για την ενίσχυση της έρευνας στα πανεπιστήμια", ["researchers"]),
+        ("Πρόγραμμα «Προσωπικός Βοηθός για Άτομα με Αναπηρία»", ["disability"]),
+        ("Επίδομα για μαθητές δημοτικού", ["households", "students"]),
+    ],
+)
+def test_new_audiences(title, expected):
+    assert g.audiences_for(title) == expected
+
+
+def test_new_audiences_dont_catch_lookalikes():
+    assert "students" not in g.audiences_for("Μια σπουδαία ημέρα για την οικονομία")  # σπουδαία ≠ σπουδές
+    assert "researchers" not in g.audiences_for("Έρευνες της αστυνομίας για απάτες")  # only «έρευνα/έρευνας»

@@ -12,20 +12,30 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@300..800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script>
+  // apply a saved light/dark choice before the page is drawn, so it doesn't flash
+  try { const th = localStorage.getItem("theme"); if (th === "light" || th === "dark") document.documentElement.dataset.theme = th; } catch (e) {}
+</script>
 </head>
 <body>
 <a class="skip" href="#list" data-i18n="skip">Μετάβαση στα αποτελέσματα</a>
 
 <header class="top">
   <div class="brand">
-    <a class="wordmark" href="./" lang="el"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M7 21h18M11 21V11M16 21V8M21 21v-6" stroke="var(--paper)" stroke-width="2.6" stroke-linecap="round"/></svg>Κύρβεις</a>
-    <h1 data-i18n="title">Τι λήγει, τι ανοίγει</h1>
-    <p class="lede" data-i18n="lede">Προθεσμίες, επιδοτήσεις και προγράμματα από ΑΑΔΕ, e-ΕΦΚΑ, ΟΠΕΚΑ, ΔΥΠΑ, υπουργεία και Διαύγεια, συγκεντρωμένα και ενημερωμένα κάθε πρωί.</p>
+    <h1 class="name"><a class="wordmark" href="./" lang="el"><svg aria-hidden="true" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M7 21h18M11 21V11M16 21V8M21 21v-6" stroke="var(--paper)" stroke-width="2.6" stroke-linecap="round"/></svg>Κύρβεις</a></h1>
+    <p class="lede" data-i18n="lede">Προθεσμίες, επιδοτήσεις και προγράμματα από ΑΑΔΕ, e-ΕΦΚΑ, ΟΠΕΚΑ, ΔΥΠΑ, ΙΚΥ, υπουργεία και Διαύγεια, συγκεντρωμένα και ενημερωμένα κάθε μέρα.</p>
+    <p class="notice" data-i18n="disclaimer">Ανεπίσημη υπηρεσία. Οι πληροφορίες συλλέγονται αυτόματα και μπορεί να περιέχουν λάθη. Ελέγχετε πάντα την επίσημη ανακοίνωση πριν από κάθε ενέργεια.</p>
   </div>
   <div class="top-side">
-    <div class="lang" role="group" aria-label="Language">
-      <button type="button" data-lang="el" aria-pressed="true">Ελληνικά</button>
-      <button type="button" data-lang="en" aria-pressed="false">English</button>
+    <div class="controls">
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="el" aria-pressed="true" aria-label="Ελληνικά" lang="el"><span class="l-full">Ελληνικά</span><span class="l-short" aria-hidden="true">ΕΛ</span></button>
+        <button type="button" data-lang="en" aria-pressed="false" aria-label="English" lang="en"><span class="l-full">English</span><span class="l-short" aria-hidden="true">EN</span></button>
+      </div>
+      <button type="button" class="theme" id="theme" aria-label="Σκούρο θέμα" title="Σκούρο θέμα">
+        <svg class="i-moon" aria-hidden="true" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+        <svg class="i-sun" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+      </button>
     </div>
     <p class="updated" id="updated"></p>
     <a class="jump" href="#foot" data-i18n="jumpFoot">Κατάσταση πηγών &amp; RSS</a>

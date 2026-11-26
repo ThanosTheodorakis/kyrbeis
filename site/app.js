@@ -11,8 +11,8 @@
   const T = {
     el: {
       skip: "Μετάβαση στα αποτελέσματα",
-      title: "Τι λήγει, τι ανοίγει",
-      lede: "Προθεσμίες, επιδοτήσεις και προγράμματα από ΑΑΔΕ, e-ΕΦΚΑ, ΟΠΕΚΑ, ΔΥΠΑ, υπουργεία και Διαύγεια, συγκεντρωμένα και ενημερωμένα κάθε πρωί.",
+      lede: "Προθεσμίες, επιδοτήσεις και προγράμματα από ΑΑΔΕ, e-ΕΦΚΑ, ΟΠΕΚΑ, ΔΥΠΑ, ΙΚΥ, υπουργεία και Διαύγεια, συγκεντρωμένα και ενημερωμένα κάθε μέρα.",
+      themeDark: "Σκούρο θέμα", themeLight: "Φωτεινό θέμα",
       horizon: "Οι επόμενες 60 ημέρες",
       today: "Σήμερα",
       week7: "Επόμενες 7 ημέρες",
@@ -23,7 +23,8 @@
       topic: "Θέμα", show: "Εμφάνιση", source: "Φορέας",
       audience: "Για ποιον",
       aud: { households: "Ιδιώτες & οικογένειες", businesses: "Επιχειρήσεις & ελ. επαγγελματίες",
-        workers: "Εργαζόμενοι & άνεργοι", pensioners: "Συνταξιούχοι", farmers: "Αγρότες" },
+        workers: "Εργαζόμενοι & άνεργοι", pensioners: "Συνταξιούχοι", farmers: "Αγρότες",
+        students: "Μαθητές & φοιτητές", researchers: "Ερευνητές & ακαδημαϊκοί", disability: "Άτομα με αναπηρία" },
       dueFilter: "Προθεσμία", dueAny: "Όλες οι ανακοινώσεις", dueOpen: "Με ανοιχτή προθεσμία",
       due7: "Λήγει σε 7 ημέρες", due30: "Λήγει σε 30 ημέρες",
       period: "Δημοσίευση", periodAny: "Οποτεδήποτε", period7: "Τελευταίες 7 ημέρες", period30: "Τελευταίες 30 ημέρες",
@@ -65,8 +66,8 @@
     },
     en: {
       skip: "Skip to results",
-      title: "What's due, what's open",
-      lede: "Deadlines, subsidies and programs from Greece's tax authority, social security and benefits agencies, ministries and the Diavgeia register, collected in one place every morning.",
+      lede: "Deadlines, subsidies and programs from Greece's tax authority, social security, benefits and scholarship agencies, ministries and the Diavgeia register, collected in one place every day.",
+      themeDark: "Dark theme", themeLight: "Light theme",
       horizon: "The next 60 days",
       today: "Today",
       week7: "Next 7 days",
@@ -77,7 +78,8 @@
       topic: "Topic", show: "Show", source: "Agency",
       audience: "Who it's for",
       aud: { households: "Individuals & families", businesses: "Businesses & self-employed",
-        workers: "Employees & unemployed", pensioners: "Pensioners", farmers: "Farmers" },
+        workers: "Employees & unemployed", pensioners: "Pensioners", farmers: "Farmers",
+        students: "Pupils & students", researchers: "Researchers & academics", disability: "People with disabilities" },
       dueFilter: "Deadline", dueAny: "All announcements", dueOpen: "Open deadline",
       due7: "Due within 7 days", due30: "Due within 30 days",
       period: "Published", periodAny: "Any time", period7: "Last 7 days", period30: "Last 30 days",
@@ -140,7 +142,7 @@
     minagric: "Ministry of Rural Development",
   };
   const CATS = ["tax_deadline", "subsidy", "program", "other"];
-  const AUDS = ["households", "businesses", "workers", "pensioners", "farmers"];
+  const AUDS = ["households", "businesses", "workers", "pensioners", "farmers", "students", "researchers", "disability"];
 
   // ---------- state ----------
   const params = new URLSearchParams(location.search);
@@ -245,6 +247,7 @@
     document.querySelectorAll("[data-i18n-ph]").forEach(n => { n.placeholder = t(n.dataset.i18nPh); });
     document.querySelectorAll("[data-i18n-label]").forEach(n => n.setAttribute("aria-label", t(n.dataset.i18nLabel)));
     document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === state.lang)));
+    renderTheme();
     $("#updated").textContent = meta && meta.updated
       ? t("updated")(new Date(meta.updated).toLocaleString(state.lang === "el" ? "el-GR" : "en-GB",
           { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }))
@@ -535,6 +538,26 @@
   }
 
   function renderAll() { renderStatic(); renderFilters(); renderHorizon(); renderList(); renderStatus(); }
+
+  // ---------- light / dark ----------
+  // Follows the device's setting until someone presses the button; that choice is then remembered
+  // (in this browser only). The <head> script applies it before the page is drawn.
+  const darkDevice = matchMedia("(prefers-color-scheme: dark)");
+  const isDark = () => (document.documentElement.dataset.theme || (darkDevice.matches ? "dark" : "light")) === "dark";
+  function renderTheme() {
+    const dark = isDark(), label = t(dark ? "themeLight" : "themeDark");   // the button names what it switches to
+    const b = $("#theme");
+    b.setAttribute("aria-label", label); b.title = label;
+    b.classList.toggle("is-dark", dark);
+    document.querySelector('meta[name="theme-color"]').content = dark ? "#0F1A2A" : "#14263F";
+  }
+  $("#theme").addEventListener("click", () => {
+    const next = isDark() ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem("theme", next); } catch { /* storage unavailable: still switches for this visit */ }
+    renderTheme();
+  });
+  darkDevice.addEventListener("change", renderTheme);
 
   // ---------- events ----------
   document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => {

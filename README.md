@@ -2,7 +2,7 @@
 
 > *In ancient Athens, laws were written on wooden tablets called **kyrbeis** and set up in public for everyone to read. Kyrbeis does the same for today's Greek public announcements.*
 
-**Tax deadlines, subsidies and funding programs from 15 Greek government sources, collected every morning into one searchable, bilingual website.**
+**Tax deadlines, subsidies and funding programs from 15 Greek government sources, collected every day into one searchable, bilingual website.**
 
 [![Tests](https://github.com/ThanosTheodorakis/kyrbeis/actions/workflows/ci.yml/badge.svg)](https://github.com/ThanosTheodorakis/kyrbeis/actions/workflows/ci.yml)
 [![Deploy](https://github.com/ThanosTheodorakis/kyrbeis/actions/workflows/update.yml/badge.svg)](https://github.com/ThanosTheodorakis/kyrbeis/actions/workflows/update.yml)
@@ -17,12 +17,12 @@ What Greek citizens and small businesses need to act on is spread across many si
 
 ## What it does
 
-- **Collects** announcements every morning from AADE, e-EFKA, DYPA, OPEKA, six ministries (Finance, Development, Labour, Environment & Energy, Social Cohesion, Rural Development), the Hellenic Development Bank, IKY (state scholarships), HFRI/ΕΛΙΔΕΚ (research grants), the Prime Minister's office and the Diavgeia open-data API. It reads RSS feeds and the API where they exist, and web pages otherwise.
-- **Understands Greek announcements.** It tags each one by topic (taxes, subsidies, programs) and by audience (households, businesses, employees, pensioners, farmers). It also pulls the deadline out of free text like «αιτήσεις έως 30 Νοεμβρίου» and tells real opportunities apart from news (see *How the classifier works*).
+- **Collects** announcements every day from AADE, e-EFKA, DYPA, OPEKA, six ministries (Finance, Development, Labour, Environment & Energy, Social Cohesion, Rural Development), the Hellenic Development Bank, IKY (state scholarships), HFRI/ΕΛΙΔΕΚ (research grants), the Prime Minister's office and the Diavgeia open-data API. It reads RSS feeds and the API where they exist, and web pages otherwise.
+- **Understands Greek announcements.** It tags each one by topic (taxes, subsidies, programs) and by audience (households, businesses, employees, pensioners, farmers, students, researchers, people with disabilities). It also pulls the deadline out of free text like «αιτήσεις έως 30 Νοεμβρίου» and tells real opportunities apart from news (see *How the classifier works*).
 - **Publishes a static website** with:
   - a 60-day deadline timeline, the next seven days highlighted
   - search and filters by topic, audience, deadline status, publication date and agency, kept in the URL so a filtered view can be shared
-  - Greek and English, dark mode, a phone layout
+  - Greek and English, light and dark themes with a switch, a phone layout
   - an RSS feed
   - a source-health panel showing which sites answered on the last run
 
