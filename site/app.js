@@ -12,7 +12,7 @@
     el: {
       skip: "Μετάβαση στα αποτελέσματα",
       lede: "Προθεσμίες, επιδοτήσεις και προγράμματα από ΑΑΔΕ, e-ΕΦΚΑ, ΟΠΕΚΑ, ΔΥΠΑ, ΙΚΥ, υπουργεία και Διαύγεια, συγκεντρωμένα και ενημερωμένα κάθε μέρα.",
-      themeDark: "Σκούρο θέμα", themeLight: "Φωτεινό θέμα",
+      themeDark: "Σκούρο θέμα", themeLight: "Φωτεινό θέμα", toTop: "Επιστροφή στην αρχή",
       horizon: "Οι επόμενες 60 ημέρες",
       today: "Σήμερα",
       week7: "Επόμενες 7 ημέρες",
@@ -67,7 +67,7 @@
     en: {
       skip: "Skip to results",
       lede: "Deadlines, subsidies and programs from Greece's tax authority, social security, benefits and scholarship agencies, ministries and the Diavgeia register, collected in one place every day.",
-      themeDark: "Dark theme", themeLight: "Light theme",
+      themeDark: "Dark theme", themeLight: "Light theme", toTop: "Back to top",
       horizon: "The next 60 days",
       today: "Today",
       week7: "Next 7 days",
@@ -248,6 +248,7 @@
     document.querySelectorAll("[data-i18n-label]").forEach(n => n.setAttribute("aria-label", t(n.dataset.i18nLabel)));
     document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === state.lang)));
     renderTheme();
+    $("#to-top").setAttribute("aria-label", t("toTop")); $("#to-top").title = t("toTop");
     $("#updated").textContent = meta && meta.updated
       ? t("updated")(new Date(meta.updated).toLocaleString(state.lang === "el" ? "el-GR" : "en-GB",
           { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }))
@@ -578,8 +579,26 @@
     document.documentElement.dataset.theme = next;
     try { localStorage.setItem("theme", next); } catch { /* storage unavailable: still switches for this visit */ }
     renderTheme();
+    $("#to-top").setAttribute("aria-label", t("toTop")); $("#to-top").title = t("toTop");
   });
   darkDevice.addEventListener("change", renderTheme);
+
+  // ---------- back to top ----------
+  // Shows once you're about a screen and a half down; hidden while the phone filter panel covers the page.
+  const toTop = $("#to-top");
+  let topTick = false;
+  function placeToTop() {
+    topTick = false;
+    const panelOpen = phone.matches && $("#filters").open;
+    toTop.classList.toggle("show", scrollY > innerHeight * 1.5 && !panelOpen);
+  }
+  addEventListener("scroll", () => { if (!topTick) { topTick = true; requestAnimationFrame(placeToTop); } }, { passive: true });
+  $("#filters").addEventListener("toggle", placeToTop);
+  toTop.addEventListener("click", () => {
+    const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    scrollTo({ top: 0, behavior: calm ? "auto" : "smooth" });
+    document.querySelector(".wordmark").focus({ preventScroll: true });   // keyboard users continue from the top too
+  });
 
   // ---------- events ----------
   document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => {
