@@ -179,7 +179,7 @@
    "subsidy",
    "program"
   ],
-  "deadline": "2026-12-14",
+  "deadline": null,
   "first_seen": "2026-11-26T12:04:50",
   "audiences": [
    "households",
