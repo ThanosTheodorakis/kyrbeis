@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T17:32:04+02:00",
+ "updated": "2026-11-27T10:36:14+02:00",
  "sources": [
   {
    "name": "aade",
@@ -23,7 +23,7 @@
    "url": "https://www.mindev.gov.gr/",
    "ok": true,
    "found": 10,
-   "kept": 2
+   "kept": 1
   },
   {
    "name": "efka",
@@ -110,7 +110,7 @@
    "label": "Υπουργείο Αγροτικής Ανάπτυξης & Τροφίμων",
    "url": "https://www.minagric.gr/",
    "ok": true,
-   "found": 55,
+   "found": 58,
    "kept": 0
   },
   {
@@ -118,8 +118,8 @@
    "label": "Διαύγεια – προκηρύξεις δράσεων",
    "url": "https://diavgeia.gov.gr/",
    "ok": true,
-   "found": 14,
-   "kept": 14
+   "found": 13,
+   "kept": 13
   },
   {
    "name": "espa_calls",
@@ -156,11 +156,11 @@
  ],
  "counts": {
   "tax_deadline": 12,
-  "subsidy": 46,
+  "subsidy": 47,
   "program": 52
  },
  "audience_counts": {
-  "households": 19,
+  "households": 20,
   "businesses": 21,
   "farmers": 9,
   "pensioners": 2,
@@ -169,5 +169,5 @@
   "researchers": 8,
   "disability": 5
  },
- "total": 118
+ "total": 119
 }
